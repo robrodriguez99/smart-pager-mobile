@@ -12,7 +12,7 @@ mixin RouterMixin on State<MyApp> {
           path: '/',
           name: 'onboarding',
           builder: (BuildContext context, GoRouterState state) {
-            return const OnboardingScreen();
+            return const OnBoardingScreen();
           }),
     
     ],

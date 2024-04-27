@@ -42,7 +42,7 @@ class GradientButton extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: borderRadius ?? BorderRadius.circular(15.0),
             gradient: LinearGradient(
-              colors: gradientColors ?? [SPColors.primary],
+              colors: gradientColors ?? [SPColors.primary, SPColors.primary],
               begin: Alignment.centerLeft,
               end: Alignment.centerRight,
             ),
