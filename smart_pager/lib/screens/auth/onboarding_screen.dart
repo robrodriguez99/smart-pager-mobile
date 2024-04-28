@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
-import 'package:smart_pager/config/molecules/buttons/custom_button.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/screens/auth/onboarding_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -64,16 +64,27 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     GradientButton(
                       text: "Siguiente",
                       width: 150,
-                      onPressed: () => controller.nextPage(
-                          duration: const Duration(milliseconds: 500),
-                          curve: Curves.easeIn)
+                      onPressed: () {
+                        if (controller.page!.toInt() == onBoardingList.length - 1) {
+                          // Redirige a la página de inicio de sesión
+                          GoRouter.of(context).go('/login');
+                        } else {
+                          controller.nextPage(
+                              duration: const Duration(milliseconds: 500),
+                              curve: Curves.easeIn);
+                        }
+                      }
                     ),
-                    Spacer(),
+                    const Spacer(),
                     GradientButton(
                       text: "Saltar",
                       gradientColors: [SPColors.white, SPColors.white],
                       textColor: SPColors.text,
                       width: 120,
+                      onPressed: () {
+                        // Redirige a la página de inicio de sesión
+                        GoRouter.of(context).go('/login');
+                      },
                     ),
                   ],
                 ),

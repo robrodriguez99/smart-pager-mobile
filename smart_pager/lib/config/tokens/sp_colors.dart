@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class SPColors {
-  static const Color primary = Color(0xff10AA4D);
+  static const Color primary = Color(0xff6d28d9);
   static const Color primary2 = Color(0xff70F2A1);
   static const Color heading = Color(0xff1E1E1E);
   static const Color activeBlack = Color(0xff272727);
