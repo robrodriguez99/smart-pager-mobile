@@ -40,10 +40,10 @@ class BottomNav extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
                         IconButton(onPressed: (){}, icon: Icon(Icons.home)),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.restaurant_menu)),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.search)),
                         Container(width: size.width*.20,),
-                        IconButton(onPressed: (){}, icon: Icon(Icons.bookmark)),
                         IconButton(onPressed: (){}, icon: Icon(Icons.notifications)),
+                        IconButton(onPressed: (){}, icon: Icon(Icons.person)),
                       ],
                     ),
                   )
