@@ -26,9 +26,9 @@ mixin RouterMixin on State<MyApp> {
         path: '/home',
         name: 'home',
         builder: (BuildContext context, GoRouterState state) {
-          return const HomeScreen();
+          return  HomeScreen();
         },
-      )
+      ),
     
     ],
   );
