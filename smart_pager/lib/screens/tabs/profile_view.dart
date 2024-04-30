@@ -44,6 +44,15 @@ class ProfileView extends StatelessWidget {
           ),
           
           const SizedBox(height: 20),
+           GradientButton(
+            text: "Editar Perfil",
+            width: 150,
+            gradientColors: [SPColors.primary, SPColors.primary2],
+            onPressed: () {
+              // Código para cerrar sesión
+            },
+          ),
+          const SizedBox(height: 20),
           GradientButton(
             text: "Cerrar Sesión",
             width: 150,

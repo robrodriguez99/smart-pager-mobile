@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_pager/config/cellules/restaurant_card.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
@@ -26,6 +27,19 @@ class HomeView extends StatelessWidget {
                     ),
                   ),
                 ),
+                SizedBox(height: 10),
+                Align(
+                  alignment: Alignment.center,
+                  child: Padding(
+                    padding: EdgeInsets.all(10),
+                    child: RestaurantCard(
+                    restaurantName: 'El Bulli',
+                    location: 'Barcelona, España',
+                    estimatedWaitTime: '30 minutos',
+                  )
+                    )
+                  ),
+                  
               ],
             ),
             
