@@ -65,7 +65,7 @@ class BottomNav extends StatelessWidget {
                             selectedIndex, onItemTapped),
                       ),
                       Expanded(
-                        child: _buildNavItem(Icons.search, "Buscar", 1,
+                        child: _buildNavItem(Icons.wb_twilight, "Turno", 1,
                             selectedIndex, onItemTapped),
                       ),
                       const Expanded(

@@ -8,42 +8,62 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            CustomText(
+            Container(
+              decoration: BoxDecoration(
+                color: SPColors.lightGray,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextFormField(
+                decoration: const InputDecoration(
+                  hintText: 'Buscar restaurantes',
+                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            const CustomText(
               text: 'Restaurantes Destacados',
               color: SPColors.heading,
               fontSize: 25,
               fontWeight: FontWeight.bold,
             ),
-            SizedBox(height: 10),
-            RestaurantCard(
-                restaurantName: 'El Bulli',
-                category: 'Cocina Japonesa',
-                estimatedWaitTime: '30 minutos',
-                isPromoted: true),
-            SizedBox(height: 10),
-            RestaurantCard(
-                restaurantName: 'El Bulli',
-                category: 'Cocina Japonesa',
-                estimatedWaitTime: '30 minutos',
-                isPromoted: true),
-            SizedBox(height: 10),
-            RestaurantCard(
-                restaurantName: 'El Bulli',
-                category: 'Cocina Japonesa',
-                estimatedWaitTime: '30 minutos',
-                isPromoted: false),
-            SizedBox(height: 10),
-            RestaurantCard(
-                restaurantName: 'El Bulli',
-                category: 'Cocina Japonesa',
-                estimatedWaitTime: '30 minutos',
-                isPromoted: false),
+            const SizedBox(height: 10),
+            const RestaurantCard(
+              restaurantName: 'El Bulli',
+              category: 'Cocina Japonesa',
+              estimatedWaitTime: '30 minutos',
+              isPromoted: true,
+            ),
+            const SizedBox(height: 10),
+            const RestaurantCard(
+              restaurantName: 'El Bulli',
+              category: 'Cocina Japonesa',
+              estimatedWaitTime: '30 minutos',
+              isPromoted: true,
+            ),
+            const SizedBox(height: 10),
+            const RestaurantCard(
+              restaurantName: 'El Bulli',
+              category: 'Cocina Japonesa',
+              estimatedWaitTime: '30 minutos',
+              isPromoted: false,
+            ),
+            const SizedBox(height: 10),
+            const RestaurantCard(
+              restaurantName: 'El Bulli',
+              category: 'Cocina Japonesa',
+              estimatedWaitTime: '30 minutos',
+              isPromoted: false,
+            ),
           ],
         ),
       ),

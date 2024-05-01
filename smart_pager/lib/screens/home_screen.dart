@@ -3,7 +3,7 @@ import 'package:smart_pager/config/cellules/bottom_nav.dart';
 import 'package:smart_pager/screens/tabs/home_view.dart';
 import 'package:smart_pager/screens/tabs/notifications_view.dart';
 import 'package:smart_pager/screens/tabs/profile_view.dart';
-import 'package:smart_pager/screens/tabs/search_view.dart';
+import 'package:smart_pager/screens/tabs/current_queue_view.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeView(),
-    const SearchView(),
+    const CurrentQueueView(),
     const NotificationsView(),
     const ProfileView(),
     // Agrega aquí tus otras vistas
