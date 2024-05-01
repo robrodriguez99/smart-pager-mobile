@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:smart_pager/config/tokens/sp_colors.dart';
-import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/config/cellules/cards/notification_card.dart';
 
 
 class NotificationsView extends StatelessWidget {
@@ -8,36 +7,56 @@ class NotificationsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Center(
-                    child: Image.asset('assets/images/black_logo.png',
-                    width: 80, height: 80, fit: BoxFit.contain,
-                    ),
-                ),
-                const SizedBox(height: 20),
-                const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: CustomText(
-                      text: 'TODO: Notifications View',
-                      color: SPColors.heading,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
+    return SingleChildScrollView(
+      child: const Center(
+          child: Stack(
+            children: [
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  NotificationCard(
+                    title: "tu mesa está lista",
+                    description: "Anunciate en puerta con tu nombre",
+                    time: "Hace 5 minutos",
+                    isRead: false,
                   ),
-                ),
-              ],
-            ),
+                  SizedBox(height: 10),
+                  NotificationCard(
+                    title: "tu mesa está lista",
+                    description: "Anunciate en puerta con tu nombre",
+                    time: "Hace 5 minutos",
+                    isRead: true,
+                  ),
+                  SizedBox(height: 10),
+                  NotificationCard(
+                    title: "tu mesa está lista",
+                    description: "Anunciate en puerta con tu nombre",
+                    time: "Hace 5 minutos",
+                    isRead: true,
+                  ),
+                  SizedBox(height: 10),
+                  NotificationCard(
+                    title: "tu mesa está lista",
+                    description: "Anunciate en puerta con tu nombre",
+                    time: "Hace 5 minutos",
+                    isRead: true,
+                  ),
+                  SizedBox(height: 10),
+                  NotificationCard(
+                    title: "tu mesa está lista",
+                    description: "Anunciate en puerta con tu nombre",
+                    time: "Hace 5 minutos",
+                    isRead: true,
+                  ),
+      
+                  
+                ],
+              ),
+              
+            ],
             
-          ],
-          
+          ),
         ),
-      );
+    );
   }
 }
