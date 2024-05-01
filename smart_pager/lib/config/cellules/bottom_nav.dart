@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
+
 class BottomNav extends StatelessWidget {
   final Function(int) onItemTapped;
   final int selectedIndex;
 
-  const BottomNav(this.onItemTapped, this.selectedIndex, {super.key});
+  const BottomNav(this.onItemTapped, this.selectedIndex, {required Key key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -12,63 +14,115 @@ class BottomNav extends StatelessWidget {
 
     return SizedBox(
       width: size.width,
-      height: 80,
+      height: 90,
       child: Stack(
         children: [
           CustomPaint(
-            size: Size(size.width, 80),
-            painter: BNBCustomePainter(),
+            size: Size(size.width, 90),
+            painter: BNBCustomPainter(),
           ),
           Center(
             heightFactor: 0.6,
             child: FloatingActionButton(
-              onPressed: (){},
+              onPressed: () {},
               backgroundColor: SPColors.primary,
               elevation: 0.1,
-              child: const Icon(Icons.qr_code, color: Colors.white,),
+              child: const Icon(
+                Icons.qr_code,
+                color: Colors.white,
+              ),
             ),
           ),
           SizedBox(
             width: size.width,
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            height: 90,
+            child: Stack(
               children: [
-                IconButton(
-                  onPressed: () {
-                     onItemTapped(0);
-                  },
-                  icon: Icon(Icons.home, color: selectedIndex == 0 ? Colors.black : Colors.grey),
+                CustomPaint(
+                  size: Size(size.width, 90),
+                  painter: BNBCustomPainter(),
                 ),
-                IconButton(
-                  onPressed: () { onItemTapped(1); },
-                  icon: Icon(Icons.search, color: selectedIndex == 1 ? Colors.black : Colors.grey),
+                Center(
+                  heightFactor: 0.6,
+                  child: FloatingActionButton(
+                    onPressed: () {},
+                    backgroundColor: SPColors.primary,
+                    elevation: 0.1,
+                    child: const Icon(
+                      Icons.qr_code,
+                      color: Colors.white,
+                    ),
+                  ),
                 ),
-                Container(width: size.width*.20,),
-                IconButton(
-                  onPressed: () { onItemTapped(2); },
-                  icon: Icon(Icons.notifications, color: selectedIndex == 2 ? Colors.black : Colors.grey),
-                ),
-                IconButton(
-                  onPressed: () {
-                     onItemTapped(3); 
-                  },
-                  icon: Icon(Icons.person, color: selectedIndex == 3 ? Colors.black : Colors.grey),
-                ),
+                SizedBox(
+                  width: size.width,
+                  height: 90,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Expanded(
+                        child: _buildNavItem(Icons.home, "Inicio", 0,
+                            selectedIndex, onItemTapped),
+                      ),
+                      Expanded(
+                        child: _buildNavItem(Icons.search, "Buscar", 1,
+                            selectedIndex, onItemTapped),
+                      ),
+                      const Expanded(
+                        flex: 1,
+                        child:
+                            SizedBox(), // Empty SizedBox with flex to create spacing
+                      ),
+                      Expanded(
+                        child: _buildNavItem(Icons.notifications,
+                            "Notificaciones", 2, selectedIndex, onItemTapped),
+                      ),
+                      Expanded(
+                        child: _buildNavItem(Icons.person, "Perfil", 3,
+                            selectedIndex, onItemTapped),
+                      ),
+                    ],
+                  ),
+                )
               ],
             ),
-          )
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildNavItem(IconData icon, String text, int index, int selectedIndex,
+      Function(int) onTap) {
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(
+            icon,
+            color:
+                selectedIndex == index ? SPColors.primary : SPColors.darkGray,
+          ),
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 11,
+              color:
+                  selectedIndex == index ? SPColors.primary : SPColors.darkGray,
+            ),
+          ),
         ],
       ),
     );
   }
 }
 
-class BNBCustomePainter extends CustomPainter {
+class BNBCustomPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     Paint paint = Paint()
-      ..color = Colors.white
+      ..color = SPColors.lightGray
       ..style = PaintingStyle.fill;
     Path path = Path()..moveTo(0, 20);
     path.quadraticBezierTo(size.width * .20, 0, size.width * .35, 0);
@@ -77,13 +131,13 @@ class BNBCustomePainter extends CustomPainter {
         radius: const Radius.circular(10.0), clockwise: false);
 
     path.quadraticBezierTo(size.width * .60, 0, size.width * .65, 0);
-    path.quadraticBezierTo(size.width * .80, 0, size.width , 20);
+    path.quadraticBezierTo(size.width * .80, 0, size.width, 20);
     path.lineTo(size.width, size.height);
     path.lineTo(0, size.height);
     path.close();
 
     canvas.drawShadow(path, Colors.black, 5, true);
-    
+
     canvas.drawPath(path, paint);
   }
 

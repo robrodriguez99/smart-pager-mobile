@@ -30,12 +30,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-     return Scaffold(
+    return Scaffold(
       body: Column(
         children: <Widget>[
           Center(
-            child: Image.asset('assets/images/black_logo.png',
-            width: 50, height: 50, fit: BoxFit.contain,
+            child: Image.asset(
+              'assets/images/black_logo.png',
+              width: 50,
+              height: 50,
+              fit: BoxFit.contain,
             ),
           ),
           const SizedBox(height: 20),
@@ -47,7 +50,11 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNav(_onItemTapped, _selectedIndex),
+      bottomNavigationBar: BottomNav(
+        _onItemTapped,
+        _selectedIndex,
+        key: UniqueKey(),
+      ),
     );
   }
 }

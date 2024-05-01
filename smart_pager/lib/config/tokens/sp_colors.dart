@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class SPColors {
   static const Color primary = Color(0xff6d28d9);
-  static const Color primary2 = Color.fromARGB(255, 188, 161, 233);
+  static const Color primary2 = Color.fromARGB(255, 250, 247, 255);
   static const Color secondary = Color.fromARGB(255, 37, 51, 255);
   static const Color secondary2 = Color.fromARGB(255, 67, 117, 255);
 
@@ -14,4 +14,5 @@ class SPColors {
   static const Color red = Color(0xffFF0000);
   static const Color orange = Color(0xffFFA500);
   static const Color lightGray = Color.fromARGB(255, 237, 236, 236);
+  static const Color darkGray = Color.fromARGB(255, 71, 71, 71);
 }
