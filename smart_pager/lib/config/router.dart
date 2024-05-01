@@ -27,14 +27,14 @@ mixin RouterMixin on State<MyApp> {
         path: '/home',
         name: 'home',
         builder: (BuildContext context, GoRouterState state) {
-          return HomeScreen();
+          return const HomeScreen();
         },
       ),
       GoRoute(
         path: '/restaurant',
         name: 'restaurant',
         builder: (BuildContext context, GoRouterState state) {
-          return  RestaurantScreen();
+          return  const RestaurantScreen();
         },
       )
     

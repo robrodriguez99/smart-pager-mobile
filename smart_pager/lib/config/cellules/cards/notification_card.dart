@@ -6,8 +6,7 @@ class NotificationCard extends StatelessWidget {
   final bool? isRead;
 
   const NotificationCard(
-      {Key? key, this.title, this.description, this.time, this.isRead})
-      : super(key: key);
+      {super.key, this.title, this.description, this.time, this.isRead});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +29,7 @@ class NotificationCard extends StatelessWidget {
                   isRead! ? Icons.mail_outline : Icons.mail,
                   color: isRead! ? Colors.grey : Colors.blue,
                 ),
-                SizedBox(width: 10), // SizedBox is a box with a specified size.
+                const SizedBox(width: 10), // SizedBox is a box with a specified size.
                 CustomText(
                   text: title!,
                   fontSize: 20,

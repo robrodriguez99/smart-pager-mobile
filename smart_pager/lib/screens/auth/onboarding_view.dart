@@ -4,7 +4,7 @@ import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'onboarding_screen.dart';
 
 class OnboardingView extends StatelessWidget {
-  const OnboardingView(this.index, {Key? key}) : super(key: key);
+  const OnboardingView(this.index, {super.key});
   final int index;
   @override
   Widget build(BuildContext context) {

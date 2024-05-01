@@ -10,11 +10,11 @@ class RestaurantCard extends StatelessWidget {
   final String estimatedWaitTime;
 
   const RestaurantCard({
-    Key? key,
+    super.key,
     required this.restaurantName,
     required this.location,
     required this.estimatedWaitTime,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

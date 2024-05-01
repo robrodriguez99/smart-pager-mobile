@@ -7,26 +7,39 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 List onBoardingList = [
   {
-    'title': "Bienvenido a smart pager",
-    'description': "decile adios a las filas eternas",
-    'image': 'assets/images/onboarding1.png',
+    'title': "¡Bienvenido a Smart Pager!",
+    'description': "Decile adiós a las filas eternas.",
+    'image': 'assets/images/logo.png',
   },
   {
-    'title': "Reserva tu lugar en la fila",
-    'description': "Reserva tu lugar en la fila y recibe notificaciones en tiempo real",
-    'image': 'assets/images/onboarding2.png',
+    'title': "¡Reserva tu lugar en la fila!",
+    'description':
+        "Elegi donde comer, reserva tu lugar en la fila y obtene un tiempo estimado de espera.\n¡Desde donde te encuentres!",
+    'image': 'assets/images/onboarding.png',
   }
 ];
 
 class OnBoardingScreen extends StatefulWidget {
-  const OnBoardingScreen({Key? key}) : super(key: key);
+  const OnBoardingScreen({super.key});
 
   @override
   State<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
 class _OnBoardingScreenState extends State<OnBoardingScreen> {
-  final PageController controller = PageController(initialPage: 0);
+  late final PageController controller;
+  int currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    controller = PageController(initialPage: currentPage);
+    controller.addListener(() {
+      setState(() {
+        currentPage = controller.page!.round();
+      });
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -34,11 +47,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       body: Column(
         children: [
           SizedBox(
-            height: MediaQuery.sizeOf(context).height * 0.8,
+            height: MediaQuery.of(context).size.height * 0.8,
             child: PageView(
               controller: controller,
               children: List.generate(
-                  onBoardingList.length, (index) => OnboardingView(index)),
+                onBoardingList.length,
+                (index) => OnboardingView(index),
+              ),
             ),
           ),
           Padding(
@@ -48,41 +63,48 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 const SizedBox(height: 10),
                 SmoothPageIndicator(
-                    controller: controller, // PageController
-                    count: onBoardingList.length,
-                    effect: ExpandingDotsEffect(
-                      dotHeight: 10,
-                      dotWidth: 22,
-                      activeDotColor: SPColors.heading,
-                      radius: 100,
-                      dotColor: SPColors.lightText,
-                    ), // your preferred effect
-                    onDotClicked: (index) {}),
+                  controller: controller,
+                  count: onBoardingList.length,
+                  effect: ExpandingDotsEffect(
+                    dotHeight: 10,
+                    dotWidth: 22,
+                    activeDotColor: SPColors.heading,
+                    radius: 100,
+                    dotColor: SPColors.lightText,
+                  ),
+                  onDotClicked: (index) {},
+                ),
                 const SizedBox(height: 20),
                 Row(
                   children: [
                     GradientButton(
-                      text: "Siguiente",
+                      text: currentPage == onBoardingList.length - 1
+                          ? "Comenzar"
+                          : "Siguiente",
                       width: 150,
                       onPressed: () {
-                        if (controller.page!.toInt() == onBoardingList.length - 1) {
-                          // Redirige a la página de inicio de sesión
+                        if (currentPage == onBoardingList.length - 1) {
+                          // Redirect to the login page
                           GoRouter.of(context).go('/login');
                         } else {
                           controller.nextPage(
-                              duration: const Duration(milliseconds: 500),
-                              curve: Curves.easeIn);
+                            duration: const Duration(milliseconds: 500),
+                            curve: Curves.easeIn,
+                          );
                         }
-                      }
+                      },
                     ),
                     const Spacer(),
                     GradientButton(
                       text: "Saltar",
-                      gradientColors: [SPColors.white, SPColors.white],
+                      gradientColors: const [
+                        SPColors.lightGray,
+                        SPColors.lightGray
+                      ],
                       textColor: SPColors.text,
-                      width: 120,
+                      width: 130,
                       onPressed: () {
-                        // Redirige a la página de inicio de sesión
+                        // Redirect to the login page
                         GoRouter.of(context).go('/login');
                       },
                     ),
@@ -95,5 +117,11 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 }

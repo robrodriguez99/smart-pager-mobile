@@ -13,4 +13,5 @@ class SPColors {
   static const Color white = Color(0xffffffff);
   static const Color red = Color(0xffFF0000);
   static const Color orange = Color(0xffFFA500);
+  static const Color lightGray = Color.fromARGB(255, 237, 236, 236);
 }

@@ -2,10 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
-import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({Key? key}) : super(key: key);
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -18,24 +17,21 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 20),
-                const CustomText(
-                  text: '(aca va el logo)',
-                  color: SPColors.heading,
-                  fontSize: 33,
-                  fontWeight: FontWeight.bold,
-                  
+                Image.asset(
+                  'assets/images/logo.png',
+                  width: 100,
+                  height: 100,
                 ),
                 const SizedBox(height: 20),
-                const Text('TODO: OAUTH GOOGLE', style: TextStyle(fontSize: 30)),
-          
+                const Text('TODO: OAUTH GOOGLE',
+                    style: TextStyle(fontSize: 30)),
                 const SizedBox(height: 20),
                 GradientButton(
-                  text: 'Iniciar sesión',
+                  text: 'Iniciar Sesión',
                   onPressed: () {
                     GoRouter.of(context).go('/home');
-
                   },
-                  gradientColors: [SPColors.primary, SPColors.primary],
+                  gradientColors: const [SPColors.primary, SPColors.primary],
                   width: 200,
                   height: 50,
                   borderRadius: BorderRadius.circular(10),
@@ -46,7 +42,7 @@ class LoginScreen extends StatelessWidget {
                   onPressed: () {
                     GoRouter.of(context).go('/home');
                   },
-                  gradientColors: [SPColors.primary, SPColors.primary],
+                  gradientColors: const [SPColors.primary, SPColors.primary],
                   width: 200,
                   height: 50,
                   borderRadius: BorderRadius.circular(10),

@@ -16,7 +16,7 @@ class GradientButton extends StatefulWidget {
   final IconData? icon; // Nuevo parámetro para el icono
 
   const GradientButton({
-    Key? key,
+    super.key,
     this.text,
     this.onPressed,
     this.gradientColors,
@@ -30,7 +30,7 @@ class GradientButton extends StatefulWidget {
     this.maxLines,
     this.fontWeight,
     this.icon, // Inicialización del nuevo parámetro
-  }) : super(key: key);
+  });
 
   @override
   _GradientButtonState createState() => _GradientButtonState();
@@ -97,7 +97,7 @@ class _GradientButtonState extends State<GradientButton> {
                       color: widget.textColor ?? Colors.white,
                     ),
                   if (widget.icon != null) // Agrega espacio solo si el icono no es nulo
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                   Text(
                     widget.text ?? "",
                     textAlign: widget.textAlign ?? TextAlign.center,

@@ -4,14 +4,14 @@ import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 class RestaurantScreen extends StatelessWidget {
-  const RestaurantScreen({Key? key}) : super(key: key);
+  const RestaurantScreen({super.key});
 
    @override
   Widget build(BuildContext context) {
     return Material(
       child: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[

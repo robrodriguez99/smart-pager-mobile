@@ -4,7 +4,7 @@ import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 
 class SearchView extends StatelessWidget {
-  const SearchView({Key? key}) : super(key: key);
+  const SearchView({super.key});
 
   @override
   Widget build(BuildContext context) {

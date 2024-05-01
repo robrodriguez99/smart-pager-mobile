@@ -47,7 +47,7 @@ class ProfileView extends StatelessWidget {
            GradientButton(
             text: "Editar Perfil",
             width: 150,
-            gradientColors: [SPColors.primary, SPColors.primary2],
+            gradientColors: const [SPColors.primary, SPColors.primary2],
             onPressed: () {
               // Código para cerrar sesión
             },
@@ -56,7 +56,7 @@ class ProfileView extends StatelessWidget {
           GradientButton(
             text: "Cerrar Sesión",
             width: 150,
-            gradientColors: [SPColors.red, SPColors.orange],
+            gradientColors: const [SPColors.red, SPColors.orange],
             onPressed: () {
               // Código para cerrar sesión
             },

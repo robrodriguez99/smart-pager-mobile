@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 class BottomNav extends StatelessWidget {
   final Function(int) onItemTapped;
   final int selectedIndex;
 
-  const BottomNav(this.onItemTapped, this.selectedIndex, {Key? key}) : super(key: key);
+  const BottomNav(this.onItemTapped, this.selectedIndex, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +74,7 @@ class BNBCustomePainter extends CustomPainter {
     path.quadraticBezierTo(size.width * .20, 0, size.width * .35, 0);
     path.quadraticBezierTo(size.width * .40, 0, size.width * .40, 20);
     path.arcToPoint(Offset(size.width * .60, 20),
-        radius: Radius.circular(10.0), clockwise: false);
+        radius: const Radius.circular(10.0), clockwise: false);
 
     path.quadraticBezierTo(size.width * .60, 0, size.width * .65, 0);
     path.quadraticBezierTo(size.width * .80, 0, size.width , 20);

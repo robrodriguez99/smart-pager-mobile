@@ -3,12 +3,12 @@ import 'package:smart_pager/config/cellules/cards/notification_card.dart';
 
 
 class NotificationsView extends StatelessWidget {
-  const NotificationsView({Key? key}) : super(key: key);
+  const NotificationsView({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: const Center(
+    return const SingleChildScrollView(
+      child: Center(
           child: Stack(
             children: [
               Column(
