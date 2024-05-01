@@ -26,8 +26,9 @@ class OnboardingView extends StatelessWidget {
             textAlign: TextAlign.start,
             color: SPColors.heading,
             height: 1.1,
-            fontSize: 33,
+            fontSize: 25,
             fontWeight: FontWeight.bold,
+            overflow: TextOverflow.visible,
           ),
           const SizedBox(height: 20),
           CustomText(

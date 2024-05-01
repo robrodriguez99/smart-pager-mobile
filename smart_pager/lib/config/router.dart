@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_pager/screens/home_screen.dart';
 import 'package:smart_pager/screens/auth/login_screen.dart';
 import 'package:smart_pager/screens/auth/onboarding_screen.dart';
+import 'package:smart_pager/screens/restaurant_screen.dart';
 
 import '../main.dart';
 
@@ -26,9 +27,16 @@ mixin RouterMixin on State<MyApp> {
         path: '/home',
         name: 'home',
         builder: (BuildContext context, GoRouterState state) {
-          return  HomeScreen();
+          return HomeScreen();
         },
       ),
+      GoRoute(
+        path: '/restaurant',
+        name: 'restaurant',
+        builder: (BuildContext context, GoRouterState state) {
+          return  RestaurantScreen();
+        },
+      )
     
     ],
   );

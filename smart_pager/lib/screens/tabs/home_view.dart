@@ -9,43 +9,45 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Center(
-        child: Stack(
-          children: [
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Padding(
-                    padding: EdgeInsets.only(left: 10),
-                    child: CustomText(
-                      text: 'Restaurantes destacados',
-                      color: SPColors.heading,
-                      fontSize: 25,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Align(
-                  alignment: Alignment.center,
-                  child: Padding(
-                    padding: EdgeInsets.all(10),
-                    child: RestaurantCard(
-                    restaurantName: 'El Bulli',
-                    location: 'Barcelona, España',
-                    estimatedWaitTime: '30 minutos',
-                  )
-                    )
-                  ),
-                  
-              ],
+    return const SingleChildScrollView(
+      child: Padding(
+        padding: EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            CustomText(
+              text: 'Restaurantes destacados',
+              color: SPColors.heading,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
             ),
-            
+            SizedBox(height: 10),
+            RestaurantCard(
+              restaurantName: 'El Bulli',
+              location: 'Barcelona, España',
+              estimatedWaitTime: '30 minutos',
+            ),
+             SizedBox(height: 10),
+            RestaurantCard(
+              restaurantName: 'El Bulli',
+              location: 'Barcelona, España',
+              estimatedWaitTime: '30 minutos',
+            ),
+             SizedBox(height: 10),
+            RestaurantCard(
+              restaurantName: 'El Bulli',
+              location: 'Barcelona, España',
+              estimatedWaitTime: '30 minutos',
+            ),
+             SizedBox(height: 10),
+            RestaurantCard(
+              restaurantName: 'El Bulli',
+              location: 'Barcelona, España',
+              estimatedWaitTime: '30 minutos',
+            ),
           ],
-          
         ),
-      );
+      ),
+    );
   }
 }

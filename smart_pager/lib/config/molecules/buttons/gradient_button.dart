@@ -13,6 +13,7 @@ class GradientButton extends StatefulWidget {
   final TextAlign? textAlign;
   final int? maxLines;
   final FontWeight? fontWeight;
+  final IconData? icon; // Nuevo parámetro para el icono
 
   const GradientButton({
     Key? key,
@@ -28,6 +29,7 @@ class GradientButton extends StatefulWidget {
     this.textAlign,
     this.maxLines,
     this.fontWeight,
+    this.icon, // Inicialización del nuevo parámetro
   }) : super(key: key);
 
   @override
@@ -86,15 +88,27 @@ class _GradientButtonState extends State<GradientButton> {
           child: Center(
             child: Padding(
               padding: widget.padding ?? const EdgeInsets.all(0),
-              child: Text(
-                widget.text ?? "",
-                textAlign: widget.textAlign ?? TextAlign.center,
-                maxLines: widget.maxLines ?? 1,
-                style: GoogleFonts.roboto(
-                  color: widget.textColor ?? Colors.white,
-                  fontSize: widget.fontSize ?? 16,
-                  fontWeight: widget.fontWeight ?? FontWeight.w500,
-                ),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  if (widget.icon != null) // Verifica si el icono es nulo
+                    Icon(
+                      widget.icon, // Usa el icono proporcionado
+                      color: widget.textColor ?? Colors.white,
+                    ),
+                  if (widget.icon != null) // Agrega espacio solo si el icono no es nulo
+                    SizedBox(width: 10),
+                  Text(
+                    widget.text ?? "",
+                    textAlign: widget.textAlign ?? TextAlign.center,
+                    maxLines: widget.maxLines ?? 1,
+                    style: GoogleFonts.roboto(
+                      color: widget.textColor ?? Colors.white,
+                      fontSize: widget.fontSize ?? 16,
+                      fontWeight: widget.fontWeight ?? FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
