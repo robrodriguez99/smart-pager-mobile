@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 
-class RestaurantScreen extends StatelessWidget {
-  const RestaurantScreen({super.key});
+class RestaurantScreen extends StatefulWidget  {
+  const RestaurantScreen({Key? key}) : super(key: key);
+  
+  @override
+  State<StatefulWidget> createState() => _RestaurantScreenState();
+  
 
-   @override
+   
+  }
+
+class _RestaurantScreenState extends State<RestaurantScreen> {
+  
+
+ @override
   Widget build(BuildContext context) {
     return Material(
       child: SingleChildScrollView(
@@ -76,10 +88,14 @@ class RestaurantScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 16),
-              const GradientButton(
+              GradientButton(
                 icon: Icons.restaurant_menu,
                 text: 'Ver menú',
                 gradientColors: [SPColors.primary, SPColors.primary2],
+                onPressed: () {
+                  GoRouter.of(context).push('/menu');
+                },
+                
               ),
               const SizedBox(height: 16),
               const GradientButton(
@@ -95,3 +111,4 @@ class RestaurantScreen extends StatelessWidget {
     );
   }
 }
+

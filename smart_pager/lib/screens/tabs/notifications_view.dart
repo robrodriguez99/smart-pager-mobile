@@ -19,7 +19,7 @@ class NotificationsView extends StatelessWidget {
                     description: "Anunciate en puerta con tu nombre",
                     time: "Hace 5 minutos",
                     isRead: false,
-                  ),
+                  ), 
                   SizedBox(height: 10),
                   NotificationCard(
                     title: "tu mesa está lista",
