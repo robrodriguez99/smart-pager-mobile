@@ -91,7 +91,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               GradientButton(
                 icon: Icons.restaurant_menu,
                 text: 'Ver menú',
-                gradientColors: [SPColors.primary, SPColors.primary2],
+                gradientColors: const [SPColors.primary, SPColors.primaryGradient],
                 onPressed: () {
                   GoRouter.of(context).push('/menu');
                 },

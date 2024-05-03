@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
@@ -7,36 +8,94 @@ class CurrentQueueView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Stack(
-        children: [
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Center(
-                child: Image.asset(
-                  'assets/images/black_logo.png',
-                  width: 80,
-                  height: 80,
-                  fit: BoxFit.contain,
-                ),
-              ),
-              const SizedBox(height: 20),
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Padding(
-                  padding: EdgeInsets.only(left: 10),
+    return const Padding(
+      padding: EdgeInsets.all(16),
+      child: Center(
+        child: Stack(
+          children: [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [   
+                SizedBox(height: 10),
+                Flexible(
                   child: CustomText(
-                    text: 'TODO: Current Queue View',
+                    text: 'Actualmente estas haciendo fila en:',
+                    color: SPColors.heading,
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                SizedBox(height: 20),
+                Flexible(
+                  child: CustomText(
+                    text: 'El Bulli',
                     color: SPColors.heading,
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
-            ],
-          ),
-        ],
+                SizedBox(height: 10),
+                Flexible(
+                  child: CustomText(
+                    text: 'Tiempo estimado de espera:',
+                    color: SPColors.activeBlack,
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    
+                    Flexible(
+                      child: CustomText(
+                        text: ' 20 minutos',
+                        color: SPColors.darkGray,
+                        fontSize: 20,
+                        overflow: TextOverflow.ellipsis,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Icon(
+                      Icons.timer_sharp,
+                      color: SPColors.activeBlack,
+                      size: 16,
+
+                    ),
+                    
+                  ],
+                ),
+                SizedBox(height: 10),
+                Flexible(
+                  child: CustomText(
+                    text: 'Te vamos a avisar cuando tu mesa este lista',
+                    color: SPColors.darkGray,
+                    fontSize: 20,
+                    overflow: TextOverflow.visible,
+                  ),
+                ),
+
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                Spacer(),
+                CustomText(
+                  text: 'Si cambias de opinión podés cancelar la fila en cualquier momento',
+                  color: SPColors.darkGray,
+                  fontSize: 15,
+                  overflow: TextOverflow.visible,
+                ),
+                GradientButton(
+                  text: 'Cancelar turno',
+                  gradientColors: [SPColors.red, SPColors.orange],
+                  
+                ),
+                   
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }

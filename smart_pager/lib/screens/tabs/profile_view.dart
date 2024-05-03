@@ -44,6 +44,7 @@ class ProfileView extends StatelessWidget {
                 fontSize: 20,
               ),
               const SizedBox(height: 40),
+             
               TextButton.icon(
                 onPressed: () {
                   // Add your code to handle "Editar Perfil" button tap
@@ -114,22 +115,7 @@ class ProfileView extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    child: TextButton(
-                      onPressed: () {
-                        // Código para cerrar sesión
-                      },
-                      child: const Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          SizedBox(
-                              width: 5), // Adjust spacing between icon and text
-                          Text(
-                            "Eliminar cuenta",
-                            style: TextStyle(color: Colors.red, fontSize: 18),
-                          ),
-                        ],
-                      ),
-                    ),
+                    
                   ),
                 ],
               ),
