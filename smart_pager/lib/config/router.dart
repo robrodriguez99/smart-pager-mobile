@@ -4,6 +4,7 @@ import 'package:smart_pager/screens/home_screen.dart';
 import 'package:smart_pager/screens/auth/login_screen.dart';
 import 'package:smart_pager/screens/auth/onboarding_screen.dart';
 import 'package:smart_pager/screens/menu_view.dart';
+import 'package:smart_pager/screens/queue_screen.dart';
 import 'package:smart_pager/screens/profile_edit_screen.dart';
 import 'package:smart_pager/screens/restaurant_screen.dart';
 import 'package:smart_pager/screens/tabs/profile_view.dart';
@@ -51,6 +52,13 @@ mixin RouterMixin on State<MyApp> {
         name: 'menu',
         builder: (BuildContext context, GoRouterState state) {
           return const MenuView();
+        },
+      ),
+      GoRoute(
+        path: '/queue',
+        name: 'queue',
+        builder: (BuildContext context, GoRouterState state) {
+          return  QueueScreen();
         },
       )
     ],

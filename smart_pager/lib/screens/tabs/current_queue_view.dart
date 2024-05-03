@@ -48,6 +48,12 @@ class CurrentQueueView extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     
+                    Icon(
+                      Icons.timer_sharp,
+                      color: SPColors.activeBlack,
+                      size: 16,
+
+                    ),
                     Flexible(
                       child: CustomText(
                         text: ' 20 minutos',
@@ -56,12 +62,6 @@ class CurrentQueueView extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         fontWeight: FontWeight.bold,
                       ),
-                    ),
-                    Icon(
-                      Icons.timer_sharp,
-                      color: SPColors.activeBlack,
-                      size: 16,
-
                     ),
                     
                   ],

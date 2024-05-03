@@ -16,6 +16,7 @@ class RestaurantScreen extends StatefulWidget  {
   }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
+
   
 
  @override
@@ -98,10 +99,13 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 
               ),
               const SizedBox(height: 16),
-              const GradientButton(
+              GradientButton(
                 icon: Icons.access_time,
                text: "Anotarse en la lista de espera",
                 gradientColors: [SPColors.secondary, SPColors.secondary2],
+                onPressed: () {
+                    GoRouter.of(context).push('/queue');
+                  },
               )
             ],
           ),
