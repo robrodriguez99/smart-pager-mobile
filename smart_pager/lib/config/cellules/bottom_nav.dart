@@ -21,18 +21,6 @@ class BottomNav extends StatelessWidget {
             size: Size(size.width, 90),
             painter: BNBCustomPainter(),
           ),
-          Center(
-            heightFactor: 0.6,
-            child: FloatingActionButton(
-              onPressed: () {},
-              backgroundColor: SPColors.primary,
-              elevation: 0.1,
-              child: const Icon(
-                Icons.qr_code,
-                color: Colors.white,
-              ),
-            ),
-          ),
           SizedBox(
             width: size.width,
             height: 90,
