@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_pager/config/tokens/sp_colors.dart';
+import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 class MenuView extends StatefulWidget {
   const MenuView({Key? key}) : super(key: key);
@@ -32,7 +35,19 @@ class _MenuState extends State<MenuView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Menú'),
+        leading: IconButton(
+          onPressed: () => GoRouter.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: SPColors.activeBlack,
+            size: 30,
+          ),
+        ),
+        title: const CustomText(
+          text: 'Menú',
+          fontSize: 35,
+          fontWeight: FontWeight.bold,
+        ),
       ),
       body: Center(
           child: _isLoading
