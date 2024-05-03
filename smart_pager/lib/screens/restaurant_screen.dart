@@ -65,6 +65,22 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               const Row(
                 children: [
                   Icon(
+                    Icons.restaurant,
+                    color: SPColors.activeBlack,
+                    size: 16,
+                  ),
+                  SizedBox(width: 4),
+                  CustomText(
+                    text: 'Comida japonesa',
+                    fontSize: 20,
+                    color: SPColors.activeBlack,
+                  ),
+                ],
+              ),
+              const SizedBox(height: 8),
+              const Row(
+                children: [
+                  Icon(
                     Icons.access_time,
                     color: SPColors.activeBlack,
                     size: 16,
@@ -88,7 +104,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               ),
               const SizedBox(height: 16),
               const GradientButton(
-                icon: Icons.access_time,
+                icon: Icons.wb_twilight,
                 text: "Anotarse en la fila",
                 gradientColors: [SPColors.secondary, SPColors.secondary],
               )
