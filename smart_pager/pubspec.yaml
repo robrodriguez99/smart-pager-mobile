@@ -43,6 +43,7 @@ dependencies:
   advance_pdf_viewer: ^2.0.1
   http: ^1.2.1
   path_provider: ^2.0.2
+  intl_phone_number_input: ^0.7.4
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
     - assets/menu_example.pdf
     - assets/
     - assets/images/black_logo.png
+    - assets/images/onboarding.png
 
   #   - images/a_dot_burr.jpeg
   #   - images/a_dot_ham.jpeg

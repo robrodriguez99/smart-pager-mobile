@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
     const CurrentQueueView(),
     const NotificationsView(),
     const ProfileView(),
-    // Agrega aquí tus otras vistas
   ];
 
   void _onItemTapped(int index) {
@@ -33,15 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          Center(
-            child: Image.asset(
-              'assets/images/black_logo.png',
-              width: 50,
-              height: 50,
-              fit: BoxFit.contain,
-            ),
-          ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 50),
           Expanded(
             child: IndexedStack(
               index: _selectedIndex,

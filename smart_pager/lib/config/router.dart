@@ -4,10 +4,11 @@ import 'package:smart_pager/screens/home_screen.dart';
 import 'package:smart_pager/screens/auth/login_screen.dart';
 import 'package:smart_pager/screens/auth/onboarding_screen.dart';
 import 'package:smart_pager/screens/menu_view.dart';
+import 'package:smart_pager/screens/profile_edit_screen.dart';
 import 'package:smart_pager/screens/restaurant_screen.dart';
+import 'package:smart_pager/screens/tabs/profile_view.dart';
 
 import '../main.dart';
-
 
 mixin RouterMixin on State<MyApp> {
   final _router = GoRouter(
@@ -35,17 +36,23 @@ mixin RouterMixin on State<MyApp> {
         path: '/restaurant',
         name: 'restaurant',
         builder: (BuildContext context, GoRouterState state) {
-          return  const RestaurantScreen();
+          return const RestaurantScreen();
+        },
+      ),
+      GoRoute(
+        path: '/profile/edit',
+        name: 'profile-edit',
+        builder: (BuildContext context, GoRouterState state) {
+          return const ProfileEditScreen();
         },
       ),
       GoRoute(
         path: '/menu',
         name: 'menu',
         builder: (BuildContext context, GoRouterState state) {
-          return  MenuView();
+          return const MenuView();
         },
       )
-    
     ],
   );
 

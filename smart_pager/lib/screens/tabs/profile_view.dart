@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
@@ -7,7 +8,7 @@ class ProfileView extends StatelessWidget {
   final String email = "fidi@gmail.com";
   final String telefono = "541156019614";
 
-  const ProfileView({Key? key}) : super(key: key);
+  const ProfileView({super.key});
 
   String formatPhoneNumber(String phoneNumber) {
     return '+${phoneNumber.substring(0, 2)} (${phoneNumber.substring(2, 4)}) ${phoneNumber.substring(4, 12)}';
@@ -44,23 +45,25 @@ class ProfileView extends StatelessWidget {
                 fontSize: 20,
               ),
               const SizedBox(height: 40),
-             
-              TextButton.icon(
-                onPressed: () {
-                  // Add your code to handle "Editar Perfil" button tap
-                },
-                icon: const Icon(Icons.edit),
-                label: const Text(
-                  "Editar perfil",
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                ),
-                style: ButtonStyle(
-                  foregroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
-                  backgroundColor:
-                      MaterialStateProperty.all<Color>(SPColors.primary),
+              SizedBox(
+                width: 250, // Make the button as wide as its parent
+                height: 50, // Set the desired height
+                child: ElevatedButton.icon(
+                  onPressed: () {
+                    GoRouter.of(context).push('/profile/edit');
+                  },
+                  icon: const Icon(Icons.edit),
+                  label: const Text(
+                    "Editar perfil",
+                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: SPColors.primary,
+                  ),
                 ),
               ),
+
               const Spacer(), // Pushes the buttons to the bottom
               Column(
                 children: [
@@ -115,7 +118,6 @@ class ProfileView extends StatelessWidget {
                       ),
                       borderRadius: BorderRadius.circular(5),
                     ),
-                    
                   ),
                 ],
               ),
