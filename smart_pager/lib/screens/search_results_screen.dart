@@ -39,6 +39,7 @@ class SearchResultsScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: TextFormField(
+                  readOnly: true,
                   decoration: const InputDecoration(
                     hintText: 'Buscar restaurantes',
                     prefixIcon: Icon(Icons.search),
