@@ -12,10 +12,7 @@ class RestaurantScreen extends StatefulWidget {
 }
 
 class _RestaurantScreenState extends State<RestaurantScreen> {
-
-  
-
- @override
+  @override
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,7 +88,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   ),
                   SizedBox(width: 4),
                   CustomText(
-                    text: '30 minutos',
+                    text: '30 minutos de espera',
                     fontSize: 20,
                     color: SPColors.activeBlack,
                   ),
@@ -108,12 +105,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               ),
               const SizedBox(height: 16),
               GradientButton(
-                icon: Icons.access_time,
-               text: "Anotarse en la lista de espera",
-                gradientColors: [SPColors.secondary, SPColors.secondary2],
+                icon: Icons.wb_twilight,
+                text: "Anotarse en la cola",
+                gradientColors: [SPColors.secondary, SPColors.secondary],
                 onPressed: () {
-                    GoRouter.of(context).push('/queue');
-                  },
+                  GoRouter.of(context).push('/queue');
+                },
               )
             ],
           ),

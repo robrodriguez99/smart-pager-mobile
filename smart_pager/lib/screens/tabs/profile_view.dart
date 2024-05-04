@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
@@ -48,18 +49,16 @@ class ProfileView extends StatelessWidget {
               SizedBox(
                 width: 250, // Make the button as wide as its parent
                 height: 50, // Set the desired height
-                child: ElevatedButton.icon(
-                  onPressed: () {
-                    GoRouter.of(context).push('/profile/edit');
-                  },
-                  icon: const Icon(Icons.edit),
-                  label: const Text(
-                    "Editar perfil",
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: SPColors.primary,
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                      horizontal: 10), // Add left and right margin here
+                  child: GradientButton(
+                    icon: Icons.edit,
+                    text: "Editar perfil",
+                    gradientColors: const [SPColors.primary, SPColors.primary],
+                    onPressed: () {
+                      GoRouter.of(context).push('/profile/edit');
+                    },
                   ),
                 ),
               ),

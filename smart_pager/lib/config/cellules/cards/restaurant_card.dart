@@ -102,7 +102,7 @@ class RestaurantCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             CustomText(
-                              text: estimatedWaitTime,
+                              text: "$estimatedWaitTime de espera",
                               fontSize: 16,
                               color: SPColors.activeBlack,
                             ),

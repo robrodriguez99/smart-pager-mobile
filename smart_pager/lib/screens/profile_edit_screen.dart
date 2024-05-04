@@ -142,25 +142,35 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
                 child: SizedBox(
                   width: double.infinity,
                   height: 50,
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        setState(() {
-                          name = nameController.text;
-                          surname = surnameController.text;
-                          phoneNumber = phoneNumberController.text;
-                        });
-                        Navigator.pop(context);
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      foregroundColor: Colors.white,
-                      backgroundColor: SPColors.primary,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius:
+                          BorderRadius.circular(15.0), // Border radius here
                     ),
-                    child: const Text(
-                      "Guardar cambios",
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            name = nameController.text;
+                            surname = surnameController.text;
+                            phoneNumber = phoneNumberController.text;
+                          });
+                          Navigator.pop(context);
+                        }
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: SPColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                              15.0), // Same border radius here
+                        ),
+                      ),
+                      child: const Text(
+                        "Guardar cambios",
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
                     ),
                   ),
                 ),
