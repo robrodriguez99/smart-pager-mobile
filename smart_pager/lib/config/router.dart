@@ -7,6 +7,7 @@ import 'package:smart_pager/screens/menu_view.dart';
 import 'package:smart_pager/screens/queue_screen.dart';
 import 'package:smart_pager/screens/profile_edit_screen.dart';
 import 'package:smart_pager/screens/restaurant_screen.dart';
+import 'package:smart_pager/screens/search_results_screen.dart';
 import 'package:smart_pager/screens/search_screen.dart';
 
 import '../main.dart';
@@ -66,6 +67,13 @@ mixin RouterMixin on State<MyApp> {
         name: 'search',
         builder: (BuildContext context, GoRouterState state) {
           return const SearchScreen();
+        },
+      ),
+      GoRoute(
+        path: '/search/results',
+        name: 'search-results',
+        builder: (BuildContext context, GoRouterState state) {
+          return const SearchResultsScreen();
         },
       )
     ],

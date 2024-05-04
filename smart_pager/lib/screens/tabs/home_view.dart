@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/cellules/cards/restaurant_card.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
@@ -27,6 +28,9 @@ class HomeView extends StatelessWidget {
                   contentPadding:
                       EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                 ),
+                onTap: () {
+                  GoRouter.of(context).push('/search');
+                },
               ),
             ),
             const SizedBox(height: 20),

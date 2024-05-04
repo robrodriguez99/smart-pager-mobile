@@ -1,53 +1,102 @@
 import 'package:flutter/material.dart';
-import 'package:smart_pager/config/cellules/bottom_nav.dart';
-import 'package:smart_pager/screens/tabs/home_view.dart';
-import 'package:smart_pager/screens/tabs/notifications_view.dart';
-import 'package:smart_pager/screens/tabs/profile_view.dart';
-import 'package:smart_pager/screens/tabs/current_queue_view.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
+import 'package:smart_pager/config/tokens/sp_colors.dart';
+import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 class SearchScreen extends StatefulWidget {
-  const SearchScreen({super.key});
+  const SearchScreen({Key? key}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
-  _SearchScreen createState() => _SearchScreen();
+  State<SearchScreen> createState() => _SearchScreenState();
 }
 
-class _SearchScreen extends State<SearchScreen> {
-  int _selectedIndex = 0;
-  final List<Widget> _widgetOptions = <Widget>[
-    const HomeView(),
-    const CurrentQueueView(
-      isInQueue: true,
-    ),
-    const NotificationsView(),
-    const ProfileView(),
-  ];
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+class _SearchScreenState extends State<SearchScreen> {
+  String _selectedCategory = 'All';
+  String _selectedDistance = 'Any';
+  final TextEditingController _searchController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: <Widget>[
-          const SizedBox(height: 50),
-          Expanded(
-            child: IndexedStack(
-              index: _selectedIndex,
-              children: _widgetOptions,
-            ),
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () => GoRouter.of(context).pop(),
+          icon: const Icon(
+            Icons.arrow_back,
+            color: SPColors.activeBlack,
+            size: 30,
           ),
-        ],
+        ),
+        title: const CustomText(
+          text: 'Restaurantes',
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
       ),
-      bottomNavigationBar: BottomNav(
-        _onItemTapped,
-        _selectedIndex,
-        key: UniqueKey(),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            TextFormField(
+              controller: _searchController,
+              decoration: const InputDecoration(
+                labelText: 'Restaurante',
+                prefixIcon: Icon(Icons.search),
+              ),
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedCategory,
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedCategory = newValue!;
+                });
+              },
+              items: <String>['All', 'Category 1', 'Category 2', 'Category 3']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: const InputDecoration(
+                labelText: 'Categoría',
+                prefixIcon: Icon(Icons.restaurant),
+              ),
+            ),
+            const SizedBox(height: 20),
+            DropdownButtonFormField<String>(
+              value: _selectedDistance,
+              onChanged: (newValue) {
+                setState(() {
+                  _selectedDistance = newValue!;
+                });
+              },
+              items: <String>['Any', '1 km', '2 km', '3 km', '5 km']
+                  .map<DropdownMenuItem<String>>((String value) {
+                return DropdownMenuItem<String>(
+                  value: value,
+                  child: Text(value),
+                );
+              }).toList(),
+              decoration: const InputDecoration(
+                labelText: 'Distancia',
+                prefixIcon: Icon(Icons.location_on),
+              ),
+            ),
+            const SizedBox(height: 20),
+            GradientButton(
+              icon: Icons.search,
+              text: 'Buscar',
+              gradientColors: const [SPColors.primary, SPColors.primary],
+              onPressed: () {
+                GoRouter.of(context).push('/search/results');
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
