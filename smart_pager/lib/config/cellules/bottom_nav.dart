@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
+import 'package:qr_code_scanner/qr_code_scanner.dart'; // Import QR code scanning package
 
 class BottomNav extends StatelessWidget {
   final Function(int) onItemTapped;
   final int selectedIndex;
+  final GlobalKey qrKey =
+      GlobalKey(debugLabel: 'QR'); // Create a GlobalKey for QR code scanner
 
-  const BottomNav(this.onItemTapped, this.selectedIndex, {required Key key})
+  BottomNav(this.onItemTapped, this.selectedIndex, {required Key key})
       : super(key: key);
 
   @override
@@ -33,7 +37,10 @@ class BottomNav extends StatelessWidget {
                 Center(
                   heightFactor: 0.6,
                   child: FloatingActionButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      // Open QR scanner on button press
+                      _startScan(context);
+                    },
                     backgroundColor: SPColors.primary,
                     elevation: 0.1,
                     child: const Icon(
@@ -103,6 +110,27 @@ class BottomNav extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  // Function to start QR code scanning
+  void _startScan(BuildContext context) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => QRView(
+          key: qrKey,
+          onQRViewCreated: (controller) =>
+              _onQRViewCreated(controller, context), // Pass context here
+        ),
+      ),
+    );
+  }
+
+  // Callback for when QR code is detected
+  void _onQRViewCreated(QRViewController controller, BuildContext context) {
+    controller.scannedDataStream.listen((scanData) {
+      GoRouter.of(context).push('/restaurant');
+    });
   }
 }
 
