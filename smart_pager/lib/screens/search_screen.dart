@@ -5,14 +5,15 @@ import 'package:smart_pager/screens/tabs/notifications_view.dart';
 import 'package:smart_pager/screens/tabs/profile_view.dart';
 import 'package:smart_pager/screens/tabs/current_queue_view.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class SearchScreen extends StatefulWidget {
+  const SearchScreen({super.key});
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  // ignore: library_private_types_in_public_api
+  _SearchScreen createState() => _SearchScreen();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _SearchScreen extends State<SearchScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeView(),
