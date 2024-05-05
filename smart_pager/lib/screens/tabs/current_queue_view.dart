@@ -60,7 +60,7 @@ class CurrentQueueView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(
-                  Icons.timer_sharp,
+                  Icons.access_time_filled,
                   color: SPColors.activeBlack,
                   size: 16,
                 ),
