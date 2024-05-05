@@ -111,7 +111,12 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 onPressed: () {
                   GoRouter.of(context).push('/queue');
                 },
-              )
+              ),
+              const CustomText(
+                text: 'TODO HORARIO, TAG CERRADOS',
+                fontSize: 20,
+                color: SPColors.activeBlack,
+              ),
             ],
           ),
         ),
