@@ -38,7 +38,7 @@ mixin RouterMixin on State<MyApp> {
         path: '/restaurant',
         name: 'restaurant',
         builder: (BuildContext context, GoRouterState state) {
-          return const RestaurantScreen();
+          return const RestaurantScreen(closed: false);
         },
       ),
       GoRoute(

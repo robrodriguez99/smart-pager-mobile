@@ -47,6 +47,7 @@ class HomeView extends StatelessWidget {
               category: 'Cocina Japonesa',
               estimatedWaitTime: '30 minutos',
               isPromoted: true,
+              isClosed: false,
             ),
             const SizedBox(height: 10),
             const RestaurantCard(
@@ -54,6 +55,7 @@ class HomeView extends StatelessWidget {
               category: 'Cocina Japonesa',
               estimatedWaitTime: '30 minutos',
               isPromoted: true,
+              isClosed: false,
             ),
             const SizedBox(height: 10),
             const RestaurantCard(
@@ -61,6 +63,7 @@ class HomeView extends StatelessWidget {
               category: 'Cocina Japonesa',
               estimatedWaitTime: '30 minutos',
               isPromoted: false,
+              isClosed: false,
             ),
             const SizedBox(height: 10),
             const RestaurantCard(
@@ -68,6 +71,7 @@ class HomeView extends StatelessWidget {
               category: 'Cocina Japonesa',
               estimatedWaitTime: '30 minutos',
               isPromoted: false,
+              isClosed: true,
             ),
           ],
         ),

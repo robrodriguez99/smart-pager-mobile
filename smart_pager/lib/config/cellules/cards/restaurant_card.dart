@@ -8,6 +8,7 @@ class RestaurantCard extends StatelessWidget {
   final String category;
   final String estimatedWaitTime;
   final bool isPromoted;
+  final bool isClosed;
 
   const RestaurantCard({
     Key? key,
@@ -15,6 +16,7 @@ class RestaurantCard extends StatelessWidget {
     required this.category,
     required this.estimatedWaitTime,
     required this.isPromoted,
+    required this.isClosed,
   }) : super(key: key);
 
   @override
@@ -113,7 +115,30 @@ class RestaurantCard extends StatelessWidget {
                   ),
                 ],
               ),
-              if (isPromoted)
+              // Display either "Patrocinado" or "Cerrado" tag based on conditions
+
+              if (isClosed)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 8,
+                      vertical: 4,
+                    ),
+                    decoration: const BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    ),
+                    child: const CustomText(
+                      text: 'Cerrado',
+                      fontSize: 13,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                )
+              else if (isPromoted)
                 Positioned(
                   top: 0,
                   right: 0,
@@ -133,7 +158,7 @@ class RestaurantCard extends StatelessWidget {
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                ),
+                )
             ],
           ),
         ),
