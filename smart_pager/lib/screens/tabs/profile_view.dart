@@ -1,22 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
-class ProfileView extends StatelessWidget {
-  final String name = "Federico Rojas";
-  final String email = "fidi@gmail.com";
-  final String telefono = "541156019614";
+class ProfileView extends ConsumerWidget {
+  
 
   const ProfileView({super.key});
 
   String formatPhoneNumber(String phoneNumber) {
+    //TODO: CONTEMPLAR QUE EL NÚMERO DE TELÉFONO PUEDA SER DE 10 O 11 DÍGITOS O INCLUSO VACIO
     return '+${phoneNumber.substring(0, 2)} (${phoneNumber.substring(2, 4)}) ${phoneNumber.substring(4, 12)}';
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final futureUser = ref.watch(loggedUserProvider);
+
     return Scaffold(
       body: Center(
         child: Container(
@@ -28,14 +31,14 @@ class ProfileView extends StatelessWidget {
               const SizedBox(height: 20),
               const SizedBox(height: 20),
               CustomText(
-                text: name,
+                text: futureUser!.name,
                 color: SPColors.heading,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 10),
               CustomText(
-                text: email,
+                text: futureUser.email,
                 color: SPColors.darkGray,
                 fontSize: 25,
               ),
@@ -88,7 +91,7 @@ class ProfileView extends StatelessWidget {
                           Icon(
                             Icons
                                 .exit_to_app, // You can change the icon as needed
-                            color: Colors.black,
+                            color: Colors.red,
                             size: 20,
                           ),
                           SizedBox(
@@ -96,8 +99,8 @@ class ProfileView extends StatelessWidget {
                           Text(
                             "Cerrar sesión",
                             style: TextStyle(
-                                color: Colors.black,
-                                decoration: TextDecoration.underline,
+                                color: Colors.red,
+                                decoration: TextDecoration.none,
                                 fontSize: 18),
                           ),
                         ],

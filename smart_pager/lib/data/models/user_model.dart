@@ -15,6 +15,8 @@ class SmartPagerUser extends GenericModel<SmartPagerUser> {
 
   get fullName => "$name";
 
+  Object? get state => null;
+
   @override
   static SmartPagerUser fromJson(Map<String, dynamic> json) {
     return SmartPagerUser(
