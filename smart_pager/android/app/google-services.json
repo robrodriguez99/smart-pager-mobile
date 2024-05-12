@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "286710064793",
+    "project_id": "smart-pager-415412",
+    "storage_bucket": "smart-pager-415412.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:286710064793:android:2826d87c1539587e57fa08",
+        "android_client_info": {
+          "package_name": "com.example.smart_pager"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "286710064793-v0uou8mrj86sst2r97inu649rlf34gju.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAx9Uqb9kFm5RbLksj2ZamRmmZKV013fVk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "286710064793-v0uou8mrj86sst2r97inu649rlf34gju.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

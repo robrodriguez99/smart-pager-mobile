@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
+import 'package:smart_pager/providers/controllers/login_controller.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends ConsumerWidget {
   const LoginScreen({super.key});
 
+  
+
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // bool enabled = ref.watch(loginValidatorProvider);
+    // bool loading =
+    //     ref.watch(loginControllerProvider) == FormStates.loading.name;
+    
     return Scaffold(
       backgroundColor: SPColors.primary,
       body: SingleChildScrollView(
@@ -37,6 +44,7 @@ class LoginScreen extends StatelessWidget {
                   padding: const EdgeInsets.all(8.0), // Add padding
                   child: GestureDetector(
                     onTap: () {
+                      ref.read(loginControllerProvider.notifier).login();
                       GoRouter.of(context).go('/home');
                     },
                     child: Container(

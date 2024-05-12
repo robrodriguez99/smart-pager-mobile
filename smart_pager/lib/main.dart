@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:smart_pager/bootstrap.dart';
 import 'package:smart_pager/config/router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
@@ -7,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 void main() async {
+  await dotenv.load(fileName: ".env" ); //path to your .env fil
   await bootstrap();
 
   runApp(const ProviderScope(
