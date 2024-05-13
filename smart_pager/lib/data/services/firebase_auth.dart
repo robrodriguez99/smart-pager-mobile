@@ -13,26 +13,6 @@ class MyFirebaseAuth {
     return _firebaseAuth.currentUser;
   }
 
-  // Future<SmartPagerUser> signInWithEmailAndPassword({
-  //   required String email,
-  //   required String password,
-  // }) async {
-  //   try {
-  //     final userCredential = await _firebaseAuth.signInWithEmailAndPassword(
-  //       email: email,
-  //       password: password,
-  //     );
-
-  //     final user =
-  //         await UserRepositoryImpl().getUsersById(userCredential.user!.uid);
-
-  //     return user;
-  //   } on Error catch (e) {
-  //     print("signInWithEmailAndPassword $e");
-  //     rethrow;
-  //   }
-  // }
-
   //sign in with google
   Future<SmartPagerUser> signInWithGoogle() async {
     try {
@@ -49,7 +29,6 @@ class MyFirebaseAuth {
       final userCredential =
           await _firebaseAuth.signInWithCredential(credential);
 
-      print("userCredential: " + userCredential.toString());
       // if it is a new user, create it
       if (userCredential.additionalUserInfo!.isNewUser) {
         final userJson = {
