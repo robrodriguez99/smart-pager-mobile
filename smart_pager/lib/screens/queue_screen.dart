@@ -1,18 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:go_router/go_router.dart';
+import 'package:smart_pager/data/models/user_model.dart';
+import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
 /// Flutter code sample for [DropdownMenu].
 
 const List<String> list = <String>['1', '2', '3', '4', '5', "6 o más"];
 
-class QueueScreen extends StatelessWidget {
+class QueueScreen extends ConsumerWidget {
   const QueueScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+  final futureUser = ref.watch(loggedUserProvider);
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -89,8 +94,16 @@ class QueueScreen extends StatelessWidget {
             icon: Icons.wb_twilight,
             text: "Anotarse en la cola",
             gradientColors: const [SPColors.secondary, SPColors.secondary],
-            onPressed: () {
-              //
+            onPressed: () async {
+              
+              await ref.read(restaurantControllerProvider.notifier).addToQueue(
+                  'g8-hci-1', //TODO: Add restaurant slug here
+                  futureUser!,
+                  'description', //TODO: Add description here
+                  2).then((value) => {
+                    GoRouter.of(context).goNamed('home')
+                  
+                  }); // Add commensals amount here
             },
           ),
         ),
