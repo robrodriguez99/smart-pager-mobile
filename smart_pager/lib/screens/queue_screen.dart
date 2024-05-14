@@ -12,12 +12,21 @@ import 'package:smart_pager/providers/user_provider.dart';
 
 const List<String> list = <String>['1', '2', '3', '4', '5', "6 o más"];
 
-class QueueScreen extends ConsumerWidget {
+class QueueScreen extends ConsumerStatefulWidget {
   const QueueScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<QueueScreen> createState() => _QueueScreenState();
+}
+
+
+class _QueueScreenState extends ConsumerState<QueueScreen> {
+  String dropdownValue = list.first; // Nuevo estado
+  
+  @override
+  Widget build(BuildContext context) {
   final futureUser = ref.watch(loggedUserProvider);
+  
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -85,7 +94,15 @@ class QueueScreen extends ConsumerWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const DropdownMenuExample(),
+        // Add DropdownMenuExample widget here
+        DropdownMenuExample(
+           onSelected: (String? value) {
+              setState(() {
+                dropdownValue = value!;
+              });
+            },
+        ),
+
         Expanded(child: Container()),
         Container(
           margin: const EdgeInsets.symmetric(
@@ -100,7 +117,8 @@ class QueueScreen extends ConsumerWidget {
                   'g8-hci-1', //TODO: Add restaurant slug here
                   futureUser!,
                   'description', //TODO: Add description here
-                  2).then((value) => {
+                  int.parse(dropdownValue),
+                  ).then((value) => {
                     GoRouter.of(context).goNamed('home')
                   
                   }); // Add commensals amount here
@@ -114,7 +132,9 @@ class QueueScreen extends ConsumerWidget {
 }
 
 class DropdownMenuExample extends StatefulWidget {
-  const DropdownMenuExample({super.key});
+  final ValueChanged<String?>? onSelected;
+
+  const DropdownMenuExample({this.onSelected, super.key});
 
   @override
   State<DropdownMenuExample> createState() => _DropdownMenuExampleState();
@@ -128,10 +148,12 @@ class _DropdownMenuExampleState extends State<DropdownMenuExample> {
     return DropdownMenu<String>(
       initialSelection: list.first,
       onSelected: (String? value) {
-        // This is called when the user selects an item.
         setState(() {
           dropdownValue = value!;
         });
+        if (widget.onSelected != null) {
+          widget.onSelected!(dropdownValue);
+        }
       },
       dropdownMenuEntries: list.map<DropdownMenuEntry<String>>((String value) {
         return DropdownMenuEntry<String>(value: value, label: value);
