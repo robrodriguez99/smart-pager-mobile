@@ -33,4 +33,8 @@ class LoginController extends _$LoginController {
       LoginFormKey.currentState!.validate();
     }
   }
+
+  void logout() {
+    ref.read(firebaseAuthProvider).logout();
+  }
 }

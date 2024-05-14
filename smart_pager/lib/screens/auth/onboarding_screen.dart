@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
+import 'package:smart_pager/providers/auth_provider.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 import 'package:smart_pager/screens/auth/onboarding_view.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -19,14 +22,14 @@ List onBoardingList = [
   }
 ];
 
-class OnBoardingScreen extends StatefulWidget {
+class OnBoardingScreen extends ConsumerStatefulWidget {
   const OnBoardingScreen({super.key});
 
   @override
-  State<OnBoardingScreen> createState() => _OnBoardingScreenState();
+  ConsumerState<OnBoardingScreen> createState() => _OnBoardingScreenState();
 }
 
-class _OnBoardingScreenState extends State<OnBoardingScreen> {
+class _OnBoardingScreenState extends ConsumerState<OnBoardingScreen> {
   late final PageController controller;
   int currentPage = 0;
 
@@ -43,6 +46,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (ref.read(firebaseAuthProvider).currentUser() != null) {
+      ref
+          .read(loggedUserProvider.notifier)
+          .refresh()
+          .then((value) => GoRouter.of(context).pushReplacementNamed('home'));
+    }
+
     return Scaffold(
       body: Column(
         children: [

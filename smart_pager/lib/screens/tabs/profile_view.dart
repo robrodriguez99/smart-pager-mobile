@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/providers/auth_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
 class ProfileView extends ConsumerWidget {
@@ -31,14 +32,14 @@ class ProfileView extends ConsumerWidget {
               const SizedBox(height: 20),
               const SizedBox(height: 20),
               CustomText(
-                text: futureUser!.name,
+                text: futureUser?.name,
                 color: SPColors.heading,
                 fontSize: 30,
                 fontWeight: FontWeight.bold,
               ),
               const SizedBox(height: 10),
               CustomText(
-                text: futureUser.email,
+                text: futureUser?.email,
                 color: SPColors.darkGray,
                 fontSize: 25,
               ),
@@ -84,6 +85,7 @@ class ProfileView extends ConsumerWidget {
                     child: TextButton(
                       onPressed: () {
                         // Código para cerrar sesión
+                        ref.read(firebaseAuthProvider).logout().then((value) => GoRouter.of(context).goNamed('onboarding'));
                       },
                       child: const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
