@@ -26,6 +26,7 @@ class LoggedUser extends _$LoggedUser {
 
   void updateUser(Map<String, dynamic> newFields) {
     state!.phoneNumber = newFields['phoneNumber'];
+    state!.name = newFields['name'];
     state = state!.copy();
   }
 }

@@ -13,8 +13,11 @@ class ProfileView extends ConsumerWidget {
   const ProfileView({super.key});
 
   String formatPhoneNumber(String phoneNumber) {
-    //TODO: CONTEMPLAR QUE EL NÚMERO DE TELÉFONO PUEDA SER DE 10 O 11 DÍGITOS O INCLUSO VACIO
-    return '+${phoneNumber.substring(0, 2)} (${phoneNumber.substring(2, 4)}) ${phoneNumber.substring(4, 12)}';
+    // if (phoneNumber.length < 10) {
+    //   return '';
+    // }
+    // return '${phoneNumber.substring(0, 2)} (${phoneNumber.substring(1, 4)}) ${phoneNumber.substring(4, 12)}'; //TODO: ESTO FORMATEA MAL EL NUMERO DE TELEFONO
+    return phoneNumber;
   }
 
   @override
@@ -45,7 +48,7 @@ class ProfileView extends ConsumerWidget {
               ),
               const SizedBox(height: 20),
               CustomText(
-                text: formatPhoneNumber("541156019614"),
+                text: formatPhoneNumber(futureUser?.phoneNumber ?? ''),
                 color: SPColors.darkGray,
                 fontSize: 20,
               ),
@@ -61,7 +64,7 @@ class ProfileView extends ConsumerWidget {
                     text: "Editar perfil",
                     gradientColors: const [SPColors.primary, SPColors.primary],
                     onPressed: () {
-                      GoRouter.of(context).push('/profile/edit');
+                      GoRouter.of(context).pushNamed('profile-edit');
                     },
                   ),
                 ),

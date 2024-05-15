@@ -3,7 +3,7 @@ import 'package:smart_pager/data/models/generic_model.dart';
 
 class SmartPagerUser extends GenericModel<SmartPagerUser> {
   final String email;
-  final String name;
+  String name;
   String? phoneNumber;
 
   SmartPagerUser({

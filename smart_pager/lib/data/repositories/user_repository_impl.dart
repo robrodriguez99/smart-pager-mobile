@@ -12,15 +12,12 @@ class UserRepositoryImpl extends Repository<SmartPagerUser> {
 
   Future<void> updateUser(String uid, Map<String, dynamic> update) async {
     final Map<String, dynamic> updateUser = {};
-    
+    print("update: $update");
     if (update.containsKey('phoneNumber')) {
       updateUser["phoneNumber"] = update["phoneNumber"];
     }
     if (update.containsKey("name")) {
       updateUser["name"] = update["name"];
-    }
-    if (update.containsKey("lastName")) {
-      updateUser["lastName"] = update["lastName"];
     }
 
     await collection.doc(uid).update(updateUser);

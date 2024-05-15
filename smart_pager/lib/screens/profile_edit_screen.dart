@@ -1,10 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:smart_pager/providers/controllers/edit_profile_controller.dart';
+import 'package:smart_pager/providers/edit_profile_provider.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
-class ProfileEditScreen extends StatefulWidget {
+  final GlobalKey<FormState> EditProfileFormKey = GlobalKey<FormState>();
+
+
+class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
 
   @override
@@ -12,30 +19,36 @@ class ProfileEditScreen extends StatefulWidget {
   _ProfileEditViewState createState() => _ProfileEditViewState();
 }
 
-class _ProfileEditViewState extends State<ProfileEditScreen> {
-  String name = "Federico";
-  String surname = "Rojas";
-  String phoneNumber = "541156019614";
+class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
+  String name = "";
+  String phoneNumber = "";
   DateTime? dateOfBirth; // Variable to store date of birth
 
   TextEditingController nameController = TextEditingController();
-  TextEditingController surnameController = TextEditingController();
   TextEditingController phoneNumberController = TextEditingController();
   TextEditingController dobController =
       TextEditingController(); // Controller for date of birth
 
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    nameController.text = name;
-    surnameController.text = surname;
-    phoneNumberController.text = phoneNumber;
+    nameController.text = "";
+    phoneNumberController.text = "";
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final futureUser = ref.watch(loggedUserProvider);
+    nameController.text = futureUser?.name ?? "";
+    phoneNumberController.text = futureUser?.phoneNumber ?? "";
+    phoneNumber = futureUser?.phoneNumber ?? "";
   }
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -57,7 +70,7 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
       body: Padding(
         padding: const EdgeInsets.all(20.0),
         child: Form(
-          key: _formKey,
+          key: EditProfileFormKey,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -65,7 +78,7 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
               TextFormField(
                 controller: nameController,
                 decoration: const InputDecoration(
-                  labelText: 'Nombre(s)*',
+                  labelText: 'Nombre Completo*',
                   labelStyle: TextStyle(fontSize: 18, color: SPColors.darkGray),
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(fontSize: 18),
@@ -77,22 +90,7 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
                   return null;
                 },
               ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: surnameController,
-                decoration: const InputDecoration(
-                  labelText: 'Apellido(s)*',
-                  labelStyle: TextStyle(fontSize: 18, color: SPColors.darkGray),
-                  border: OutlineInputBorder(),
-                  hintStyle: TextStyle(fontSize: 18),
-                ),
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Ingresa tu apellido';
-                  }
-                  return null;
-                },
-              ),
+              
               const SizedBox(height: 20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,16 +146,22 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
                           BorderRadius.circular(15.0), // Border radius here
                     ),
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          setState(() {
-                            name = nameController.text;
-                            surname = surnameController.text;
-                            phoneNumber = phoneNumberController.text;
-                          });
-                          Navigator.pop(context);
-                        }
-                      },
+                      onPressed: () => _onPressed(context, ref),
+                      // onPressed: () {
+                      //   if (EditProfileFormKey.currentState!.validate()) {
+                      //     setState(() {
+                      //       name = nameController.text;
+                      //       phoneNumber = phoneNumberController.text;
+                      //     });
+                      //     Map<String, dynamic> newFields = {
+                      //       'name': name,
+                      //       'phoneNumber': phoneNumber
+                      //     };
+                      //     ref.read(loggedUserProvider.notifier).updateUser(
+                      //         newFields);
+                      //     Navigator.pop(context);
+                      //   }
+                      // },
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: SPColors.primary,
@@ -181,5 +185,23 @@ class _ProfileEditViewState extends State<ProfileEditScreen> {
         ),
       ),
     );
+  }
+
+  _onPressed(BuildContext context, WidgetRef ref) {
+    final uid = ref.read(loggedUserProvider)!.id;
+    final namePath = nameController.text;
+
+    print("uid: $uid");
+    print("name: $namePath");
+    print("phoneNumber: $phoneNumber");
+    
+    ref.read(editProfileValidatorProvider.notifier).loading();
+
+    ref.read(editProfileControllerProvider.notifier).editProfile(
+        uid, namePath, phoneNumber);
+
+    if (context.mounted) {
+      GoRouter.of(context).pop(true);
+    }
   }
 }

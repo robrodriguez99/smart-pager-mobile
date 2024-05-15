@@ -4,7 +4,6 @@ import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:go_router/go_router.dart';
-import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
