@@ -18,14 +18,13 @@ class QueueScreen extends ConsumerStatefulWidget {
   ConsumerState<QueueScreen> createState() => _QueueScreenState();
 }
 
-
 class _QueueScreenState extends ConsumerState<QueueScreen> {
   String dropdownValue = list.first; // Nuevo estado
-  
+
   @override
   Widget build(BuildContext context) {
-  final futureUser = ref.watch(loggedUserProvider);
-  
+    final futureUser = ref.watch(loggedUserProvider);
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -95,11 +94,11 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
         ),
         // Add DropdownMenuExample widget here
         DropdownMenuExample(
-           onSelected: (String? value) {
-              setState(() {
-                dropdownValue = value!;
-              });
-            },
+          onSelected: (String? value) {
+            setState(() {
+              dropdownValue = value!;
+            });
+          },
         ),
 
         Expanded(child: Container()),
@@ -111,16 +110,17 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
             text: "Anotarse en la cola",
             gradientColors: const [SPColors.secondary, SPColors.secondary],
             onPressed: () async {
-              
-              await ref.read(restaurantControllerProvider.notifier).addToQueue(
-                  'g8-hci-1', //TODO: Add restaurant slug here
-                  futureUser!,
-                  'description', //TODO: Add description here
-                  int.parse(dropdownValue),
-                  ).then((value) => {
-                    GoRouter.of(context).goNamed('home')
-                  
-                  }); // Add commensals amount here
+              await ref
+                  .read(restaurantControllerProvider.notifier)
+                  .addToQueue(
+                    'g8-hci-1', //TODO: Add restaurant slug here
+                    futureUser!,
+                    'description', //TODO: Add description here
+                    int.parse(dropdownValue),
+                  )
+                  .then((value) => {
+                        GoRouter.of(context).goNamed('current-queue')
+                      }); // Add commensals amount here
             },
           ),
         ),

@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/providers/controllers/login_controller.dart';
 
-
 final LoginFormKey = GlobalKey<FormBuilderState>();
 
 class LoginForm extends ConsumerWidget {
@@ -14,10 +13,9 @@ class LoginForm extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final loginProvider = ref.watch(loginControllerProvider.notifier);
 
-    onChangeFocus (field, value) {
+    onChangeFocus(field, value) {
       // ref.read(loginValidatorProvider.notifier).set(field, value.isNotEmpty);
     }
-
 
     return FormBuilder(
       key: LoginFormKey,
@@ -28,7 +26,7 @@ class LoginForm extends ConsumerWidget {
           FormBuilderTextField(
             name: 'email',
             onChanged: (value) => onChangeFocus('email', value),
-            decoration:const InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Correo electrónico',
               labelStyle: TextStyle(color: Colors.white),
@@ -47,7 +45,7 @@ class LoginForm extends ConsumerWidget {
           FormBuilderTextField(
             name: 'password',
             onChanged: (value) => onChangeFocus('password', value),
-            decoration:const  InputDecoration(
+            decoration: const InputDecoration(
               border: OutlineInputBorder(),
               labelText: 'Contraseña',
               labelStyle: TextStyle(color: Colors.white),
@@ -62,7 +60,6 @@ class LoginForm extends ConsumerWidget {
             //   FormBuilderValidators.minLength(context, 6),
             // ]),
           ),
-          
         ],
       ),
     );
