@@ -34,7 +34,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
       name: json['name'] ?? "no_name",
       email: json['email'] ?? "no_email",
       type: json['type'] ?? "no_type",
-      avgTimePerTable: json['avgTimePerTable'] ?? "no_avgTimePerTable",
+      avgTimePerTable: json['avgTimePerTable'] ?? "no_time",
       isPromoted: json['sponsored'] ?? false,
       location: json['location'] ?? "no_location",
       menu: json['menu'] ?? "no_menu",

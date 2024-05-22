@@ -43,9 +43,12 @@ class LoginScreen extends ConsumerWidget {
                 Padding(
                   padding: const EdgeInsets.all(8.0), // Add padding
                   child: GestureDetector(
-                    onTap: () {
-                      ref.read(loginControllerProvider.notifier).login();
-                      GoRouter.of(context).go('/home');
+                    onTap: () async {
+                      final authenticationSuccessful = await ref.read(loginControllerProvider.notifier).login();
+                      if (authenticationSuccessful) {
+                        GoRouter.of(context).go('/home');
+                      }
+
                     },
                     child: Container(
                       width: 300,

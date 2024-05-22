@@ -20,7 +20,7 @@ class LoginController extends _$LoginController {
     state = FormStates.initial.name;
   }
 
-  Future<void> login(
+  Future<bool> login(
   ) async {
     state = FormStates.loading.name;
     try {
@@ -28,9 +28,11 @@ class LoginController extends _$LoginController {
       SmartPagerUser user = await auth.signInWithGoogle();
       state = FormStates.success.name;
       ref.read(loggedUserProvider.notifier).set(user);
+      return true;
     } catch (e) {
       state = FormStates.error.name;
       LoginFormKey.currentState!.validate();
+      return false;
     }
   }
 
