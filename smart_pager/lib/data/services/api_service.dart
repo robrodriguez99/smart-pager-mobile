@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 
 class ApiService {
@@ -51,7 +52,7 @@ class ApiService {
         "description": description
       }
     }),
-);
+    );
     
     if (response.statusCode == 200) {
       print(response.body);
@@ -59,4 +60,24 @@ class ApiService {
       throw Exception('Failed to add to queue');
     }
   }
+
+      
+  /// GET /api/restaurants?search=restaurantName&page=number&pageSize=number
+  ///
+  /// page y pageSize son opcionales y defaultean a 0 y 10
+  /// search es opcional tmb
+  Future<List<SmartPagerRestaurant>> getRestaurants({String? search, int page = 0, int pageSize = 10}) async {
+    search ??= "";
+    final response = await httpClient.get(Uri.parse("$baseUrl?search=$search&page=$page&pageSize=$pageSize"));
+    Map<String, dynamic> json = jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+    print(json);
+    List<SmartPagerRestaurant> restaurants = [];
+    for (var restaurant in json['restaurants']) {
+      restaurants.add(SmartPagerRestaurant.fromJson(restaurant));
+    }
+    return restaurants;
+    
+    
+  }
+
 }

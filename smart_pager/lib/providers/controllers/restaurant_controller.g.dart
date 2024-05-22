@@ -7,12 +7,12 @@ part of 'restaurant_controller.dart';
 // **************************************************************************
 
 String _$restaurantControllerHash() =>
-    r'3b6aaad38599e86413ba6567c677fbc9842ad75a';
+    r'7714d1155db8eba75d968e054fd980659a8c066a';
 
 /// See also [RestaurantController].
 @ProviderFor(RestaurantController)
-final restaurantControllerProvider =
-    AutoDisposeNotifierProvider<RestaurantController, Object?>.internal(
+final restaurantControllerProvider = AutoDisposeAsyncNotifierProvider<
+    RestaurantController, List<SmartPagerRestaurant>>.internal(
   RestaurantController.new,
   name: r'restaurantControllerProvider',
   debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
@@ -22,6 +22,7 @@ final restaurantControllerProvider =
   allTransitiveDependencies: null,
 );
 
-typedef _$RestaurantController = AutoDisposeNotifier<Object?>;
+typedef _$RestaurantController
+    = AutoDisposeAsyncNotifier<List<SmartPagerRestaurant>>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member
