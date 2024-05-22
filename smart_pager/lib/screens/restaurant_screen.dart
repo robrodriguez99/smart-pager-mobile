@@ -1,24 +1,44 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 
-class RestaurantScreen extends StatefulWidget {
-  final bool closed;
+class RestaurantScreen extends ConsumerStatefulWidget{
+  final bool closed = false; //TODO:
+  final String restaurantSlug;
 
-  const RestaurantScreen({Key? key, this.closed = false}) : super(key: key);
+  const RestaurantScreen({Key? key, required this.restaurantSlug }) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _RestaurantScreenState();
+  ConsumerState<RestaurantScreen> createState() => _RestaurantScreenState();
 }
 
-class _RestaurantScreenState extends State<RestaurantScreen> {
+class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   bool showOpeningTimes = false; // State to toggle opening times
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final futureRestaurant = ref.watch(restaurantControllerProvider.notifier).getRestaurant(widget.restaurantSlug);
+    return FutureBuilder(
+      future: ref.watch(restaurantControllerProvider.notifier).getRestaurant(widget.restaurantSlug) ,
+      builder: (context, snapshot) {
+      if (snapshot.connectionState == ConnectionState.waiting) {
+        // Mientras se obtienen los datos, puedes mostrar un indicador de carga
+        return const Center(child: CircularProgressIndicator());
+      } else if (snapshot.hasError) {
+        // Manejar errores si los hay
+        return Center(child: Text('Error al cargar los datos del restaurante'));
+      } else if (!snapshot.hasData) {
+        // Si no hay datos, puedes mostrar un mensaje apropiado
+        return Center(child: Text('No se encontraron datos del restaurante'));
+      }
+
+      final restaurant = snapshot.data!;
+
+        return Scaffold(
       appBar: AppBar(
         leading: IconButton(
           onPressed: () => GoRouter.of(context).pop(),
@@ -28,8 +48,8 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
             size: 30,
           ),
         ),
-        title: const CustomText(
-          text: 'El Bulli',
+        title: CustomText(
+          text: restaurant.name, //restaurant name
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
@@ -43,7 +63,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
               Center(
                 // Wrap the Image.asset with Center widget
                 child: Image.asset(
-                  'assets/images/black_logo.png', // Path to your restaurant image asset
+                  'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: image
                   width: 200, // Adjust size as needed
                   height: 200,
                   fit: BoxFit.cover,
@@ -59,39 +79,39 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                   ),
                   SizedBox(width: 4),
                   CustomText(
-                    text: 'Barcelona, España',
+                    text: 'Barcelona, España', //TODO: location
                     fontSize: 20,
                     color: SPColors.activeBlack,
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              const Row(
+              Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.restaurant,
                     color: SPColors.activeBlack,
                     size: 16,
                   ),
                   SizedBox(width: 4),
                   CustomText(
-                    text: 'Comida japonesa',
+                    text: restaurant.type,
                     fontSize: 20,
                     color: SPColors.activeBlack,
                   ),
                 ],
               ),
               const SizedBox(height: 8),
-              const Row(
+              Row(
                 children: [
-                  Icon(
+                  const Icon(
                     Icons.access_time,
                     color: SPColors.activeBlack,
                     size: 16,
                   ),
                   SizedBox(width: 4),
                   CustomText(
-                    text: '30 minutos de espera',
+                    text: "${restaurant.avgTimePerTable} ' de espera", 
                     fontSize: 20,
                     color: SPColors.activeBlack,
                   ),
@@ -119,7 +139,7 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                         ),
                         const SizedBox(width: 8),
                         const CustomText(
-                          text: 'Horarios de apertura',
+                          text: 'Horarios de apertura', //TODO: opening times
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                           color: SPColors.activeBlack,
@@ -179,14 +199,18 @@ class _RestaurantScreenState extends State<RestaurantScreen> {
                 text: 'Ver menú',
                 gradientColors: const [SPColors.primary, SPColors.primary],
                 onPressed: () {
-                  GoRouter.of(context).push('/menu');
+                  GoRouter.of(context).push('/menu'); //TODO: menu
                 },
               ),
             ],
           ),
         ),
       ),
+   
     );
+      }
+    );
+
   }
 
   Widget _buildOpeningTimes() {

@@ -57,11 +57,7 @@ class HomeView extends ConsumerWidget {
                         itemCount: restaurantsList.length,
                         itemBuilder: (context, index) {
                           return RestaurantCard(
-                            restaurantName: restaurantsList[index].name,
-                            category: restaurantsList[index].type ?? 'No category',
-                            estimatedWaitTime: restaurantsList[index].avgTimePerTable ?? 'No time',
-                            isPromoted: restaurantsList[index].isPromoted,
-                            isClosed: false,//TODO
+                            restaurant: restaurantsList[index],
                           );
                         },
                       ),

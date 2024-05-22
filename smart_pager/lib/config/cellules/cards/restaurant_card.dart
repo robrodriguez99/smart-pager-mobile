@@ -2,27 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/data/models/restaurant_model.dart';
 
 class RestaurantCard extends StatelessWidget {
-  final String restaurantName;
-  final String category;
-  final String estimatedWaitTime;
-  final bool isPromoted;
-  final bool isClosed;
+  // final String restaurantName;
+  // final String category;
+  // final String estimatedWaitTime;
+  // final bool isPromoted;
+  // final bool isClosed;
+  final SmartPagerRestaurant restaurant;
 
   const RestaurantCard({
     Key? key,
-    required this.restaurantName,
-    required this.category,
-    required this.estimatedWaitTime,
-    required this.isPromoted,
-    required this.isClosed,
+    required this.restaurant,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => GoRouter.of(context).push('/restaurant'),
+      onTap: () => GoRouter.of(context).pushNamed(
+        'restaurant',
+        pathParameters: {'slug': restaurant.slug},
+      ),
       child: Card(
         color: SPColors.primary2,
         clipBehavior: Clip.antiAlias,
@@ -74,7 +75,7 @@ class RestaurantCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         CustomText(
-                          text: restaurantName,
+                          text: restaurant.name,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
                         ),
@@ -88,7 +89,7 @@ class RestaurantCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             CustomText(
-                              text: category,
+                              text: restaurant.type,
                               fontSize: 16,
                               color: SPColors.activeBlack,
                             ),
@@ -104,7 +105,7 @@ class RestaurantCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             CustomText(
-                              text: "$estimatedWaitTime de espera",
+                              text: "${restaurant.avgTimePerTable} de espera",
                               fontSize: 16,
                               color: SPColors.activeBlack,
                             ),
@@ -117,7 +118,7 @@ class RestaurantCard extends StatelessWidget {
               ),
               // Display either "Patrocinado" or "Cerrado" tag based on conditions
 
-              if (isClosed)
+              if (false) //TODO: is closed
                 Positioned(
                   top: 0,
                   right: 0,
@@ -138,7 +139,7 @@ class RestaurantCard extends StatelessWidget {
                     ),
                   ),
                 )
-              else if (isPromoted)
+              else if (restaurant.isPromoted)
                 Positioned(
                   top: 0,
                   right: 0,

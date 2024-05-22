@@ -70,14 +70,18 @@ class ApiService {
     search ??= "";
     final response = await httpClient.get(Uri.parse("$baseUrl?search=$search&page=$page&pageSize=$pageSize"));
     Map<String, dynamic> json = jsonDecode(Utf8Decoder().convert(response.bodyBytes));
-    print(json);
     List<SmartPagerRestaurant> restaurants = [];
     for (var restaurant in json['restaurants']) {
       restaurants.add(SmartPagerRestaurant.fromJson(restaurant));
     }
     return restaurants;
-    
-    
+  }
+
+  /// GET /api/restaurants/[slug]
+  Future<SmartPagerRestaurant> getRestaurant(String slug) async {
+    final response = await httpClient.get(Uri.parse("$baseUrl/$slug"));
+    Map<String, dynamic> json = jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+    return SmartPagerRestaurant.fromJson(json['restaurant']);
   }
 
 }

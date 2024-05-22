@@ -36,10 +36,11 @@ mixin RouterMixin on State<MyApp> {
         },
       ),
       GoRoute(
-        path: '/restaurant',
+        path: '/restaurant/:slug',
         name: 'restaurant',
         builder: (BuildContext context, GoRouterState state) {
-          return const RestaurantScreen(closed: false);
+          final String restaurantSlug = state.pathParameters['slug']!;
+          return RestaurantScreen(restaurantSlug: restaurantSlug);
         },
       ),
       GoRoute(
