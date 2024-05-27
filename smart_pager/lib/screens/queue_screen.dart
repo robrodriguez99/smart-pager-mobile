@@ -36,7 +36,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
           ),
         ),
         title: const CustomText(
-          text: 'El Bulli',
+          text: 'el club de la mila',
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
@@ -73,7 +73,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
             ),
             Flexible(
               child: CustomText(
-                text: ' 20 minutos',
+                text: ' 45 minutos',
                 color: SPColors.darkGray,
                 fontSize: 20,
                 overflow: TextOverflow.ellipsis,

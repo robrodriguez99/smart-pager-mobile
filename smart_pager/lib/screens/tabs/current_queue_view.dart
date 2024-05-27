@@ -16,45 +16,39 @@ class CurrentQueueView extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            const SizedBox(height: 10),
-            const Flexible(
-              child: CustomText(
+            const SizedBox(height: 5),
+               CustomText(
                 text: 'Actualmente estás en la cola de:',
                 color: SPColors.heading,
                 fontSize: 20,
                 overflow: TextOverflow.ellipsis,
-              ),
             ),
             const SizedBox(height: 20),
-            const Flexible(
-              child: CustomText(
-                text: 'El Bulli',
+            const CustomText(
+                text: 'el club de la mila',
                 color: SPColors.heading,
                 fontSize: 25,
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,
               ),
-            ),
+              
             SizedBox(
               height: 220, // Adjust this height as needed
               child: Center(
                 // Wrap the Image.asset with Center widget
                 child: Image.asset(
                   'assets/images/black_logo.png', // Path to your restaurant image asset
-                  width: 200, // Adjust size as needed
-                  height: 200,
+                  width: 150, // Adjust size as needed
+                  height: 150,
                   fit: BoxFit.cover,
                 ),
               ),
             ),
-            const SizedBox(height: 15),
-            const Flexible(
-              child: CustomText(
+               CustomText(
                 text: 'Tiempo estimado de espera:',
                 color: SPColors.activeBlack,
                 fontSize: 20,
                 overflow: TextOverflow.ellipsis,
-              ),
             ),
             const Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,7 +60,7 @@ class CurrentQueueView extends StatelessWidget {
                 ),
                 Flexible(
                   child: CustomText(
-                    text: ' 20 minutos',
+                    text: ' 45 minutos',
                     color: SPColors.darkGray,
                     fontSize: 20,
                     overflow: TextOverflow.ellipsis,

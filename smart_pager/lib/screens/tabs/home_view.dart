@@ -62,12 +62,12 @@ class HomeView extends ConsumerWidget {
                         },
                       ),
                       //insert debug button that on pressed calls getHello
-                ElevatedButton(
-                  onPressed: () {
-                    ref.read(restaurantControllerProvider.notifier).getRestaurants();
-                  },
-                  child: const Text('Debug Button'),
-                ),
+                // ElevatedButton(
+                //   onPressed: () {
+                //     ref.read(restaurantControllerProvider.notifier).getRestaurants();
+                //   },
+                //   child: const Text('Debug Button'),
+                // ),
               ],
             ),
           ),
