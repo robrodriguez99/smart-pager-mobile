@@ -48,7 +48,7 @@ class ApiService {
         "email": user.email,
         "name": user.name,
         "commensalsAmount": commensalsAmount,
-        "phoneNumber": "541136059399", //TODO: Add phone number to user model
+        "phoneNumber": user.phoneNumber, //TODO: Add phone number to user model
         "description": description
       }
     }),

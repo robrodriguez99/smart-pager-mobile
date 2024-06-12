@@ -1,4 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/providers/auth_provider.dart';
 import 'package:smart_pager/providers/repository_provider.dart';
@@ -22,7 +23,12 @@ class LoggedUser extends _$LoggedUser {
 
   void set(SmartPagerUser user) => state = user;
 
-
+  void enqueueRestaurant(String restaurantSlug, String description, int commensalsAmount) {
+    state!.currentRestaurantSlug = restaurantSlug;
+    state!.description = description;
+    state!.commensalsAmount = commensalsAmount;
+    state = state!.copy();
+  }
 
   void updateUser(Map<String, dynamic> newFields) {
     state!.phoneNumber = newFields['phoneNumber'];

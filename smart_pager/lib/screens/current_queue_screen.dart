@@ -16,9 +16,7 @@ class _CurrentQueueScreenState extends State<CurrentQueueScreen> {
   int _selectedIndex = 1;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeView(),
-    const CurrentQueueView(
-      isInQueue: true,
-    ),
+    const CurrentQueueView(),
     const NotificationsView(),
     const ProfileView(),
   ];

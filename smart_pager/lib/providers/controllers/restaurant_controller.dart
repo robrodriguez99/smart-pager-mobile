@@ -3,6 +3,9 @@ import 'package:smart_pager/data/models/form_states.dart';
 import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/providers/api_provider.dart';
+import 'package:smart_pager/providers/repository_provider.dart';
+import 'package:smart_pager/providers/restaurant_provider.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
 
 part 'restaurant_controller.g.dart';
@@ -43,14 +46,19 @@ class RestaurantController extends _$RestaurantController {
 
   Future<void> addToQueue(
     String restaurantSlug,
-    SmartPagerUser user,
     String description,
     int commensalsAmount,
   ) async {
     // state = FormStates.loading.name as AsyncValue<List<SmartPagerRestaurant>>;
     try {
       final api = ref.read(apiServiceProvider);
-      await api.addToQueue(restaurantSlug, user, description, commensalsAmount);
+      SmartPagerRestaurant? restaurant = ref.watch(currentRestaurantProvider);
+      restaurant ??= await getRestaurant(restaurantSlug);
+      final futureUser = ref.watch(loggedUserProvider);
+      ref.watch(loggedUserProvider.notifier).enqueueRestaurant(restaurant.slug, description, commensalsAmount);
+      // await ref.read(userRepositoryProvider).setUserCurrentRestaurantQueue(futureUser!.id, restaurant.slug, description, commensalsAmount);
+      print("despues de llamar a setUserCurrentRestaurantQueue");
+      await api.addToQueue(restaurantSlug, futureUser!, description, commensalsAmount);
       // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
     } catch (e) {
       // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
@@ -80,6 +88,7 @@ class RestaurantController extends _$RestaurantController {
     try {
       final api = ref.read(apiServiceProvider);
       SmartPagerRestaurant restaurant = await api.getRestaurant(slug);
+      ref.read(currentRestaurantProvider.notifier).set(restaurant);
       // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
       return restaurant;
     } catch (e) {

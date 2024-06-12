@@ -1,3 +1,4 @@
+import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/repository.dart';
 import 'package:smart_pager/exceptions/not_found_exception.dart';
@@ -22,6 +23,28 @@ class UserRepositoryImpl extends Repository<SmartPagerUser> {
 
     await collection.doc(uid).update(updateUser);
   }
+
+  Future<void> setUserCurrentRestaurantQueue(
+      String uid, String restaurantSlug, String description, int commensalsAmount) async {
+    final Map<String, dynamic> update = {};
+    update["currentRestaurantSlug"] = restaurantSlug;
+    update["description"] = description;
+    update["commensalsAmount"] = commensalsAmount;
+
+    print("que tul");
+
+    setUserQueue(uid, true);
+    await collection.doc(uid).update(update);
+  }
+
+  Future<void> setUserQueue(String uid, bool isInQueue) async {
+    final Map<String, dynamic> update = {
+      "isInQueue": isInQueue,
+    };
+    await collection.doc(uid).update(update);
+
+  }
+  
 
   // @throws NotFoundException
   Future<SmartPagerUser> getUserByEmail(String email) async {

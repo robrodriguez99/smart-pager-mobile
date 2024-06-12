@@ -1,15 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
-class CurrentQueueView extends StatelessWidget {
-  final bool isInQueue;
+class CurrentQueueView extends ConsumerStatefulWidget {
 
-  const CurrentQueueView({super.key, required this.isInQueue});
+  const CurrentQueueView({super.key});
+
+  @override
+  ConsumerState<CurrentQueueView> createState() => _CurrentQueueViewState();
+  
+}
+
+class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
+  bool isInQueue = false;
+
   @override
   Widget build(BuildContext context) {
+    final futureUser = ref.watch(loggedUserProvider);
+    if (futureUser!.currentRestaurantSlug!=null) {
+      isInQueue = true;
+    }
     if (isInQueue) {
       return Padding(
         padding: const EdgeInsets.all(16),
@@ -17,7 +31,7 @@ class CurrentQueueView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const SizedBox(height: 5),
-               CustomText(
+              const CustomText(
                 text: 'Actualmente estás en la cola de:',
                 color: SPColors.heading,
                 fontSize: 20,
@@ -173,4 +187,5 @@ class CurrentQueueView extends StatelessWidget {
       );
     }
   }
-}
+
+} 

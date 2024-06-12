@@ -21,9 +21,11 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Get the restaurant data from the controller and set the current restaurant
     final futureRestaurant = ref.watch(restaurantControllerProvider.notifier).getRestaurant(widget.restaurantSlug);
+
     return FutureBuilder(
-      future: ref.watch(restaurantControllerProvider.notifier).getRestaurant(widget.restaurantSlug) ,
+      future: futureRestaurant,
       builder: (context, snapshot) {
       if (snapshot.connectionState == ConnectionState.waiting) {
         // Mientras se obtienen los datos, puedes mostrar un indicador de carga

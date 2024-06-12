@@ -1,10 +1,14 @@
 
 import 'package:smart_pager/data/models/generic_model.dart';
+import 'package:smart_pager/data/models/restaurant_model.dart';
 
 class SmartPagerUser extends GenericModel<SmartPagerUser> {
   final String email;
   String name;
   String? phoneNumber;
+  String? currentRestaurantSlug;
+  int? commensalsAmount;
+  String? description;
 
   SmartPagerUser({
     required super.id,

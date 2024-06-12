@@ -5,6 +5,7 @@ import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
+import 'package:smart_pager/providers/restaurant_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
 /// Flutter code sample for [DropdownMenu].
@@ -24,6 +25,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
   @override
   Widget build(BuildContext context) {
     final futureUser = ref.watch(loggedUserProvider);
+    final currentResturant = ref.watch(currentRestaurantProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -35,8 +37,8 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
             size: 30,
           ),
         ),
-        title: const CustomText(
-          text: 'el club de la mila',
+        title: CustomText(
+          text: currentResturant?.name, //restaurant name
           fontSize: 35,
           fontWeight: FontWeight.bold,
         ),
@@ -47,7 +49,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
         Center(
           // Wrap the Image.asset with Center widget
           child: Image.asset(
-            'assets/images/black_logo.png', // Path to your restaurant image asset
+            'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: Add restaurant image here
             width: 200, // Adjust size as needed
             height: 200,
             fit: BoxFit.cover,
@@ -63,17 +65,17 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
             fontWeight: FontWeight.bold,
           ),
         ),
-        const Row(
+        Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(
+            const Icon(
               Icons.access_time,
               color: SPColors.activeBlack,
               size: 18,
             ),
             Flexible(
               child: CustomText(
-                text: ' 45 minutos',
+                text: '${currentResturant?.avgTimePerTable} minutos',
                 color: SPColors.darkGray,
                 fontSize: 20,
                 overflow: TextOverflow.ellipsis,
@@ -113,8 +115,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
               await ref
                   .read(restaurantControllerProvider.notifier)
                   .addToQueue(
-                    'g8-hci-1', //TODO: Add restaurant slug here
-                    futureUser!,
+                    currentResturant!.slug,
                     'description', //TODO: Add description here
                     int.parse(dropdownValue),
                   )
