@@ -24,26 +24,18 @@ class UserRepositoryImpl extends Repository<SmartPagerUser> {
     await collection.doc(uid).update(updateUser);
   }
 
-  Future<void> setUserCurrentRestaurantQueue(
+  Future<void> enqueueRestaurant(
       String uid, String restaurantSlug, String description, int commensalsAmount) async {
     final Map<String, dynamic> update = {};
     update["currentRestaurantSlug"] = restaurantSlug;
     update["description"] = description;
     update["commensalsAmount"] = commensalsAmount;
+    update["isInQueue"] = true;
+    print("update: $update");
 
-    print("que tul");
-
-    setUserQueue(uid, true);
     await collection.doc(uid).update(update);
   }
 
-  Future<void> setUserQueue(String uid, bool isInQueue) async {
-    final Map<String, dynamic> update = {
-      "isInQueue": isInQueue,
-    };
-    await collection.doc(uid).update(update);
-
-  }
   
 
   // @throws NotFoundException

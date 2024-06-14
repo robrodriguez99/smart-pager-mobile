@@ -9,6 +9,7 @@ class SmartPagerUser extends GenericModel<SmartPagerUser> {
   String? currentRestaurantSlug;
   int? commensalsAmount;
   String? description;
+  bool? isInQueue;
 
   SmartPagerUser({
     required super.id,
@@ -38,6 +39,10 @@ class SmartPagerUser extends GenericModel<SmartPagerUser> {
       'email': email,
       'name': name,
       'phoneNumber': phoneNumber,
+      'currentRestaurantSlug': currentRestaurantSlug,
+      'commensalsAmount': commensalsAmount,
+      'description': description,
+      'isInQueue': isInQueue,
     };
   }
 

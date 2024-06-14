@@ -55,9 +55,8 @@ class RestaurantController extends _$RestaurantController {
       SmartPagerRestaurant? restaurant = ref.watch(currentRestaurantProvider);
       restaurant ??= await getRestaurant(restaurantSlug);
       final futureUser = ref.watch(loggedUserProvider);
-      ref.watch(loggedUserProvider.notifier).enqueueRestaurant(restaurant.slug, description, commensalsAmount);
-      // await ref.read(userRepositoryProvider).setUserCurrentRestaurantQueue(futureUser!.id, restaurant.slug, description, commensalsAmount);
-      print("despues de llamar a setUserCurrentRestaurantQueue");
+      // await ref.read(userRepositoryProvider).enqueueRestaurant(futureUser!.id, restaurant.slug, description, commensalsAmount);
+      // ref.watch(loggedUserProvider.notifier).enqueueRestaurant(restaurant.slug, description, commensalsAmount);
       await api.addToQueue(restaurantSlug, futureUser!, description, commensalsAmount);
       // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
     } catch (e) {

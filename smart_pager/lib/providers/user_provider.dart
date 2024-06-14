@@ -24,10 +24,11 @@ class LoggedUser extends _$LoggedUser {
   void set(SmartPagerUser user) => state = user;
 
   void enqueueRestaurant(String restaurantSlug, String description, int commensalsAmount) {
-    state!.currentRestaurantSlug = restaurantSlug;
+    state!.currentRestaurantSlug = 'restaurantSlug';
     state!.description = description;
     state!.commensalsAmount = commensalsAmount;
     state = state!.copy();
+    print("state: ${state!.toJson()}");
   }
 
   void updateUser(Map<String, dynamic> newFields) {

@@ -5,6 +5,7 @@ import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantScreen extends ConsumerStatefulWidget{
   final bool closed = false; //TODO:
@@ -18,7 +19,6 @@ class RestaurantScreen extends ConsumerStatefulWidget{
 
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   bool showOpeningTimes = false; // State to toggle opening times
-
   @override
   Widget build(BuildContext context) {
     // Get the restaurant data from the controller and set the current restaurant
@@ -39,6 +39,11 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       }
 
       final restaurant = snapshot.data!;
+      String restaurantAddress = 'Ubicación no disponible';
+
+      if (restaurant.location != 'no_location') {
+        restaurantAddress = restaurant.location['address'];
+      }
 
         return Scaffold(
       appBar: AppBar(
@@ -72,19 +77,33 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                 ),
               ),
               const SizedBox(height: 30),
-              const Row(
+              Row(
                 children: [
-                  Icon(
-                    Icons.location_on,
-                    color: SPColors.activeBlack,
-                    size: 16,
+                
+                    GestureDetector(
+                    onTap: () {
+                      if (restaurant.location != null) {
+                        _launchMapsUrl(restaurant.location['latitude'], restaurant.location['longitude']);
+                      }
+                    },
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on,
+                          color: SPColors.activeBlack,
+                          size: 16,
+                        ),
+                        const SizedBox(width: 4),
+                        CustomText(
+                          text: extractAddress(restaurantAddress), // Ubicación del restaurante
+                          fontSize: 20,
+                          color: SPColors.activeBlack,
+                        ),
+
+                      ],
+                    ),
                   ),
-                  SizedBox(width: 4),
-                  CustomText(
-                    text: 'Barcelona, España', //TODO: location
-                    fontSize: 20,
-                    color: SPColors.activeBlack,
-                  ),
+
                 ],
               ),
               const SizedBox(height: 8),
@@ -243,4 +262,22 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
       children: openingTimeWidgets,
     );
   }
+
+  void _launchMapsUrl(double latitude, double longitude) async {
+    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    if (await canLaunchUrl(Uri.parse(googleUrl))) {
+      await launchUrl(Uri.parse(googleUrl));
+    } else {
+      throw 'Could not launch $googleUrl';
+    }
+  }
+
+  String extractAddress(String fullAddress) {
+  
+  List<String> parts = fullAddress.split(',');
+  return parts[0].trim();
+}
+
+
+
 }
