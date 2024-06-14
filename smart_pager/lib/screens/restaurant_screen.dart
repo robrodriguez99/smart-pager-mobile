@@ -32,10 +32,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
         return const Center(child: CircularProgressIndicator());
       } else if (snapshot.hasError) {
         // Manejar errores si los hay
-        return Center(child: Text('Error al cargar los datos del restaurante'));
+        return const Center(child: Text('Error al cargar los datos del restaurante'));
       } else if (!snapshot.hasData) {
         // Si no hay datos, puedes mostrar un mensaje apropiado
-        return Center(child: Text('No se encontraron datos del restaurante'));
+        return const Center(child: Text('No se encontraron datos del restaurante'));
       }
 
       final restaurant = snapshot.data!;
@@ -215,14 +215,19 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
               ],
               const SizedBox(height: 16),
               // Buttons
+              restaurant.menu != 'no_menu' ?
               GradientButton(
                 icon: Icons.restaurant_menu,
                 text: 'Ver menú',
                 gradientColors: const [SPColors.primary, SPColors.primary],
                 onPressed: () {
-                  GoRouter.of(context).push('/menu'); //TODO: menu
+                  GoRouter.of(context).pushNamed( //TODO: CHECKEAR ESTO EN EL CELULAR PQ EN EL EMULADOR NO FUNCIONA
+                    'menu',
+                    pathParameters: {'menu': restaurant.menu},
+                  );     
                 },
-              ),
+              ):
+              const SizedBox.shrink(),
             ],
           ),
         ),

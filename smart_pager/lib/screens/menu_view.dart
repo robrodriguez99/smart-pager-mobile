@@ -5,8 +5,9 @@ import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 
 class MenuView extends StatefulWidget {
-  const MenuView({Key? key}) : super(key: key);
+  final String menu;
 
+  const MenuView({Key? key, required this.menu}) : super(key: key);
   @override
   State<MenuView> createState() => _MenuState();
 }
@@ -18,7 +19,7 @@ class _MenuState extends State<MenuView> {
   void _loadFile() async {
     // Load the pdf file from the internet
     _pdf = await PDFDocument.fromURL(
-        'https://www.kindacode.com/wp-content/uploads/2021/07/test.pdf'); //TODO: CHECKEAR CON EMULADOR
+        widget.menu);
 
     setState(() {
       _isLoading = false;

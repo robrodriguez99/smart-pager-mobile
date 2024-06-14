@@ -51,10 +51,11 @@ mixin RouterMixin on State<MyApp> {
         },
       ),
       GoRoute(
-        path: '/menu',
+        path: '/menu/:menu',
         name: 'menu',
         builder: (BuildContext context, GoRouterState state) {
-          return const MenuView();
+          final String menu = state.pathParameters['menu']!;
+          return MenuView(menu:menu);
         },
       ),
       GoRoute(
