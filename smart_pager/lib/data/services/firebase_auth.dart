@@ -3,7 +3,6 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/user_repository_impl.dart';
 
-
 class MyFirebaseAuth {
   static final _firebaseAuth = FirebaseAuth.instance;
 
@@ -41,20 +40,15 @@ class MyFirebaseAuth {
             .createUser(SmartPagerUser.fromJson(userJson));
       }
 
-      
-      final user = await UserRepositoryImpl()
-          .getUsersById(userCredential.user!.uid); 
-        
+      final user =
+          await UserRepositoryImpl().getUsersById(userCredential.user!.uid);
 
       return user;
-      
     } on Error catch (e) {
       print("signInWithGoogle $e");
       rethrow;
     }
   }
-
-
 
   Future<void> logout() {
     return _firebaseAuth.signOut();
@@ -71,8 +65,6 @@ class MyFirebaseAuth {
         email: email,
         password: password,
       );
-
-      
 
       final userJson = {
         'id': userCredential.user!.uid,
