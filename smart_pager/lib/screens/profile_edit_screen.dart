@@ -8,8 +8,7 @@ import 'package:smart_pager/providers/controllers/edit_profile_controller.dart';
 import 'package:smart_pager/providers/edit_profile_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
-  final GlobalKey<FormState> EditProfileFormKey = GlobalKey<FormState>();
-
+final GlobalKey<FormState> EditProfileFormKey = GlobalKey<FormState>();
 
 class ProfileEditScreen extends ConsumerStatefulWidget {
   const ProfileEditScreen({super.key});
@@ -29,7 +28,6 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
   TextEditingController dobController =
       TextEditingController(); // Controller for date of birth
 
-
   @override
   void initState() {
     super.initState();
@@ -48,7 +46,6 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -83,14 +80,17 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
                   border: OutlineInputBorder(),
                   hintStyle: TextStyle(fontSize: 18),
                 ),
+                maxLength: 50,
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return 'Ingresa tu nombre';
                   }
+                  if (value.length > 50) {
+                    return 'El nombre debe tener máximo 50 caracteres';
+                  }
                   return null;
                 },
               ),
-              
               const SizedBox(height: 20),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -125,7 +125,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
                             return 'Ingresa tu número de teléfono';
                           }
                           if (value.length != 12) {
-                            return 'El número debe tener 12 digitos';
+                            return 'El número debe tener 10 digitos';
                           }
                           return null;
                         },
@@ -188,20 +188,23 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
   }
 
   _onPressed(BuildContext context, WidgetRef ref) {
-    final uid = ref.read(loggedUserProvider)!.id;
-    final namePath = nameController.text;
+    if (EditProfileFormKey.currentState!.validate()) {
+      final uid = ref.read(loggedUserProvider)!.id;
+      final namePath = nameController.text;
 
-    print("uid: $uid");
-    print("name: $namePath");
-    print("phoneNumber: $phoneNumber");
-    
-    ref.read(editProfileValidatorProvider.notifier).loading();
+      print("uid: $uid");
+      print("name: $namePath");
+      print("phoneNumber: $phoneNumber");
 
-    ref.read(editProfileControllerProvider.notifier).editProfile(
-        uid, namePath, phoneNumber);
+      ref.read(editProfileValidatorProvider.notifier).loading();
 
-    if (context.mounted) {
-      GoRouter.of(context).pop(true);
+      ref
+          .read(editProfileControllerProvider.notifier)
+          .editProfile(uid, namePath, phoneNumber);
+
+      if (context.mounted) {
+        GoRouter.of(context).pop(true);
+      }
     }
   }
 }

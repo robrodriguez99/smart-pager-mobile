@@ -39,8 +39,9 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
         ),
         title: CustomText(
           text: currentResturant?.name, //restaurant name
-          fontSize: 35,
+          fontSize: 25,
           fontWeight: FontWeight.bold,
+          overflow: TextOverflow.visible,
         ),
       ),
       body:
@@ -73,6 +74,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
               color: SPColors.activeBlack,
               size: 18,
             ),
+            const SizedBox(width: 10),
             Flexible(
               child: CustomText(
                 text: '${currentResturant?.avgTimePerTable} minutos',

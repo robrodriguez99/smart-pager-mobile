@@ -78,6 +78,7 @@ class RestaurantCard extends StatelessWidget {
                           text: restaurant.name,
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
+                          overflow: TextOverflow.visible,
                         ),
                         const SizedBox(height: 8),
                         Row(

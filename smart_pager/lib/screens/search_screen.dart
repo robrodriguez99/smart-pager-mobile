@@ -12,8 +12,8 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
-  String _selectedCategory = 'All';
-  String _selectedDistance = 'Any';
+  String _selectedCategory = 'Todas';
+  String _selectedDistance = 'Todas';
   final TextEditingController _searchController = TextEditingController();
 
   @override
@@ -54,7 +54,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   _selectedCategory = newValue!;
                 });
               },
-              items: <String>['All', 'Category 1', 'Category 2', 'Category 3']
+              items: <String>['Todas', 'Category 1', 'Category 2', 'Category 3']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
@@ -74,7 +74,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   _selectedDistance = newValue!;
                 });
               },
-              items: <String>['Any', '1 km', '2 km', '3 km', '5 km']
+              items: <String>['Todas', '1 km', '2 km', '3 km', '5 km']
                   .map<DropdownMenuItem<String>>((String value) {
                 return DropdownMenuItem<String>(
                   value: value,
