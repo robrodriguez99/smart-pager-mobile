@@ -55,7 +55,7 @@ mixin RouterMixin on State<MyApp> {
         name: 'menu',
         builder: (BuildContext context, GoRouterState state) {
           final String menu = state.pathParameters['menu']!;
-          return MenuView(menu:menu);
+          return MenuView(menu: menu);
         },
       ),
       GoRoute(
@@ -73,12 +73,17 @@ mixin RouterMixin on State<MyApp> {
         },
       ),
       GoRoute(
-        path: '/search/results',
-        name: 'search-results',
-        builder: (BuildContext context, GoRouterState state) {
-          return const SearchResultsScreen();
-        },
-      ),
+          path: '/search/results',
+          name: 'search-results',
+          builder: (BuildContext context, GoRouterState state) {
+            final parameters = state.uri.queryParameters;
+            final category = parameters['category'] ?? 'Todas';
+            final searchText = parameters['searchText'] ?? '';
+            return SearchResultsScreen(
+              category: category,
+              searchText: searchText,
+            );
+          }),
       GoRoute(
         path: '/queue/current',
         name: 'current-queue',

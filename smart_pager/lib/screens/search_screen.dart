@@ -145,7 +145,16 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                     text: 'Buscar',
                     gradientColors: const [SPColors.primary, SPColors.primary],
                     onPressed: () {
-                      GoRouter.of(context).push('/search/results');
+                      final params = {
+                        'category': _selectedCategory,
+                        'distance': _selectedDistance,
+                        'searchText': _searchController.text,
+                      };
+
+                      final uri =
+                          Uri(path: '/search/results', queryParameters: params);
+
+                      GoRouter.of(context).push(uri.toString());
                     },
                   ),
                 ],

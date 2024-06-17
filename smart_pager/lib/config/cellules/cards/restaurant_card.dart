@@ -106,7 +106,7 @@ class RestaurantCard extends StatelessWidget {
                             ),
                             const SizedBox(width: 4),
                             CustomText(
-                              text: "${restaurant.avgTimePerTable} de espera",
+                              text: "${restaurant.avgTimePerTable}' de espera",
                               fontSize: 16,
                               color: SPColors.activeBlack,
                             ),

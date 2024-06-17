@@ -90,7 +90,9 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       children: [
                         GestureDetector(
                           onTap: () {
-                            if (restaurant.location != null) {
+                            if (restaurant.location != null &&
+                                restaurantAddress !=
+                                    'Ubicación no disponible') {
                               _launchMapsUrl(restaurant.location['latitude'],
                                   restaurant.location['longitude']);
                             }
@@ -108,7 +110,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                                     restaurantAddress), // Ubicación del restaurante
                                 fontSize: 20,
                                 color: SPColors.activeBlack,
-                                textDecoration: TextDecoration.underline,
+                                textDecoration: restaurantAddress !=
+                                        'Ubicación no disponible'
+                                    ? TextDecoration.underline
+                                    : TextDecoration.none,
                               ),
                             ],
                           ),

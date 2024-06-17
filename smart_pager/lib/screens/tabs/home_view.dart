@@ -7,51 +7,95 @@ import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
-class HomeView extends ConsumerWidget {
+class HomeView extends ConsumerStatefulWidget {
   const HomeView({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final futureUser = ref.watch(loggedUserProvider);
-    final futureRestaurantsList = ref.watch(restaurantControllerProvider);
-    return futureRestaurantsList.when(
-        data: (restaurantsList) {
-          return SingleChildScrollView(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Container(
-                    decoration: BoxDecoration(
-                      color: SPColors.lightGray,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: TextFormField(
-                      readOnly: true,
-                      decoration: const InputDecoration(
-                        hintText: 'Buscar restaurantes',
-                        prefixIcon: Icon(Icons.search),
-                        border: InputBorder.none,
-                        contentPadding:
-                            EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      ),
-                      onTap: () {
-                        GoRouter.of(context).push('/search');
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  const CustomText(
-                    text: 'Restaurantes Destacados',
-                    color: SPColors.heading,
-                    fontSize: 25,
-                    fontWeight: FontWeight.bold,
-                  ),
-                  restaurantsList.isEmpty
-                      ? const Center(
-                          child: Text('No se encontraron restaurantes'))
-                      : ListView.builder(
+  _HomeViewState createState() => _HomeViewState();
+}
+
+class _HomeViewState extends ConsumerState<HomeView> {
+  final ScrollController _scrollController = ScrollController();
+  int _page = 0;
+  late RestaurantController restaurantController;
+  bool _isLoadingMore = false;
+
+  @override
+  void initState() {
+    super.initState();
+    restaurantController = ref.read(restaurantControllerProvider.notifier);
+    _scrollController.addListener(_onScroll);
+    // Initial fetch
+    restaurantController.loadRestaurants(page: _page);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent &&
+        !_isLoadingMore) {
+      setState(() {
+        _isLoadingMore = true;
+      });
+      _page++;
+      restaurantController.loadRestaurants(page: _page).then((_) {
+        setState(() {
+          _isLoadingMore = false;
+        });
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    ref.watch(loggedUserProvider);
+
+    return SingleChildScrollView(
+      controller: _scrollController,
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Container(
+              decoration: BoxDecoration(
+                color: SPColors.lightGray,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: TextFormField(
+                readOnly: true,
+                decoration: const InputDecoration(
+                  hintText: 'Buscar restaurantes',
+                  prefixIcon: Icon(Icons.search),
+                  border: InputBorder.none,
+                  contentPadding:
+                      EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+                onTap: () {
+                  GoRouter.of(context).push('/search');
+                },
+              ),
+            ),
+            const SizedBox(height: 20),
+            const CustomText(
+              text: 'Restaurantes Destacados',
+              color: SPColors.heading,
+              fontSize: 25,
+              fontWeight: FontWeight.bold,
+            ),
+            Consumer(
+              builder: (context, ref, child) {
+                final restaurantsListState =
+                    ref.watch(restaurantControllerProvider);
+
+                return restaurantsListState.when(
+                  data: (restaurantsList) {
+                    if (restaurantsList.isEmpty) {
+                      return const Center(
+                          child: Text('No se encontraron restaurantes'));
+                    }
+                    return Column(
+                      children: [
+                        ListView.builder(
                           padding: const EdgeInsets.only(top: 16.0),
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
@@ -62,25 +106,51 @@ class HomeView extends ConsumerWidget {
                             );
                           },
                         ),
-                  //insert debug button that on pressed calls getHello
-                  // ElevatedButton(
-                  //   onPressed: () {
-                  //     ref.read(restaurantControllerProvider.notifier).getRestaurants();
-                  //   },
-                  //   child: const Text('Debug Button'),
-                  // ),
-                ],
-              ),
+                        if (_isLoadingMore)
+                          const Padding(
+                            padding: EdgeInsets.symmetric(vertical: 16.0),
+                            child: CircularProgressIndicator(),
+                          ),
+                      ],
+                    );
+                  },
+                  error: (error, stackTrace) {
+                    print("Error: $error");
+                    print(stackTrace);
+                    return const Center(
+                        child: Text('Error loading restaurants'));
+                  },
+                  loading: () {
+                    if (restaurantsListState.value?.isEmpty == true) {
+                      return const Center(child: CircularProgressIndicator());
+                    }
+                    return Column(
+                      children: [
+                        ListView.builder(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: restaurantsListState.value!.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index < restaurantsListState.value!.length) {
+                              return RestaurantCard(
+                                restaurant: restaurantsListState.value![index],
+                              );
+                            } else {
+                              return const Center(
+                                  child: CircularProgressIndicator());
+                            }
+                          },
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
             ),
-          );
-        },
-        //if error i want to print the error
-        error: (Object error, StackTrace stackTrace) {
-          print("error");
-          print(error);
-          print(stackTrace);
-          return const Center(child: Text('Error loading restaurants'));
-        },
-        loading: () => const Center(child: CircularProgressIndicator()));
+          ],
+        ),
+      ),
+    );
   }
 }

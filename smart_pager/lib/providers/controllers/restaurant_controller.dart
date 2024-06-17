@@ -1,9 +1,6 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_pager/data/models/form_states.dart';
 import 'package:smart_pager/data/models/restaurant_model.dart';
-import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/providers/api_provider.dart';
-import 'package:smart_pager/providers/repository_provider.dart';
 import 'package:smart_pager/providers/restaurant_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
@@ -20,26 +17,23 @@ class RestaurantController extends _$RestaurantController {
   @override
   get state => super.state;
 
-  // Future<void> getRestaurants() async {
-  //   state = FormStates.loading.name;
-  //   try {
-  //     // final api = ref.read(apiServiceProvider);
-  //     // List<Restaurant> restaurants = await api.getRestaurants();
-  //     state = FormStates.success.name;
-  //     // ref.read(restaurantsProvider.notifier).set(restaurants);
-  //   } catch (e) {
-  //     state = FormStates.error.name;
-  //   }
-  // }
-
-  Future<void> getHello() async {
-    // state = FormStates.loading.name as AsyncValue<List<SmartPagerRestaurant>>;
+  Future<void> loadRestaurants({int page = 0, int pageSize = 10}) async {
     try {
       final api = ref.read(apiServiceProvider);
-      await api.getHello();
-      // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
-    } catch (e) {
-      // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
+      final newRestaurants =
+          await api.getRestaurants(page: page, pageSize: pageSize);
+
+      // Filter out duplicates based on restaurant slug
+      final updatedRestaurants =
+          List<SmartPagerRestaurant>.from(state.value ?? [])
+            ..addAll(newRestaurants.where((newRestaurant) => !state.value!.any(
+                (existingRestaurant) =>
+                    existingRestaurant.slug == newRestaurant.slug)));
+
+      state = AsyncValue.data(updatedRestaurants);
+    } catch (e, s) {
+      print(e);
+      print(s);
     }
   }
 
@@ -48,34 +42,29 @@ class RestaurantController extends _$RestaurantController {
     String description,
     int commensalsAmount,
   ) async {
-    // state = FormStates.loading.name as AsyncValue<List<SmartPagerRestaurant>>;
     try {
       final api = ref.read(apiServiceProvider);
       SmartPagerRestaurant? restaurant = ref.watch(currentRestaurantProvider);
       restaurant ??= await getRestaurant(restaurantSlug);
       final futureUser = ref.watch(loggedUserProvider);
-      // await ref.read(userRepositoryProvider).enqueueRestaurant(futureUser!.id, restaurant.slug, description, commensalsAmount);
-      // ref.watch(loggedUserProvider.notifier).enqueueRestaurant(restaurant.slug, description, commensalsAmount);
       await api.addToQueue(
           restaurantSlug, futureUser!, description, commensalsAmount);
-      // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
     } catch (e) {
-      // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
+      // handle error
     }
   }
 
   Future<List<SmartPagerRestaurant>> getRestaurants(
-      {String? search, int page = 0, int pageSize = 10}) async {
-    // state = FormStates.loading.name as AsyncValue<List<SmartPagerRestaurant>>;
+      {String? search,
+      String? category,
+      int page = 0,
+      int pageSize = 10}) async {
     try {
       final api = ref.read(apiServiceProvider);
       List<SmartPagerRestaurant> restaurants = await api.getRestaurants(
-          search: search, page: page, pageSize: pageSize);
-      print("restaurants: $restaurants");
-      // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
+          search: search, category: category, page: page, pageSize: pageSize);
       return restaurants;
     } catch (e, s) {
-      // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
       print(e);
       print(s);
       return [];
@@ -83,15 +72,12 @@ class RestaurantController extends _$RestaurantController {
   }
 
   Future<SmartPagerRestaurant> getRestaurant(String slug) async {
-    // state = FormStates.loading.name as AsyncValue<List<SmartPagerRestaurant>>;
     try {
       final api = ref.read(apiServiceProvider);
       SmartPagerRestaurant restaurant = await api.getRestaurant(slug);
       ref.read(currentRestaurantProvider.notifier).set(restaurant);
-      // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
       return restaurant;
     } catch (e) {
-      // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
       return SmartPagerRestaurant(
         id: "Error",
         type: "Error",
@@ -108,11 +94,8 @@ class RestaurantController extends _$RestaurantController {
     try {
       final api = ref.read(apiServiceProvider);
       List<String> categories = await api.getRestaurantCategories();
-      print("categories: $categories");
-      // state = FormStates.success.name as AsyncValue<List<SmartPagerRestaurant>>;
       return categories;
     } catch (e, s) {
-      // state = FormStates.error.name as AsyncValue<List<SmartPagerRestaurant>>;
       print(e);
       print(s);
       return [];
