@@ -7,7 +7,7 @@ part of 'restaurant_controller.dart';
 // **************************************************************************
 
 String _$restaurantControllerHash() =>
-    r'0be0b1ef54c7ce0a07c24567eb6afaf352b04a93';
+    r'e5bdc45129cb882e4f77cbeca98f97b71e2c2cc6';
 
 /// See also [RestaurantController].
 @ProviderFor(RestaurantController)
