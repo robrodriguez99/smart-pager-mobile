@@ -21,7 +21,6 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
   @override
   Widget build(BuildContext context) {
     final futureUser = ref.watch(loggedUserProvider);
-    print('el future user es: ${futureUser!.toJson()}');
     if (futureUser!.currentRestaurantSlug!=null) {
       isInQueue = true;
     }
