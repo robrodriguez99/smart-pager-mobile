@@ -17,23 +17,38 @@ class RestaurantController extends _$RestaurantController {
   @override
   get state => super.state;
 
-  Future<void> loadRestaurants({int page = 0, int pageSize = 10}) async {
+  Future<void> loadRestaurants(
+      {int page = 0,
+      int pageSize = 10,
+      String category = "",
+      String searchText = "",
+      bool isScroll = false}) async {
     try {
+      // Assuming `ref` is available as a member in your stateful widget
       final api = ref.read(apiServiceProvider);
-      final newRestaurants =
-          await api.getRestaurants(page: page, pageSize: pageSize);
+      final newRestaurants = await api.getRestaurants(
+          page: page,
+          pageSize: pageSize,
+          search: searchText,
+          category: category);
 
-      // Filter out duplicates based on restaurant slug
-      final updatedRestaurants =
-          List<SmartPagerRestaurant>.from(state.value ?? [])
-            ..addAll(newRestaurants.where((newRestaurant) => !state.value!.any(
-                (existingRestaurant) =>
-                    existingRestaurant.slug == newRestaurant.slug)));
+      List<SmartPagerRestaurant> updatedRestaurants;
+
+      if (isScroll) {
+        // Append new data to existing list when scrolling
+        updatedRestaurants = List<SmartPagerRestaurant>.from(state.value ?? [])
+          ..addAll(newRestaurants);
+      } else {
+        // Replace state with new data when not scrolling
+        updatedRestaurants = newRestaurants;
+      }
 
       state = AsyncValue.data(updatedRestaurants);
     } catch (e, s) {
       print(e);
       print(s);
+      // Handle error state if necessary
+      state = AsyncValue.error(e, s);
     }
   }
 
@@ -63,6 +78,7 @@ class RestaurantController extends _$RestaurantController {
       final api = ref.read(apiServiceProvider);
       List<SmartPagerRestaurant> restaurants = await api.getRestaurants(
           search: search, category: category, page: page, pageSize: pageSize);
+
       return restaurants;
     } catch (e, s) {
       print(e);

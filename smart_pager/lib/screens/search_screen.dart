@@ -44,7 +44,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
-                onPressed: () => GoRouter.of(context).pop(),
+                onPressed: () => GoRouter.of(context).go('/home'),
                 icon: const Icon(
                   Icons.arrow_back,
                   color: SPColors.activeBlack,

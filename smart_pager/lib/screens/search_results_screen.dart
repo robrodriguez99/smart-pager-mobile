@@ -26,6 +26,8 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
   late RestaurantController _restaurantController;
   int _page = 0;
   bool _isLoadingMore = false;
+  String _category = '';
+  String _searchText = '';
 
   @override
   void initState() {
@@ -33,15 +35,16 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     _scrollController = ScrollController();
     _restaurantController = ref.read(restaurantControllerProvider.notifier);
     _scrollController.addListener(_onScroll);
-    // Initial fetch
     _fetchRestaurants();
   }
 
   void _fetchRestaurants() {
-    _restaurantController.getRestaurants(
-      category: widget.category,
-      search: widget.searchText,
+    _category = widget.category;
+    _searchText = widget.searchText;
+    _restaurantController.loadRestaurants(
       page: _page,
+      category: _category,
+      searchText: _searchText,
     );
   }
 
@@ -54,10 +57,11 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
       });
       _page++;
       _restaurantController
-          .getRestaurants(
-        category: widget.category,
-        search: widget.searchText,
+          .loadRestaurants(
         page: _page,
+        category: _category,
+        searchText: _searchText,
+        isScroll: true,
       )
           .then((_) {
         setState(() {
@@ -77,7 +81,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
             size: 30,
           ),
           onPressed: () {
-            GoRouter.of(context).pop();
+            GoRouter.of(context).go('/search');
           },
         ),
         title: const CustomText(
@@ -129,28 +133,55 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                   return restaurantsListState.when(
                     data: (restaurantsList) {
                       if (restaurantsList.isEmpty) {
-                        return const Center(
-                            child: Text('No se encontraron restaurantes'));
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const SizedBox(height: 10),
+                              Text(
+                                'No encontramos resultados para su búsqueda.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors
+                                      .grey[600], // Adjust color as needed
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Text(
+                                'Podés probar con una nueva o descubrir nuestras mejores opciones.',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  color: Colors
+                                      .grey[500], // Adjust color as needed
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
                       }
-                      return ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount:
-                            restaurantsList.length + (_isLoadingMore ? 1 : 0),
-                        separatorBuilder: (context, index) =>
-                            const SizedBox(height: 10),
-                        itemBuilder: (context, index) {
-                          if (index < restaurantsList.length) {
-                            return RestaurantCard(
-                              restaurant: restaurantsList[index],
-                            );
-                          } else {
-                            return const Padding(
+
+                      return Column(
+                        children: [
+                          ListView.builder(
+                            padding: const EdgeInsets.only(top: 16.0),
+                            shrinkWrap: true,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: restaurantsList.length,
+                            itemBuilder: (context, index) {
+                              return RestaurantCard(
+                                restaurant: restaurantsList[index],
+                              );
+                            },
+                          ),
+                          if (_isLoadingMore)
+                            const Padding(
                               padding: EdgeInsets.symmetric(vertical: 16.0),
-                              child: Center(child: CircularProgressIndicator()),
-                            );
-                          }
-                        },
+                              child: CircularProgressIndicator(),
+                            ),
+                        ],
                       );
                     },
                     error: (error, stackTrace) {
@@ -159,8 +190,9 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                       return const Center(
                           child: Text('Error loading restaurants'));
                     },
-                    loading: () =>
-                        const Center(child: CircularProgressIndicator()),
+                    loading: () {
+                      return const Center(child: CircularProgressIndicator());
+                    },
                   );
                 },
               ),

@@ -73,14 +73,21 @@ class ApiService {
       int page = 0,
       int pageSize = 10}) async {
     search ??= "";
+
     final response = await httpClient.get(Uri.parse(
         "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize"));
+
     Map<String, dynamic> json =
         jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+
     List<SmartPagerRestaurant> restaurants = [];
+
     for (var restaurant in json['restaurants']) {
       restaurants.add(SmartPagerRestaurant.fromJson(restaurant));
     }
+
+    print(restaurants);
+
     return restaurants;
   }
 

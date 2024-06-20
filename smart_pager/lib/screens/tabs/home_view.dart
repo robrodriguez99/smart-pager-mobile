@@ -37,7 +37,9 @@ class _HomeViewState extends ConsumerState<HomeView> {
         _isLoadingMore = true;
       });
       _page++;
-      restaurantController.loadRestaurants(page: _page).then((_) {
+      restaurantController
+          .loadRestaurants(page: _page, isScroll: true)
+          .then((_) {
         setState(() {
           _isLoadingMore = false;
         });
@@ -121,7 +123,8 @@ class _HomeViewState extends ConsumerState<HomeView> {
                         child: Text('Error loading restaurants'));
                   },
                   loading: () {
-                    if (restaurantsListState.value?.isEmpty == true) {
+                    final restaurants = restaurantsListState.value;
+                    if (restaurants == null || restaurants.isEmpty) {
                       return const Center(child: CircularProgressIndicator());
                     }
                     return Column(
