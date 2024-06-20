@@ -67,15 +67,19 @@ class ApiService {
   ///
   /// page y pageSize son opcionales y defaultean a 0 y 10
   /// search es opcional tmb
-  Future<List<SmartPagerRestaurant>> getRestaurants(
-      {String? search,
-      String? category,
-      int page = 0,
-      int pageSize = 10}) async {
+  Future<List<SmartPagerRestaurant>> getRestaurants({
+    String? search,
+    String? category,
+    int page = 0,
+    int pageSize = 10,
+    String? distance,
+    String? latitude,
+    String? longitude,
+  }) async {
     search ??= "";
 
     final response = await httpClient.get(Uri.parse(
-        "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize"));
+        "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize&distance=$distance&latitude=$latitude&longitude=$longitude"));
 
     Map<String, dynamic> json =
         jsonDecode(Utf8Decoder().convert(response.bodyBytes));
