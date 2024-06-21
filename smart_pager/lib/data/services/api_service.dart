@@ -72,14 +72,22 @@ class ApiService {
     String? category,
     int page = 0,
     int pageSize = 10,
-    String? distance,
+    String distance = "Todas",
     String? latitude,
     String? longitude,
   }) async {
     search ??= "";
 
+    int distanceNumber = -1;
+
+    final regex = RegExp(r'\d+');
+    final match = regex.firstMatch(distance);
+    if (match != null) {
+      distanceNumber = int.parse(match.group(0)!);
+    }
+
     final response = await httpClient.get(Uri.parse(
-        "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize&distance=$distance&latitude=$latitude&longitude=$longitude"));
+        "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize&distance=$distanceNumber&latitude=$latitude&longitude=$longitude"));
 
     Map<String, dynamic> json =
         jsonDecode(Utf8Decoder().convert(response.bodyBytes));

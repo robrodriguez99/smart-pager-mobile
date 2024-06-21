@@ -79,9 +79,15 @@ mixin RouterMixin on State<MyApp> {
             final parameters = state.uri.queryParameters;
             final category = parameters['category'] ?? 'Todas';
             final searchText = parameters['searchText'] ?? '';
+            final distance = parameters['distance'] ?? 'Todas';
+            final latitude = parameters['latitude'] ?? '';
+            final longitude = parameters['longitude'] ?? '';
             return SearchResultsScreen(
               category: category,
               searchText: searchText,
+              distance: distance,
+              latitude: latitude,
+              longitude: longitude,
             );
           }),
       GoRoute(
