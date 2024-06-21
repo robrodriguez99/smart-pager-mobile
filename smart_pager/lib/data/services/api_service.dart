@@ -72,18 +72,19 @@ class ApiService {
     String? category,
     int page = 0,
     int pageSize = 10,
-    String distance = "Todas",
+    String? distance,
     String? latitude,
     String? longitude,
   }) async {
     search ??= "";
 
     int distanceNumber = -1;
-
-    final regex = RegExp(r'\d+');
-    final match = regex.firstMatch(distance);
-    if (match != null) {
-      distanceNumber = int.parse(match.group(0)!);
+    if (distance != null) {
+      final regex = RegExp(r'\d+');
+      final match = regex.firstMatch(distance);
+      if (match != null) {
+        distanceNumber = int.parse(match.group(0)!) * 1000;
+      }
     }
 
     final response = await httpClient.get(Uri.parse(

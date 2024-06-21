@@ -169,6 +169,9 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   value: _selectedDistance,
                   onChanged: (newValue) async {
                     await _getCurrentPosition(context);
+                    setState(() {
+                      _selectedDistance = newValue!;
+                    });
                   },
                   items: <String>['Todas', '1 km', '2 km', '3 km', '5 km']
                       .map<DropdownMenuItem<String>>((String value) {
@@ -192,8 +195,8 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                       'category': _selectedCategory,
                       'distance': _selectedDistance,
                       'searchText': _searchController.text,
-                      'latitue': _currentPosition?.latitude,
-                      'longitude': _currentPosition?.longitude,
+                      'latitude': _currentPosition?.latitude.toString(),
+                      'longitude': _currentPosition?.longitude.toString(),
                     };
 
                     final uri = Uri(
