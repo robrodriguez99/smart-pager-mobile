@@ -64,7 +64,7 @@ class BottomNav extends StatelessWidget {
                             selectedIndex, onItemTapped),
                       ),
                       const Expanded(
-                        flex: 1,
+                        flex: 2,
                         child:
                             SizedBox(), // Empty SizedBox with flex to create spacing
                       ),
@@ -127,9 +127,26 @@ class BottomNav extends StatelessWidget {
   }
 
   // Callback for when QR code is detected
+  // QR data example: https://smartpager.com.ar/restaurants/:slug
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
     controller.scannedDataStream.listen((scanData) {
-      GoRouter.of(context).push('/restaurant');
+      final qrContent = scanData.code;
+      if (qrContent!=null && qrContent.contains('smartpager.com.ar/restaurants/')) {
+
+        final slug = qrContent.replaceFirst('https://smartpager.com.ar/restaurants/', '');
+
+        //stop scanning
+        controller.stopCamera();
+        controller.dispose();
+        
+        // Navigate to restaurant page with slug
+        GoRouter.of(context).push('/restaurant/$slug');
+      } else {
+       
+
+
+        print('El código QR no pertenece al dominio smartpager.');
+      }
     });
   }
 }
