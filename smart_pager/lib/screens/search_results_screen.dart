@@ -10,12 +10,18 @@ import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 class SearchResultsScreen extends ConsumerStatefulWidget {
   final String category;
   final String searchText;
+  final String distance;
+  final String latitude;
+  final String longitude;
 
   const SearchResultsScreen({
-    Key? key,
+    super.key,
     required this.category,
     required this.searchText,
-  }) : super(key: key);
+    required this.distance,
+    required this.latitude,
+    required this.longitude,
+  });
 
   @override
   _SearchResultsScreenState createState() => _SearchResultsScreenState();
@@ -28,6 +34,9 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
   bool _isLoadingMore = false;
   String _category = '';
   String _searchText = '';
+  String _distance = '';
+  String _latitude = '';
+  String _longitude = '';
 
   @override
   void initState() {
@@ -41,10 +50,16 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
   void _fetchRestaurants() {
     _category = widget.category;
     _searchText = widget.searchText;
+    _distance = widget.distance;
+    _latitude = widget.latitude;
+    _longitude = widget.longitude;
     _restaurantController.loadRestaurants(
       page: _page,
       category: _category,
       searchText: _searchText,
+      distance: _distance,
+      latitude: _latitude,
+      longitude: _longitude,
     );
   }
 
@@ -62,6 +77,9 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
         category: _category,
         searchText: _searchText,
         isScroll: true,
+        distance: _distance,
+        latitude: _latitude,
+        longitude: _longitude,
       )
           .then((_) {
         setState(() {

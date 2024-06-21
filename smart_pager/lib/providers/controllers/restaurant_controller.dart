@@ -22,15 +22,22 @@ class RestaurantController extends _$RestaurantController {
       int pageSize = 10,
       String category = "",
       String searchText = "",
-      bool isScroll = false}) async {
+      bool isScroll = false,
+      String distance = "",
+      String latitude = "",
+      String longitude = ""}) async {
     try {
       // Assuming `ref` is available as a member in your stateful widget
       final api = ref.read(apiServiceProvider);
       final newRestaurants = await api.getRestaurants(
-          page: page,
-          pageSize: pageSize,
-          search: searchText,
-          category: category);
+        page: page,
+        pageSize: pageSize,
+        search: searchText,
+        category: category,
+        distance: distance,
+        latitude: latitude,
+        longitude: longitude,
+      );
 
       List<SmartPagerRestaurant> updatedRestaurants;
 
