@@ -1,10 +1,17 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:smart_pager/data/models/notification_model.dart';
+import 'package:smart_pager/data/models/user_model.dart';
+import 'package:smart_pager/data/repositories/notification_repository_impl.dart';
+import 'package:smart_pager/data/repositories/user_repository_impl.dart';
+import 'package:smart_pager/data/services/firebase_auth.dart';
+import 'package:smart_pager/providers/user_provider.dart';
 
-Future<void> handleBackgroundMessage(RemoteMessage message) async {
-  print('Handling a background message ${message.messageId}');
-  print(message.notification?.title);
-}
+  
+  Future<void> handleBackgroundMessage(RemoteMessage message) async {
+    print('Handling a background message ${message.messageId}');
+    print(message.notification?.title);
+  }
 
 class FirebaseMessagingApi {
   final _firebaseMessaging = FirebaseMessaging.instance;
@@ -39,24 +46,25 @@ class FirebaseMessagingApi {
     FirebaseMessaging.onMessage.listen((message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.notification?.title}');
-      if (message.notification != null) {
-        print('Message also contained a notification: ${message.notification}');
-      }
     });
   }
 
   
-  void handleMessage(RemoteMessage? message) {
+  void handleMessage(RemoteMessage? message) async {
     if (message == null) {
       print('No message');
       return;
     }
-    print('A new onMessage event was published');
-    print(message.category);
+
+    if (message.notification != null) {
+      final notification = SmartPagerNotification(
+        id: message.messageId ?? '',
+       title: message.notification!.title ?? '',
+        body: message.notification!.body ?? '',
+      );
+      final currentFirebaseUser = await MyFirebaseAuth().currentUser();
+      final SmartPagerUser smartPagerUser = await UserRepositoryImpl().getUserByEmail(currentFirebaseUser!.email);
+      await NotificationRepositoryImpl().insertNotification(smartPagerUser.id, notification);
+    }
   }
-
-
-
-
-
 }
