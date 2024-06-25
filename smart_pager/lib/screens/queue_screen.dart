@@ -118,7 +118,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
                   .read(restaurantControllerProvider.notifier)
                   .addToQueue(
                     currentResturant!.slug,
-                    'description', //TODO: Add description here
+                    '', //TODO: Add description here
                     int.parse(dropdownValue),
                   )
                   .then((value) => {

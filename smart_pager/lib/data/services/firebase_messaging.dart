@@ -1,11 +1,11 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/material.dart';
 import 'package:smart_pager/data/models/notification_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/notification_repository_impl.dart';
 import 'package:smart_pager/data/repositories/user_repository_impl.dart';
 import 'package:smart_pager/data/services/firebase_auth.dart';
-import 'package:smart_pager/providers/user_provider.dart';
 
   
   Future<void> handleBackgroundMessage(RemoteMessage message) async {
@@ -42,15 +42,20 @@ class FirebaseMessagingApi {
 
   }
 
-  void handleForegroundMessage() {
+  void handleForegroundMessage() async {
     FirebaseMessaging.onMessage.listen((message) {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.notification?.title}');
+      //TODO: show a dialog or snackbar to the user
+      
+      
+      handleMessage(message);
     });
   }
 
   
   void handleMessage(RemoteMessage? message) async {
+    print('Handling a message ${message?.messageId}');
     if (message == null) {
       print('No message');
       return;

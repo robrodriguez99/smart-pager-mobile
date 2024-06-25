@@ -68,4 +68,13 @@ class NotificationRepositoryImpl extends Repository<SmartPagerNotificationList> 
     }
   }
 
+  Future<void> markNotificationAsRead(String userId, String notificationId) async {
+    final notificationList = await getNotificationsByUserId(userId);
+    if (notificationList != null) {
+      final notification = notificationList.notifications.firstWhere((element) => element.id == notificationId);
+      notification.isRead = true;
+      await updateNotificationList(userId, notificationList);
+    }
+  }
+
 }

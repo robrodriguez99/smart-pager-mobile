@@ -29,6 +29,14 @@ class SmartPagerNotification extends GenericModel<SmartPagerNotification> {
       body: json['body'],
     );
   }
+
+  SmartPagerNotification copy() {
+    return SmartPagerNotification(
+      id: id,
+      title: title,
+      body: body,
+    );
+  }
 }
 
 class SmartPagerNotificationList extends GenericModel<SmartPagerNotificationList> {
@@ -48,5 +56,23 @@ class SmartPagerNotificationList extends GenericModel<SmartPagerNotificationList
       'userId': userId,
       'notifications': notifications.map((e) => e.toJson()).toList(),
     };
+  }
+
+  static SmartPagerNotificationList fromJson(Map<String, dynamic> json) {
+    return SmartPagerNotificationList(
+      id: json['id'],
+      userId: json['userId'],
+      notifications: json['notifications']
+          .map<SmartPagerNotification>((e) => SmartPagerNotification.fromJson(e))
+          .toList(),
+    );
+  }
+
+  SmartPagerNotificationList copy() {
+    return SmartPagerNotificationList(
+      id: id,
+      userId: userId,
+      notifications: notifications.map((e) => e.copy()).toList(),
+    );
   }
 }
