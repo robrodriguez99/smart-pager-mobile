@@ -64,7 +64,7 @@ class FirebaseMessagingApi {
     if (message.notification != null) {
       final notification = SmartPagerNotification(
         id: message.messageId ?? '',
-       title: message.notification!.title ?? '',
+        title: message.notification!.title ?? '',
         body: message.notification!.body ?? '',
       );
       final currentFirebaseUser = await MyFirebaseAuth().currentUser();

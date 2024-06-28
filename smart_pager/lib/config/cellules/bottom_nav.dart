@@ -102,7 +102,7 @@ class BottomNav extends StatelessWidget {
           Text(
             text,
             style: TextStyle(
-              fontSize: 11,
+              fontSize: 10,
               color:
                   selectedIndex == index ? SPColors.primary : SPColors.darkGray,
             ),

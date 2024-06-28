@@ -47,32 +47,49 @@ class NotificationRepositoryImpl extends Repository<SmartPagerNotificationList> 
     );
   }
 
+
+  Future<SmartPagerNotification> getNotificationById(String notificationId) async {
+    try {
+      final querySnapshot = await collection.doc(notificationId).get();
+      if (querySnapshot.exists) {
+        final notification = itemFromJson(
+            querySnapshot.id, querySnapshot.data()!);
+        return notification.notifications.first;
+      } else {
+        throw NotFoundException("Notification with id $notificationId not found");
+      }
+    } catch (e) {
+      print("Error fetching notification: $e");
+      throw e;
+    }
+  }
+
+
   Future<SmartPagerNotificationList?> getNotificationsByUserId(String userId) async {
     try {
-      
-      final querySnapshot =
-          await collection.where('userId', isEqualTo: userId).get();
-      if (querySnapshot.docs.isNotEmpty) {
+      final querySnapshot = await collection.doc(userId).get();
+      if (querySnapshot.exists) {
+
         final notificationList = itemFromJson(
-            querySnapshot.docs.first.id, querySnapshot.docs.first.data());
+            querySnapshot.id, querySnapshot.data()!);
+
         return notificationList;
       } else {
-        // throw NotFoundException("Notification with userId $userId not found");
         print("Notification with userId $userId not found");
         return null;
       }
     } catch (e) {
-      print("error $e");
-      // Rethrow the exception or handle it as needed.
+      print("Error fetching notifications: $e");
       throw e;
     }
   }
 
   Future<void> markNotificationAsRead(String userId, String notificationId) async {
     final notificationList = await getNotificationsByUserId(userId);
+
     if (notificationList != null) {
-      final notification = notificationList.notifications.firstWhere((element) => element.id == notificationId);
-      notification.isRead = true;
+      final index = notificationList.notifications.indexWhere((element) => element.id == notificationId);
+      notificationList.notifications[index].isRead = true;
       await updateNotificationList(userId, notificationList);
     }
   }

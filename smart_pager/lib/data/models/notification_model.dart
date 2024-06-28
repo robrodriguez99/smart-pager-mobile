@@ -4,12 +4,13 @@ class SmartPagerNotification extends GenericModel<SmartPagerNotification> {
 
   final String title;
   final String body;
-  bool isRead = false;
+  bool isRead;
 
   SmartPagerNotification({
     required super.id,
     required this.title,
     required this.body,
+    this.isRead = false,
   });
   
   @override
@@ -27,6 +28,7 @@ class SmartPagerNotification extends GenericModel<SmartPagerNotification> {
       id: json['id'],
       title: json['title'],
       body: json['body'],
+      isRead: json['isRead'],
     );
   }
 
@@ -35,6 +37,7 @@ class SmartPagerNotification extends GenericModel<SmartPagerNotification> {
       id: id,
       title: title,
       body: body,
+      isRead: isRead,
     );
   }
 }

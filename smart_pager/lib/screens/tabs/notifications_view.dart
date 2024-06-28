@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_pager/config/cellules/cards/notification_card.dart';
+import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/Future/notifications_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
@@ -13,8 +14,10 @@ class NotificationsView extends ConsumerWidget {
 
     ref.read(notificationsProvider.notifier).refresh(futureUser!.id);
     final futureNotifications = ref.watch(notificationsProvider);
-    // print(futureNotifications!.notifications);
-      
+
+    
+    // print(futureNotifications!.notifications[0].toJson());
+      if(futureNotifications != null && futureNotifications.notifications.isNotEmpty) {
         return SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -27,14 +30,16 @@ class NotificationsView extends ConsumerWidget {
                       ListView.separated(
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 5,
+                        itemCount: futureNotifications.notifications.length,
                         itemBuilder: (context, index) {
-                          return NotificationCard(
-                            title: futureNotifications!.notifications[futureNotifications.notifications.length -1 - index].title,
-                            description: futureNotifications.notifications[futureNotifications.notifications.length -1  - index].body,
-                            time: "Hace 5 minutos",
-                            isRead: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].isRead,
-                          );
+                            return NotificationCard(
+                              id: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].id,
+                              title: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].title,
+                              description: futureNotifications.notifications[futureNotifications.notifications.length -1  - index].body,
+                              time: "Hace 5 minutos",
+                              isRead: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].isRead,
+                            );
+                                                    
                         },
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(height: 10);
@@ -48,8 +53,10 @@ class NotificationsView extends ConsumerWidget {
             ),
           ),
         );
+      } else {
+         return const Center( child: CustomText(text:'No hay notificaciones de momento\n ¡cuando te anotes en algun lugar te avisamos!', overflow: TextOverflow.ellipsis));
       }
-    
+  }
     
     
     

@@ -24,8 +24,9 @@ class Notifications extends _$Notifications {
   }
 
   void markNotificationAsRead(String notificationId) {
-    final notification = state!.notifications.firstWhere((element) => element.id == notificationId);
-    notification.isRead = true;
+    ref.read(notificationRepositoryProvider).markNotificationAsRead(state!.id, notificationId);
+    final index = state!.notifications.indexWhere((element) => element.id == notificationId);
+    state!.notifications[index].isRead = true;
     state = state!.copy();
   }
 
@@ -44,9 +45,6 @@ class Notifications extends _$Notifications {
     state!.notifications[index] = notification;
     state = state!.copy();
   }
-
-  
-
 
 }
 
