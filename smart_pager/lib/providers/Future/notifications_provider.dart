@@ -18,6 +18,11 @@ class Notifications extends _$Notifications {
     }
   }
 
+  Future<bool> haveUnreadNotifications() async {
+    final unreadNotifications = state!.notifications.where((element) => !element.isRead).toList();
+    return unreadNotifications.isNotEmpty;
+  }
+
   void addNotification(SmartPagerNotification notification) {
     state!.notifications.add(notification);
     state = state!.copy();
@@ -45,6 +50,8 @@ class Notifications extends _$Notifications {
     state!.notifications[index] = notification;
     state = state!.copy();
   }
+
+
 
 }
 

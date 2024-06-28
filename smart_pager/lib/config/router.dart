@@ -13,8 +13,11 @@ import 'package:smart_pager/screens/search_screen.dart';
 
 import '../main.dart';
 
+final navigatorKey = GlobalKey<NavigatorState>();
+
 mixin RouterMixin on State<MyApp> {
   final _router = GoRouter(
+    navigatorKey: navigatorKey,
     routes: <RouteBase>[
       GoRoute(
           path: '/',

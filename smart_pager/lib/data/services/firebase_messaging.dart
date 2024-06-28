@@ -1,6 +1,7 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:smart_pager/config/router.dart';
 import 'package:smart_pager/data/models/notification_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/notification_repository_impl.dart';
@@ -47,8 +48,7 @@ class FirebaseMessagingApi {
       print('Got a message whilst in the foreground!');
       print('Message data: ${message.notification?.title}');
       //TODO: show a dialog or snackbar to the user
-      
-      
+
       handleMessage(message);
     });
   }

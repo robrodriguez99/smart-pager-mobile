@@ -36,6 +36,7 @@ class _MyAppState extends State<MyApp> with RouterMixin {
 
     return MaterialApp.router(
       routerConfig: router,
+
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: SPColors.primary),
         useMaterial3: true,
