@@ -1,13 +1,12 @@
 
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:go_router/go_router.dart';
-import 'package:smart_pager/config/router.dart';
 import 'package:smart_pager/data/models/notification_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/notification_repository_impl.dart';
 import 'package:smart_pager/data/repositories/user_repository_impl.dart';
 import 'package:smart_pager/data/services/firebase_auth.dart';
 
+import 'package:smart_pager/data/services/access_firebase_token.dart';
   
   Future<void> handleBackgroundMessage(RemoteMessage message) async {
     print('Handling a background message ${message.messageId}');
@@ -23,6 +22,9 @@ class FirebaseMessagingApi {
     await _firebaseMessaging.requestPermission();
     final token = await _firebaseMessaging.getToken();
     print('FirebaseMessaging token: $token');
+    AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
+    String accessToken = await accessTokenGetter.getAccessToken();
+    print('Access Token: $accessToken');
     initPushNotifications();
     
   }
