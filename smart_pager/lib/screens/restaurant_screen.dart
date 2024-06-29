@@ -20,7 +20,7 @@ class RestaurantScreen extends ConsumerStatefulWidget {
 }
 
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
-  bool showOpeningTimes = true; // State to toggle opening times
+  bool showOpeningTimes = false; // State to toggle opening times
   @override
   Widget build(BuildContext context) {
     // Get the restaurant data from the controller and set the current restaurant
@@ -31,7 +31,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     return FutureBuilder(
         future: futureRestaurant,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
+          if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
             // Mientras se obtienen los datos, puedes mostrar un indicador de carga
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -160,7 +160,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            // showOpeningTimes = !showOpeningTimes;
+                            showOpeningTimes = !showOpeningTimes;
                           });
                         },
                         child: Row(
