@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
+import 'package:smart_pager/data/models/operating_hours_model.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -19,7 +20,7 @@ class RestaurantScreen extends ConsumerStatefulWidget {
 }
 
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
-  bool showOpeningTimes = false; // State to toggle opening times
+  bool showOpeningTimes = true; // State to toggle opening times
   @override
   Widget build(BuildContext context) {
     // Get the restaurant data from the controller and set the current restaurant
@@ -159,7 +160,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       child: InkWell(
                         onTap: () {
                           setState(() {
-                            showOpeningTimes = !showOpeningTimes;
+                            // showOpeningTimes = !showOpeningTimes;
                           });
                         },
                         child: Row(
@@ -213,7 +214,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       const SizedBox(height: 8),
                       // Center the opening times horizontally
                       Center(
-                        child: _buildOpeningTimes(),
+                        child: _buildOpeningTimes(restaurant.operatingHours!),
                       ),
                     ],
                     const SizedBox(height: 16),
@@ -258,32 +259,44 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
         });
   }
 
-  Widget _buildOpeningTimes() {
-    // Define your opening times data here
-    final List<String> openingTimes = [
-      'Lunes: 10:00 - 20:00',
-      'Martes: 10:00 - 20:00',
-      'Miércoles: 10:00 - 20:00',
-      'Jueves: 10:00 - 20:00',
-      'Viernes: 10:00 - 20:00',
-      'Sábado: Cerrado',
-      'Domingo: 10:00 - 18:00',
-    ];
+  Widget _buildOpeningTimes(RestaurantOperatingHours operatingHours) {
+    
+    final List<Widget> openingTimesWidgets = operatingHours.days.entries
+        .map((day) {
+          final dayName = day.key;
+          final dayData = day.value;
+          final isOpen = dayData.isOpen;
+          final intervals = dayData.intervals;
 
-    // Create a list of text widgets to display opening times
-    final List<Widget> openingTimeWidgets = openingTimes
-        .map(
-          (time) => CustomText(
-            text: time,
-            fontSize: 20,
-            color: SPColors.activeBlack,
-          ),
-        )
+          if (!isOpen) {
+            return CustomText(
+              text: '$dayName: Cerrado',
+              fontSize: 20,
+              color: SPColors.red,
+            );
+          }
+
+          final openingTimes = intervals
+              .map((interval) =>
+                  '${interval.openingTime} - ${interval.closingTime}')
+              .toList();
+
+          return Column(
+            children: [
+              CustomText(
+                text: '$dayName: ${openingTimes.join(', ')}',
+                fontSize: 20,
+                color: SPColors.activeBlack,
+              ),
+              const SizedBox(height: 8),
+            ],
+          );
+        })
         .toList();
 
     // Return a column containing the opening time widgets
     return Column(
-      children: openingTimeWidgets,
+      children: openingTimesWidgets,
     );
   }
 

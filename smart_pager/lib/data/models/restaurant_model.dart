@@ -1,4 +1,5 @@
 import 'package:smart_pager/data/models/generic_model.dart';
+import 'package:smart_pager/data/models/operating_hours_model.dart';
 
 class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
   final String slug;
@@ -10,7 +11,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
   final bool isPromoted;
   final location;
   final menu;
-  final operatingHours; 
+  final RestaurantOperatingHours? operatingHours; 
   //TODO: add field types
 
   SmartPagerRestaurant({
@@ -38,7 +39,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
       isPromoted: json['sponsored'] ?? false,
       location: json['location'] ?? "no_location",
       menu: json['menu'] ?? "no_menu",
-      operatingHours: json['operatingHours'] ?? "no_operatingHours",
+      operatingHours: _parseOperatingHours(json['operatingHours']),
     );
   }
 
@@ -75,5 +76,13 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
     );
   }
 
+  static RestaurantOperatingHours? _parseOperatingHours(dynamic json) {
+    if (json == null) {
+      return null;
+    }
+    return RestaurantOperatingHours.fromJson(json);
+  }
+
 }
+
 

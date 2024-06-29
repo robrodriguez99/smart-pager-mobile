@@ -50,7 +50,7 @@ class ApiService {
           "name": user.name,
           "commensalsAmount": commensalsAmount,
           "phoneNumber":
-              user.phoneNumber, //TODO: Add phone number to user model
+              user.phoneNumber, 
           "description": description
         }
       }),
