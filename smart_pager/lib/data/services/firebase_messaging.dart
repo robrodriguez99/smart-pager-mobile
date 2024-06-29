@@ -68,6 +68,7 @@ class FirebaseMessagingApi {
         id: message.messageId ?? '',
         title: message.notification!.title ?? '',
         body: message.notification!.body ?? '',
+        date: DateTime.now(),
       );
       final currentFirebaseUser = await MyFirebaseAuth().currentUser();
       final SmartPagerUser smartPagerUser = await UserRepositoryImpl().getUserByEmail(currentFirebaseUser!.email);

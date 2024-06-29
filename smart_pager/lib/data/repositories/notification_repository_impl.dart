@@ -68,7 +68,7 @@ class NotificationRepositoryImpl extends Repository<SmartPagerNotificationList> 
   Future<SmartPagerNotificationList?> getNotificationsByUserId(String userId) async {
     try {
       final querySnapshot = await collection.doc(userId).get();
-      if (querySnapshot.exists) {
+      if (querySnapshot!=null && querySnapshot.exists) {
 
         final notificationList = itemFromJson(
             querySnapshot.id, querySnapshot.data()!);
@@ -76,10 +76,17 @@ class NotificationRepositoryImpl extends Repository<SmartPagerNotificationList> 
         return notificationList;
       } else {
         print("Notification with userId $userId not found");
-        return null;
+        final newNotificationList = SmartPagerNotificationList(
+        id: userId,
+        userId: userId,
+        notifications: [],
+      );
+      await createNotificationList(newNotificationList);
+        return newNotificationList;
       }
     } catch (e) {
       print("Error fetching notifications: $e");
+      
       throw e;
     }
   }

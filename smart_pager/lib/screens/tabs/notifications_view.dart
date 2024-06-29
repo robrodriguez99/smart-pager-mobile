@@ -36,7 +36,7 @@ class NotificationsView extends ConsumerWidget {
                               id: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].id,
                               title: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].title,
                               description: futureNotifications.notifications[futureNotifications.notifications.length -1  - index].body,
-                              time: "Hace 5 minutos",
+                              time: getTimeSince(futureNotifications.notifications[futureNotifications.notifications.length -1 - index].date),
                               isRead: futureNotifications.notifications[futureNotifications.notifications.length -1 - index].isRead,
                             );
                                                     
@@ -56,7 +56,23 @@ class NotificationsView extends ConsumerWidget {
       } else {
          return const Center( child: CustomText(text:'No hay notificaciones de momento\n ¡cuando te anotes en algun lugar te avisamos!', overflow: TextOverflow.ellipsis));
       }
+
   }
+
+      String getTimeSince(DateTime date) {
+        final now = DateTime.now();
+        final difference = now.difference(date);
+        // print('date: $date');
+        if (difference.inDays > 0) {
+          return '${difference.inDays} días';
+        } else if (difference.inHours > 0) {
+          return '${difference.inHours} horas';
+        } else if (difference.inMinutes > 0) {
+          return '${difference.inMinutes} minutos';
+        } else {
+          return '${difference.inSeconds} segundos';
+        }
+      }
     
     
     
