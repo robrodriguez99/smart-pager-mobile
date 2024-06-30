@@ -118,8 +118,8 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
                   .read(restaurantControllerProvider.notifier)
                   .addToQueue(
                     currentResturant!.slug,
-                    '', //TODO: Add description here
-                    int.parse(dropdownValue),
+                    '', //we aint sending any description folks
+                    dropdownValue,
                   )
                   .then((value) => {
                         GoRouter.of(context).goNamed('current-queue')
