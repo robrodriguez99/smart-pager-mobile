@@ -3,11 +3,14 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
+import 'package:smart_pager/data/services/access_firebase_token.dart';
+import 'package:smart_pager/data/services/firebase_messaging.dart';
 
 class ApiService {
   final http.Client httpClient;
   String baseUrl = "https://smart-pager-web.vercel.app/api/restaurants";
-
+  AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
+  FirebaseMessagingApi firebaseMessagingApi = FirebaseMessagingApi();
   ApiService(this.httpClient);
 
   Future<void> getHello() async {
@@ -38,28 +41,35 @@ class ApiService {
   /// the reservation that the client wishes to provide.
   ///
   Future<void> addToQueue(String restaurantSlug, SmartPagerUser user,
-      String description, int commensalsAmount) async {
-    final response = await httpClient.post(
-      Uri.parse("$baseUrl/$restaurantSlug/queue"),
-      headers: <String, String>{
-        'Content-Type': 'application/json; charset=UTF-8',
-      },
-      body: jsonEncode(<String, dynamic>{
-        "client": {
-          "email": user.email,
-          "name": user.name,
-          "commensalsAmount": commensalsAmount,
-          "phoneNumber": user.phoneNumber,
-          "description": description
-        }
-      }),
-    );
+    String description, int commensalsAmount) async {
+    String authToken = await accessTokenGetter.getAccessToken();
+    final messagingToken = await firebaseMessagingApi.getToken();
+    print('messagingToken: $messagingToken');
+    print('authToken: $authToken');
 
-    if (response.statusCode == 200) {
-      print(response.body);
-    } else {
-      throw Exception('Failed to add to queue');
-    }
+      final response = await httpClient.post(
+        Uri.parse("$baseUrl/$restaurantSlug/queue"),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(<String, dynamic>{
+          "client": {
+            "email": user.email,
+            "name": user.name,
+            "commensalsAmount": commensalsAmount,
+            "phoneNumber": user.phoneNumber,
+            "description": description,
+            "authToken": authToken,
+            "messagingToken": messagingToken,
+          }
+        }),
+      );
+
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        throw Exception('Failed to add to queue');
+      }
   }
 
   /// GET /api/restaurants?search=restaurantName&page=number&pageSize=number

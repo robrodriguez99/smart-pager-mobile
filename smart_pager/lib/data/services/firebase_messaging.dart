@@ -20,13 +20,12 @@ class FirebaseMessagingApi {
 
   Future<void> init() async {
     await _firebaseMessaging.requestPermission();
-    final token = await _firebaseMessaging.getToken();
-    print('FirebaseMessaging token: $token');
-    AccessTokenFirebase accessTokenGetter = AccessTokenFirebase();
-    String accessToken = await accessTokenGetter.getAccessToken();
-    print('Access Token: $accessToken');
     initPushNotifications();
-    
+  }
+
+  //get the token
+  Future<String> getToken() async {
+    return await _firebaseMessaging.getToken() ?? '';
   }
 
 
@@ -41,8 +40,6 @@ class FirebaseMessagingApi {
     FirebaseMessaging.onBackgroundMessage(handleBackgroundMessage);
     
     handleForegroundMessage();
-
-
   }
 
   void handleForegroundMessage() async {

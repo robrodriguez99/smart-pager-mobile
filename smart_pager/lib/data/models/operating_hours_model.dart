@@ -119,7 +119,7 @@ class RestaurantOperatingDay extends GenericModel<RestaurantOperatingDay> {
   @override
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      // 'id': id,
       'isOpen': isOpen,
       'intervals': intervals,
     };
