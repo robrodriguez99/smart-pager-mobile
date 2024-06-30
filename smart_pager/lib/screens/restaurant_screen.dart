@@ -273,36 +273,63 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     // Create a list of widgets based on the ordered days
     final List<Widget> openingTimesWidgets = orderedDays.map((dayName) {
       final dayData = operatingHours.days[dayName];
-      final isOpen = dayData?.isOpen;
-      final intervals = dayData?.intervals;
-
-      if (!isOpen!) {
-        return CustomText(
-          text: '$dayName: Cerrado',
-          fontSize: 20,
-          color: SPColors.red,
-        );
-      }
+      final isOpen = dayData?.isOpen ?? false;
+      final intervals = dayData?.intervals ?? [];
 
       final openingTimes = intervals
-          ?.map(
+          .map(
               (interval) => '${interval.openingTime} - ${interval.closingTime}')
-          .toList();
+          .join(', ');
 
-      return Column(
-        children: [
-          CustomText(
-            text: '$dayName: ${openingTimes?.join(', ')}',
-            fontSize: 20,
-            color: SPColors.activeBlack,
-          ),
-          const SizedBox(height: 8),
-        ],
+      return Padding(
+        padding: const EdgeInsets.symmetric(vertical: 4.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(
+                  isOpen ? Icons.access_alarm : Icons.close,
+                  color: isOpen ? SPColors.activeBlack : SPColors.red,
+                ),
+                const SizedBox(width: 14),
+                Expanded(
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: '$dayName: ',
+                          style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: isOpen ? SPColors.activeBlack : SPColors.red,
+                          ),
+                        ),
+                        TextSpan(
+                          text: isOpen ? openingTimes : 'Cerrado',
+                          style: TextStyle(
+                            fontSize: 20,
+                            color: isOpen ? SPColors.activeBlack : SPColors.red,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Divider(
+              color: SPColors.darkGray,
+              thickness: 1,
+            ),
+          ],
+        ),
       );
     }).toList();
 
     // Return a column containing the opening time widgets
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: openingTimesWidgets,
     );
   }
