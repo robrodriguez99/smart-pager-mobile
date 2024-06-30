@@ -18,8 +18,7 @@ class _MenuState extends State<MenuView> {
 
   void _loadFile() async {
     // Load the pdf file from the internet
-    _pdf = await PDFDocument.fromURL(
-        widget.menu);
+    _pdf = await PDFDocument.fromURL(widget.menu);
 
     setState(() {
       _isLoading = false;
@@ -46,14 +45,18 @@ class _MenuState extends State<MenuView> {
         ),
         title: const CustomText(
           text: 'Menú',
-          fontSize: 35,
+          fontSize: 30,
           fontWeight: FontWeight.bold,
         ),
       ),
       body: Center(
           child: _isLoading
               ? const Center(child: CircularProgressIndicator())
-              : PDFViewer(document: _pdf)),
+              : PDFViewer(
+                  document: _pdf,
+                  zoomSteps: 1,
+                  maxScale: 2.0,
+                )),
     );
   }
 }

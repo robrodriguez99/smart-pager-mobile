@@ -60,7 +60,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
           if (restaurant.location != 'no_location') {
             restaurantAddress = restaurant.location['address'];
           }
-
           return Scaffold(
             appBar: AppBar(
               leading: IconButton(
@@ -263,7 +262,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                             ],
                             onPressed: () {
                               GoRouter.of(context).pushNamed(
-                                //TODO: CHECKEAR ESTO EN EL CELULAR PQ EN EL EMULADOR NO FUNCIONA
                                 'menu',
                                 pathParameters: {'menu': restaurant.menu},
                               );

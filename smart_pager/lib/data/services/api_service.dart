@@ -41,35 +41,35 @@ class ApiService {
   /// the reservation that the client wishes to provide.
   ///
   Future<void> addToQueue(String restaurantSlug, SmartPagerUser user,
-    String description, String commensalsAmount) async {
+      String description, String commensalsAmount) async {
     String authToken = await accessTokenGetter.getAccessToken();
     final messagingToken = await firebaseMessagingApi.getToken();
     print('messagingToken: $messagingToken');
     print('authToken: $authToken');
 
-      final response = await httpClient.post(
-        Uri.parse("$baseUrl/$restaurantSlug/queue"),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, dynamic>{
-          "client": {
-            "email": user.email,
-            "name": user.name,
-            "commensalsAmount": commensalsAmount,
-            "phoneNumber": user.phoneNumber,
-            "description": description,
-            "authToken": authToken,
-            "messagingToken": messagingToken,
-          }
-        }),
-      );
+    final response = await httpClient.post(
+      Uri.parse("$baseUrl/$restaurantSlug/queue"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "client": {
+          "email": user.email,
+          "name": user.name,
+          "commensalsAmount": commensalsAmount,
+          "phoneNumber": user.phoneNumber,
+          "description": description,
+          "authToken": authToken,
+          "messagingToken": messagingToken,
+        }
+      }),
+    );
 
-      if (response.statusCode == 200) {
-        print(response.body);
-      } else {
-        throw Exception('Failed to add to queue');
-      }
+    if (response.statusCode == 200) {
+      print(response.body);
+    } else {
+      throw Exception('Failed to add to queue');
+    }
   }
 
   /// GET /api/restaurants?search=restaurantName&page=number&pageSize=number

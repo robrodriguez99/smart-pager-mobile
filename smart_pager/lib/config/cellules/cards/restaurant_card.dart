@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
-import 'package:smart_pager/data/models/operating_hours_model.dart';
 import 'package:smart_pager/data/models/restaurant_model.dart';
-import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 
 class RestaurantCard extends StatefulWidget {
   final SmartPagerRestaurant restaurant;
