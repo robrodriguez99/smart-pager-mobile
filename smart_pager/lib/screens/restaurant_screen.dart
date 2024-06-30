@@ -31,7 +31,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     return FutureBuilder(
         future: futureRestaurant,
         builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting && !snapshot.hasData) {
+          if (snapshot.connectionState == ConnectionState.waiting &&
+              !snapshot.hasData) {
             // Mientras se obtienen los datos, puedes mostrar un indicador de carga
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
@@ -61,14 +62,12 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                   size: 30,
                 ),
               ),
-              title: Flexible(
-                child: CustomText(
-                  text: restaurant.name, // restaurant name
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.visible,
-                  maxLines: null, // Allow text to wrap to multiple lines
-                ),
+              title: CustomText(
+                text: restaurant.name, // restaurant name
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.visible,
+                maxLines: null, // Allow text to wrap to multiple lines
               ),
             ),
             body: SingleChildScrollView(
@@ -260,39 +259,47 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   Widget _buildOpeningTimes(RestaurantOperatingHours operatingHours) {
-    
-    final List<Widget> openingTimesWidgets = operatingHours.days.entries
-        .map((day) {
-          final dayName = day.key;
-          final dayData = day.value;
-          final isOpen = dayData.isOpen;
-          final intervals = dayData.intervals;
+    // Define the days of the week in the desired order
+    final List<String> orderedDays = [
+      'Lunes',
+      'Martes',
+      'Miércoles',
+      'Jueves',
+      'Viernes',
+      'Sábado',
+      'Domingo'
+    ];
 
-          if (!isOpen) {
-            return CustomText(
-              text: '$dayName: Cerrado',
-              fontSize: 20,
-              color: SPColors.red,
-            );
-          }
+    // Create a list of widgets based on the ordered days
+    final List<Widget> openingTimesWidgets = orderedDays.map((dayName) {
+      final dayData = operatingHours.days[dayName];
+      final isOpen = dayData?.isOpen;
+      final intervals = dayData?.intervals;
 
-          final openingTimes = intervals
-              .map((interval) =>
-                  '${interval.openingTime} - ${interval.closingTime}')
-              .toList();
+      if (!isOpen!) {
+        return CustomText(
+          text: '$dayName: Cerrado',
+          fontSize: 20,
+          color: SPColors.red,
+        );
+      }
 
-          return Column(
-            children: [
-              CustomText(
-                text: '$dayName: ${openingTimes.join(', ')}',
-                fontSize: 20,
-                color: SPColors.activeBlack,
-              ),
-              const SizedBox(height: 8),
-            ],
-          );
-        })
-        .toList();
+      final openingTimes = intervals
+          ?.map(
+              (interval) => '${interval.openingTime} - ${interval.closingTime}')
+          .toList();
+
+      return Column(
+        children: [
+          CustomText(
+            text: '$dayName: ${openingTimes?.join(', ')}',
+            fontSize: 20,
+            color: SPColors.activeBlack,
+          ),
+          const SizedBox(height: 8),
+        ],
+      );
+    }).toList();
 
     // Return a column containing the opening time widgets
     return Column(

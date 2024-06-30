@@ -102,14 +102,15 @@ class RestaurantController extends _$RestaurantController {
       return restaurant;
     } catch (e) {
       return SmartPagerRestaurant(
-        id: "Error",
-        type: "Error",
-        avgTimePerTable: "Error",
-        isPromoted: false,
-        name: "Error",
-        slug: "Error",
-        email: "Error",
-      );
+          id: "Error",
+          type: "Error",
+          avgTimePerTable: "Error",
+          isPromoted: false,
+          name: "Error",
+          slug: "Error",
+          email: "Error",
+          menu: "Error",
+          location: "Error");
     }
   }
 

@@ -11,7 +11,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
   final bool isPromoted;
   final location;
   final menu;
-  final RestaurantOperatingHours? operatingHours; 
+  final RestaurantOperatingHours? operatingHours;
   //TODO: add field types
 
   SmartPagerRestaurant({
@@ -22,12 +22,11 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
     required this.type,
     required this.avgTimePerTable,
     required this.isPromoted,
-    this.location,
-    this.menu,
+    required this.location,
+    required this.menu,
     this.operatingHours,
   });
 
-  
   static SmartPagerRestaurant fromJson(Map<String, dynamic> json) {
     return SmartPagerRestaurant(
       id: json['slug'] ?? "no_id",
@@ -42,8 +41,6 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
       operatingHours: _parseOperatingHours(json['operatingHours']),
     );
   }
-
-
 
   @override
   Map<String, dynamic> toJson() {
@@ -82,7 +79,4 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
     }
     return RestaurantOperatingHours.fromJson(json);
   }
-
 }
-
-
