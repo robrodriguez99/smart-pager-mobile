@@ -149,15 +149,16 @@ class _RestaurantCardState extends State<RestaurantCard> {
                       horizontal: 8,
                       vertical: 4,
                     ),
-                    decoration: const BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.all(Radius.circular(4)),
+                    decoration: BoxDecoration(
+                      color: SPColors.red.withOpacity(
+                          0.6), // Reduce opacity to make it less strong
+                      borderRadius: const BorderRadius.all(Radius.circular(4)),
                     ),
                     child: const CustomText(
                       text: 'Cerrado',
                       fontSize: 13,
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontWeight: FontWeight.bold, // Use a normal font weight
                     ),
                   ),
                 )
