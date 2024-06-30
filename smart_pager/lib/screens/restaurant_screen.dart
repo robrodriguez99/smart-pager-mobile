@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -9,7 +11,6 @@ import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantScreen extends ConsumerStatefulWidget {
-  final bool closed = false; //TODO:
   final String restaurantSlug;
 
   const RestaurantScreen({Key? key, required this.restaurantSlug})
@@ -21,6 +22,14 @@ class RestaurantScreen extends ConsumerStatefulWidget {
 
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   bool showOpeningTimes = false; // State to toggle opening times
+  bool closed = false; // State to indicate if the restaurant is closed
+
+  @override
+  void initState() {
+    super.initState();
+    _checkIfRestaurantIsClosed();
+  }
+
   @override
   Widget build(BuildContext context) {
     // Get the restaurant data from the controller and set the current restaurant
@@ -128,7 +137,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                           color: SPColors.activeBlack,
                           size: 20,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         CustomText(
                           text: restaurant.type,
                           fontSize: 20,
@@ -144,7 +153,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                           color: SPColors.activeBlack,
                           size: 20,
                         ),
-                        SizedBox(width: 10),
+                        const SizedBox(width: 10),
                         CustomText(
                           text: "${restaurant.avgTimePerTable}' de espera",
                           fontSize: 20,
@@ -166,36 +175,20 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             // Add space between text and icon
-                            if (!widget.closed) ...[
-                              const Icon(
-                                Icons.access_alarm,
-                                color: SPColors.activeBlack,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              const CustomText(
-                                text:
-                                    'Horarios de apertura', //TODO: opening times
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: SPColors.activeBlack,
-                              ),
-                            ] else ...[
-                              const Icon(
-                                Icons.access_alarm,
-                                color: SPColors.red,
-                                size: 20,
-                              ),
-                              const SizedBox(width: 8),
-                              const Center(
-                                child: CustomText(
-                                  text: 'Cerrado',
-                                  fontSize: 20,
-                                  color: SPColors.red,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ],
+                            const Icon(
+                              Icons.access_alarm,
+                              color: SPColors.activeBlack,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            const CustomText(
+                              text:
+                                  'Horarios de apertura', //TODO: opening times
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
+                              color: SPColors.activeBlack,
+                            ),
+
                             const SizedBox(
                                 width: 8), // Add space between text and icon
                             Icon(
@@ -209,6 +202,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                         ),
                       ),
                     ),
+
                     if (showOpeningTimes) ...[
                       const SizedBox(height: 8),
                       // Center the opening times horizontally
@@ -217,7 +211,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       ),
                     ],
                     const SizedBox(height: 16),
-                    if (!widget.closed) ...[
+                    if (!closed) ...[
                       // Display the "Anotarse en la cola" button if the restaurant is not closed
                       GradientButton(
                         icon: Icons.wb_twilight,
@@ -232,6 +226,32 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       ),
                     ],
                     const SizedBox(height: 16),
+                    if (closed) ...[
+                      Center(
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          width: double
+                              .infinity, // Ensures the container takes the full width
+                          decoration: BoxDecoration(
+                            color: SPColors.red.withOpacity(0.1),
+                            border: Border.all(color: SPColors.red),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: const [
+                              CustomText(
+                                text: 'Cerrado',
+                                fontSize: 24,
+                                color: SPColors.red,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+
                     // Buttons
                     restaurant.menu != 'no_menu'
                         ? GradientButton(
@@ -256,6 +276,80 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
             ),
           );
         });
+  }
+
+  void _checkIfRestaurantIsClosed() {
+    // Get the current time in GMT-3
+    DateTime now = DateTime.now().toUtc().subtract(const Duration(hours: 3));
+
+    final futureRestaurant = ref
+        .read(restaurantControllerProvider.notifier)
+        .getRestaurant(widget.restaurantSlug);
+
+    futureRestaurant.then((restaurant) {
+      if (restaurant.operatingHours == null) {
+        setState(() {
+          closed = false;
+        });
+        return;
+      }
+
+      // Get the current day of the week
+      String currentDay = _getDayOfWeek(now.weekday);
+
+      // Get the operating hours for the current day
+      final dayData = restaurant.operatingHours!.days[currentDay];
+
+      print(dayData?.isOpen);
+      if (dayData == null) {
+        setState(() {
+          closed = false;
+        });
+        return;
+      }
+      if (!dayData.isOpen) {
+        setState(() {
+          closed = true;
+        });
+        return;
+      } else {
+        setState(() {
+          closed = false;
+        });
+        return;
+      }
+    });
+  }
+
+  String _getDayOfWeek(int weekday) {
+    switch (weekday) {
+      case 1:
+        return 'Lunes';
+      case 2:
+        return 'Martes';
+      case 3:
+        return 'Miércoles';
+      case 4:
+        return 'Jueves';
+      case 5:
+        return 'Viernes';
+      case 6:
+        return 'Sábado';
+      case 7:
+        return 'Domingo';
+      default:
+        return '';
+    }
+  }
+
+  DateTime _getDateTimeFromTimeString(
+      String timeString, DateTime referenceDate) {
+    List<String> parts = timeString.split(':');
+    int hours = int.parse(parts[0]);
+    int minutes = int.parse(parts[1]);
+
+    return DateTime(referenceDate.year, referenceDate.month, referenceDate.day,
+        hours, minutes);
   }
 
   Widget _buildOpeningTimes(RestaurantOperatingHours operatingHours) {
