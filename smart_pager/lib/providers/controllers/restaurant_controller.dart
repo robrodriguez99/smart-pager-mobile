@@ -62,7 +62,7 @@ class RestaurantController extends _$RestaurantController {
   Future<void> addToQueue(
     String restaurantSlug,
     String description,
-    int commensalsAmount,
+    String commensalsAmount,
   ) async {
     try {
       final api = ref.read(apiServiceProvider);

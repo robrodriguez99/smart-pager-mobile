@@ -41,7 +41,7 @@ class ApiService {
   /// the reservation that the client wishes to provide.
   ///
   Future<void> addToQueue(String restaurantSlug, SmartPagerUser user,
-    String description, int commensalsAmount) async {
+    String description, String commensalsAmount) async {
     String authToken = await accessTokenGetter.getAccessToken();
     final messagingToken = await firebaseMessagingApi.getToken();
     print('messagingToken: $messagingToken');
