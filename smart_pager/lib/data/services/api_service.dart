@@ -49,8 +49,7 @@ class ApiService {
           "email": user.email,
           "name": user.name,
           "commensalsAmount": commensalsAmount,
-          "phoneNumber":
-              user.phoneNumber, 
+          "phoneNumber": user.phoneNumber,
           "description": description
         }
       }),
@@ -83,7 +82,7 @@ class ApiService {
       final regex = RegExp(r'\d+');
       final match = regex.firstMatch(distance);
       if (match != null) {
-        distanceNumber = int.parse(match.group(0)!) * 1000;
+        distanceNumber = int.parse(match.group(0)!);
       }
     }
 

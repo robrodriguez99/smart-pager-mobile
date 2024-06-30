@@ -20,7 +20,7 @@ class BottomNav extends ConsumerWidget {
     final Size size = MediaQuery.of(context).size;
     final futureUser = ref.watch(loggedUserProvider);
     ref.read(notificationsProvider.notifier).refresh(futureUser!.id);
-    
+
     // Check if there are unread notifications
     final futureNotifications = ref.watch(notificationsProvider);
     final hasNewNotifications = futureNotifications != null &&
@@ -28,7 +28,6 @@ class BottomNav extends ConsumerWidget {
             .where((element) => !element.isRead)
             .toList()
             .isNotEmpty;
-    
 
     return SizedBox(
       width: size.width,
@@ -78,13 +77,18 @@ class BottomNav extends ConsumerWidget {
                             selectedIndex, onItemTapped, false),
                       ),
                       const Expanded(
-                        flex: 2,
+                        flex: 1,
                         child:
                             SizedBox(), // Empty SizedBox with flex to create spacing
                       ),
                       Expanded(
-                        child: _buildNavItem(Icons.notifications,
-                            "Notificaciones", 2, selectedIndex, onItemTapped, hasNewNotifications),
+                        child: _buildNavItem(
+                            Icons.notifications,
+                            "Notificaciones",
+                            2,
+                            selectedIndex,
+                            onItemTapped,
+                            hasNewNotifications),
                       ),
                       Expanded(
                         child: _buildNavItem(Icons.person, "Perfil", 3,
@@ -102,48 +106,47 @@ class BottomNav extends ConsumerWidget {
   }
 
   Widget _buildNavItem(IconData icon, String text, int index, int selectedIndex,
-    Function(int) onTap, bool hasNewNotifications) {
-  return GestureDetector(
-    onTap: () => onTap(index),
-    child: Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Stack(
-          children: [
-            Icon(
-              icon,
-              color: selectedIndex == index
-                  ? SPColors.primary
-                  : SPColors.darkGray,
-            ),
-            if (hasNewNotifications)
-              Positioned(
-                top: 0,
-                right: 0,
-                child: Container(
-                  width: 10,
-                  height: 10,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.red, // Color for the notification indicator
+      Function(int) onTap, bool hasNewNotifications) {
+    return GestureDetector(
+      onTap: () => onTap(index),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Stack(
+            children: [
+              Icon(
+                icon,
+                color: selectedIndex == index
+                    ? SPColors.primary
+                    : SPColors.darkGray,
+              ),
+              if (hasNewNotifications)
+                Positioned(
+                  top: 0,
+                  right: 0,
+                  child: Container(
+                    width: 10,
+                    height: 10,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red, // Color for the notification indicator
+                    ),
                   ),
                 ),
-              ),
-          ],
-        ),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 10,
-            color: selectedIndex == index
-                ? SPColors.primary
-                : SPColors.darkGray,
+            ],
           ),
-        ),
-      ],
-    ),
-  );
-}
+          Text(
+            text,
+            style: TextStyle(
+              fontSize: 10,
+              color:
+                  selectedIndex == index ? SPColors.primary : SPColors.darkGray,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   // Function to start QR code scanning
   void _startScan(BuildContext context) {
@@ -164,20 +167,18 @@ class BottomNav extends ConsumerWidget {
   void _onQRViewCreated(QRViewController controller, BuildContext context) {
     controller.scannedDataStream.listen((scanData) {
       final qrContent = scanData.code;
-      if (qrContent!=null && qrContent.contains('smartpager.com.ar/restaurants/')) {
-
-        final slug = qrContent.replaceFirst('https://smartpager.com.ar/restaurants/', '');
+      if (qrContent != null &&
+          qrContent.contains('smartpager.com.ar/restaurants/')) {
+        final slug = qrContent.replaceFirst(
+            'https://smartpager.com.ar/restaurants/', '');
 
         //stop scanning
         controller.stopCamera();
         controller.dispose();
-        
+
         // Navigate to restaurant page with slug
         GoRouter.of(context).push('/restaurant/$slug');
       } else {
-       
-
-
         print('El código QR no pertenece al dominio smartpager.');
       }
     });
