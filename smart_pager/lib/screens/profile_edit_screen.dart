@@ -121,10 +121,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
                         keyboardType: const TextInputType.numberWithOptions(
                             signed: true, decimal: true),
                         validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Ingresa tu número de teléfono';
-                          }
-                          if (value.length != 12) {
+                          if (value!.isNotEmpty && value.length != 12) {
                             return 'El número debe tener 10 digitos';
                           }
                           return null;
