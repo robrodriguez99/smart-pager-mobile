@@ -1,5 +1,5 @@
+import 'package:advance_pdf_viewer2/advance_pdf_viewer.dart';
 import 'package:flutter/material.dart';
-import 'package:advance_pdf_viewer/advance_pdf_viewer.dart';
 import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
@@ -19,7 +19,6 @@ class _MenuState extends State<MenuView> {
   void _loadFile() async {
     // Load the pdf file from the internet
     _pdf = await PDFDocument.fromURL(widget.menu);
-
     setState(() {
       _isLoading = false;
     });

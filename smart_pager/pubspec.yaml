@@ -40,7 +40,7 @@ dependencies:
   smooth_page_indicator: ^1.1.0
   go_router: ^14.0.1
   flutter_riverpod: ^2.5.1
-  advance_pdf_viewer: ^2.0.1
+  advance_pdf_viewer2: any
   http: ^1.2.1
   path_provider: ^2.0.2
   intl_phone_number_input: ^0.7.4
