@@ -59,6 +59,7 @@ dependencies:
   geocoding: ^3.0.0
   googleapis: ^13.1.0
   googleapis_auth: ^1.6.0
+  rxdart: ^0.27.2
 
 dev_dependencies:
   flutter_test:

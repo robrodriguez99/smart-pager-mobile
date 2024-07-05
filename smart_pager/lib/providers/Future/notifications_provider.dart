@@ -54,32 +54,3 @@ class Notifications extends _$Notifications {
 
 
 }
-
-
-// @Riverpod(keepAlive: true)
-// Future<SmartPagerNotificationList> getNotificationListByUserId(GetNotificationListByUserIdRef ref, String id) async {
-//   final notificationsRepository = ref.read(notificationRepositoryProvider);
-
-//   return await notificationsRepository.getNotificationsByUserId(id) ?? SmartPagerNotificationList(id: id, userId: id, notifications: []);
-// }
-
-// @riverpod
-// Future<void> insertNotification(InsertNotificationRef ref, String uid, SmartPagerNotification notification) async {
-//   final notificationsRepository = ref.read(notificationRepositoryProvider);
-
-//   await notificationsRepository.insertNotification(uid, notification);
-// }
-
-// @riverpod
-// Future<void> updateNotificationList(UpdateNotificationListRef ref, String uid, SmartPagerNotificationList notificationList) async {
-//   final notificationsRepository = ref.read(notificationRepositoryProvider);
-
-//   await notificationsRepository.updateNotificationList(uid, notificationList);
-// }
-
-// @riverpod
-// Future<void> markNotificationAsRead(MarkNotificationAsReadRef ref, String uid, String notificationId) async {
-//   final notificationsRepository = ref.read(notificationRepositoryProvider);
-
-//   await notificationsRepository.markNotificationAsRead(uid, notificationId);
-// }

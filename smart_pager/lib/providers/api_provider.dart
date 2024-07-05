@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 part 'api_provider.g.dart';
 
-@riverpod
+@Riverpod(keepAlive: true)
 ApiService apiService(ApiServiceRef ref) {
   return ApiService(http.Client());
 }

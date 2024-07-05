@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:smart_pager/data/models/current_queue_model.dart';
 import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/services/access_firebase_token.dart';
@@ -66,7 +67,7 @@ class ApiService {
     );
 
     if (response.statusCode == 200) {
-      print(response.body);
+      // print(response.body);
     } else {
       throw Exception('Failed to add to queue');
     }
@@ -100,7 +101,7 @@ class ApiService {
         "$baseUrl?search=$search&category=$category&page=$page&pageSize=$pageSize&distance=$distanceNumber&latitude=$latitude&longitude=$longitude"));
 
     Map<String, dynamic> json =
-        jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
 
     List<SmartPagerRestaurant> restaurants = [];
 
@@ -117,7 +118,7 @@ class ApiService {
   Future<SmartPagerRestaurant> getRestaurant(String slug) async {
     final response = await httpClient.get(Uri.parse("$baseUrl/$slug"));
     Map<String, dynamic> json =
-        jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     return SmartPagerRestaurant.fromJson(json['restaurant']);
   }
 
@@ -125,11 +126,35 @@ class ApiService {
   Future<List<String>> getRestaurantCategories() async {
     final response = await httpClient.get(Uri.parse("$baseUrl/categories"));
     Map<String, dynamic> json =
-        jsonDecode(Utf8Decoder().convert(response.bodyBytes));
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
     List<dynamic> categoriesJson = json['categories'];
     List<String> categories =
         categoriesJson.map((category) => category.toString()).toList();
 
     return categories;
+  }
+
+  /// GET /api/user/[email]/queue
+  Future<SmartPagerCurrentQueue?> getUserQueue(String email) async {
+    // print('getUserQueue: $email');
+
+    final response = await httpClient.get(Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
+    // print('response: ${response.body}');
+    Map<String, dynamic> jsonMap =
+        jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
+
+    SmartPagerRestaurant restaurant =
+        SmartPagerRestaurant.fromJson(jsonMap['restaurant']);
+    int position = jsonMap['client']['positionInQueue'];
+    int waitingTime = jsonMap['client']['waitingTime'];
+    SmartPagerCurrentQueue currentQueue = SmartPagerCurrentQueue(
+      id: email,
+      email: email,
+      restaurant: restaurant,
+      position: position,
+      waitingTime: waitingTime,
+    );
+    // await CurrentQueueRepositoryImpl().updateCurrentQueue(email,currentQueue);
+    return currentQueue;
   }
 }

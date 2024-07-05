@@ -1,21 +1,20 @@
 
+import 'package:smart_pager/data/models/current_queue_model.dart';
 import 'package:smart_pager/data/models/generic_model.dart';
-import 'package:smart_pager/data/models/restaurant_model.dart';
 
 class SmartPagerUser extends GenericModel<SmartPagerUser> {
   final String email;
   String name;
   String? phoneNumber;
-  String? currentRestaurantSlug;
-  int? commensalsAmount;
   String? description;
-  bool? isInQueue;
+  // SmartPagerCurrentQueue? currentQueue;
 
   SmartPagerUser({
     required super.id,
     required this.email,
     required this.name,
     this.phoneNumber,
+    // this.currentQueue,
   });
 
   get fullName => "$name";
@@ -29,6 +28,9 @@ class SmartPagerUser extends GenericModel<SmartPagerUser> {
       email: json['email'],
       name: json['name'],
       phoneNumber: json['phoneNumber'],
+      // currentQueue: json['currentQueue'] != null
+      //     ? SmartPagerCurrentQueue.fromJson(json['currentQueue'])
+      //     : null,
     );
   }
 
@@ -39,10 +41,8 @@ class SmartPagerUser extends GenericModel<SmartPagerUser> {
       'email': email,
       'name': name,
       'phoneNumber': phoneNumber,
-      'currentRestaurantSlug': currentRestaurantSlug,
-      'commensalsAmount': commensalsAmount,
       'description': description,
-      'isInQueue': isInQueue,
+      // 'currentQueue': currentQueue?.toJson(),
     };
   }
 
