@@ -35,8 +35,7 @@ class CurrentQueue extends _$CurrentQueue {
   }
 
   Future<void> refresh() async {
-    _refreshSubject.add(null);
-    
+    _refreshSubject.add(null); 
   }
   //  Future<void> refresh(String email, String id) async {
   //   print("holis");
@@ -49,14 +48,10 @@ class CurrentQueue extends _$CurrentQueue {
 
   void set(SmartPagerCurrentQueue currentQueue) => state = currentQueue;
 
-  void updatePosition(int position) {
-    state!.position = position;
-    state = state!.copy();
-  }
+  void cancelQueue() {
+    ref.read(apiServiceProvider).cancelQueue(state!.email);
 
-  void updateWaitingTime(int waitingTime) {
-    state!.waitingTime = waitingTime;
-    state = state!.copy();
+    state = null;
   }
 
   void clear() => state = null;

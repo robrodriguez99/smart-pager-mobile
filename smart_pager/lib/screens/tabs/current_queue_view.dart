@@ -27,6 +27,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
   Widget build(BuildContext context) {
     ref.read(currentQueueProvider.notifier).refresh();
     final futureQueue = ref.watch(currentQueueProvider);
+    
     print('futureQueue: $futureQueue');
     
     
@@ -113,7 +114,10 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   text: 'Ver menú',
                   gradientColors: const [SPColors.primary, SPColors.primary],
                   onPressed: () {
-                    GoRouter.of(context).push('/menu');
+                    GoRouter.of(context).pushNamed(
+                                'menu',
+                                pathParameters: {'menu': futureQueue.restaurant.menu},
+                              );
                   },
                 ),
               ),
@@ -133,6 +137,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   text: "Cancelar turno",
                   gradientColors: const [SPColors.red, SPColors.red],
                   onPressed: () {
+                    ref.read(apiServiceProvider).cancelQueue(futureQueue.email);
                     //
                   },
                 ),

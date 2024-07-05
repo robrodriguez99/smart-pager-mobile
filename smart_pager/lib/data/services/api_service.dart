@@ -157,4 +157,15 @@ class ApiService {
     // await CurrentQueueRepositoryImpl().updateCurrentQueue(email,currentQueue);
     return currentQueue;
   }
+
+  /// DELETE /api/user/[email]/queue
+  Future<void> cancelQueue(String email) async {
+    final response = await httpClient.delete(Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
+    if (response.statusCode == 200) {
+      print('Removed from queue');
+    } else {
+      throw Exception('Failed to remove from queue');
+    }
+  }
+
 }

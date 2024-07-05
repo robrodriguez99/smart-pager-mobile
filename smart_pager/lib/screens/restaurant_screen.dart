@@ -211,7 +211,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                     ],
                     const SizedBox(height: 16),
                     if (!closed) ...[
-                      // Display the "Anotarse en la cola" button if the restaurant is not closed
                       GradientButton(
                         icon: Icons.wb_twilight,
                         text: "Anotarse en la cola",
@@ -229,6 +228,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       Center(
                         child: Container(
                           padding: const EdgeInsets.all(16),
+                          margin: const EdgeInsets.symmetric(vertical: 16),
                           width: double
                               .infinity, // Ensures the container takes the full width
                           decoration: BoxDecoration(
@@ -245,8 +245,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                                 color: SPColors.red,
                                 fontWeight: FontWeight.bold,
                               ),
+                             
                             ],
                           ),
+                          
                         ),
                       ),
                     ],

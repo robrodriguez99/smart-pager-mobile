@@ -6,7 +6,7 @@ part of 'current_queue_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$currentQueueHash() => r'1d90cd91e62284641477995050ed5f1201224a61';
+String _$currentQueueHash() => r'4da120042d0bd6573331536e6d4d8d47ee8c1ac6';
 
 /// See also [CurrentQueue].
 @ProviderFor(CurrentQueue)
