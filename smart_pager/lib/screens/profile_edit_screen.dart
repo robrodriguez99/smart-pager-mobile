@@ -110,7 +110,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
                         ),
                         countries: const ['AR'],
                         inputDecoration: const InputDecoration(
-                          labelText: 'Número de teléfono *',
+                          labelText: 'Número de teléfono',
                           labelStyle:
                               TextStyle(fontSize: 18, color: SPColors.darkGray),
                           border: OutlineInputBorder(),
