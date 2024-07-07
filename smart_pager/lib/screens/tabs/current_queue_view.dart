@@ -12,12 +12,10 @@ import 'package:smart_pager/providers/repository_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 
 class CurrentQueueView extends ConsumerStatefulWidget {
-
   const CurrentQueueView({super.key});
 
   @override
   ConsumerState<CurrentQueueView> createState() => _CurrentQueueViewState();
-  
 }
 
 class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
@@ -27,11 +25,10 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
   Widget build(BuildContext context) {
     ref.read(currentQueueProvider.notifier).refresh();
     final futureQueue = ref.watch(currentQueueProvider);
-    
+
     print('futureQueue: $futureQueue');
-    
-    
-    if (futureQueue!=null) {
+
+    if (futureQueue != null) {
       isInQueue = true;
     } else {
       isInQueue = false;
@@ -44,21 +41,20 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               const SizedBox(height: 5),
-                const CustomText(
-                  text: 'Actualmente estás en la cola de:',
-                  color: SPColors.heading,
-                  fontSize: 20,
-                  overflow: TextOverflow.ellipsis,
+              const CustomText(
+                text: 'Actualmente estás en la cola de:',
+                color: SPColors.heading,
+                fontSize: 20,
+                overflow: TextOverflow.ellipsis,
               ),
               const SizedBox(height: 20),
               CustomText(
-                  text: futureQueue!.restaurant.name,
-                  color: SPColors.heading,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                
+                text: futureQueue!.restaurant.name,
+                color: SPColors.heading,
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+                overflow: TextOverflow.ellipsis,
+              ),
               SizedBox(
                 height: 150, // Adjust this height as needed
                 child: Center(
@@ -71,11 +67,11 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   ),
                 ),
               ),
-                const CustomText(
-                  text: 'Tiempo estimado de espera:',
-                  color: SPColors.activeBlack,
-                  fontSize: 20,
-                  overflow: TextOverflow.ellipsis,
+              const CustomText(
+                text: 'Tiempo estimado de espera:',
+                color: SPColors.activeBlack,
+                fontSize: 20,
+                overflow: TextOverflow.ellipsis,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -115,9 +111,9 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   gradientColors: const [SPColors.primary, SPColors.primary],
                   onPressed: () {
                     GoRouter.of(context).pushNamed(
-                                'menu',
-                                pathParameters: {'menu': futureQueue.restaurant.menu},
-                              );
+                      'menu',
+                      pathParameters: {'menu': futureQueue.restaurant.menu},
+                    );
                   },
                 ),
               ),
@@ -162,8 +158,9 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
               child: Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: CustomText(
-                  text: 'No estás anotado en ninguna cola actualmente',
-                  color: SPColors.heading,
+                  text: 'No estás anotado en ninguna cola actualmente.',
+                  color: SPColors.darkGray,
+                  fontWeight: FontWeight.bold,
                   fontSize: 22,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
@@ -176,27 +173,29 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: CustomText(
                   text: '¡Te ayudamos a ver donde comer!',
-                  color: SPColors.heading,
+                  color: SPColors.darkGray,
                   fontSize: 22,
                   textAlign: TextAlign.center,
                   overflow: TextOverflow.visible,
                 ),
               ),
             ),
-            const SizedBox(height: 10),
+            const SizedBox(height: 20),
             SizedBox(
               width: 250, // Make the button as wide as its parent
               height: 50, // Set the desired height
               child: Container(
                 margin: const EdgeInsets.symmetric(
                     horizontal: 10), // Add left and right margin here
-                child: GradientButton(
-                  icon: Icons.search,
-                  text: "Buscar",
-                  gradientColors: const [SPColors.primary, SPColors.primary],
-                  onPressed: () {
-                    GoRouter.of(context).push('/search');
-                  },
+                child: Center(
+                  child: GradientButton(
+                    icon: Icons.search,
+                    text: "Buscar",
+                    gradientColors: const [SPColors.primary, SPColors.primary],
+                    onPressed: () {
+                      GoRouter.of(context).push('/search');
+                    },
+                  ),
                 ),
               ),
             ),
@@ -205,5 +204,4 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
       );
     }
   }
-
-} 
+}
