@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+import 'package:maps_launcher/maps_launcher.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
@@ -245,10 +246,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                                 color: SPColors.red,
                                 fontWeight: FontWeight.bold,
                               ),
-                             
                             ],
                           ),
-                          
                         ),
                       ),
                     ],
@@ -429,13 +428,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   void _launchMapsUrl(double latitude, double longitude) async {
-    String googleUrl =
-        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunchUrl(Uri.parse(googleUrl))) {
-      await launchUrl(Uri.parse(googleUrl));
-    } else {
-      throw 'Could not launch $googleUrl';
-    }
+    MapsLauncher.launchCoordinates(latitude, longitude);
   }
 
   String extractAddress(String fullAddress) {
