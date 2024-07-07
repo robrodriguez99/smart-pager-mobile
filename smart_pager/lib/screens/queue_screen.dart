@@ -47,15 +47,27 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
       body:
           Column(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
         const SizedBox(height: 20),
-        Center(
-          // Wrap the Image.asset with Center widget
-          child: Image.asset(
-            'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: Add restaurant image here
-            width: 200, // Adjust size as needed
-            height: 200,
-            fit: BoxFit.cover,
-          ),
-        ),
+
+        currentResturant?.picture != 'no_picture'
+            ? Center(
+                // Wrap the Image.asset with Center widget
+                child: Image.network(
+                currentResturant
+                    ?.picture, // Path to your restaurant image asset //TODO: image
+                width: 200, // Adjust size as needed
+                height: 200,
+                fit: BoxFit.cover,
+              ))
+            : Center(
+                // Wrap the Image.asset with Center widget
+                child: Image.asset(
+                  'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: Add restaurant image here
+                  width: 200, // Adjust size as needed
+                  height: 200,
+                  fit: BoxFit.cover,
+                ),
+              ),
+
         const SizedBox(height: 15),
         const Flexible(
           child: CustomText(

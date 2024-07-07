@@ -87,12 +87,20 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                   children: <Widget>[
                     Center(
                       // Wrap the Image.asset with Center widget
-                      child: Image.asset(
-                        'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: image
-                        width: 200, // Adjust size as needed
-                        height: 200,
-                        fit: BoxFit.cover,
-                      ),
+                      child: restaurant.picture != 'no_picture'
+                          ? Image.network(
+                              restaurant
+                                  .picture, // Path to your restaurant image asset //TODO: image
+                              width: 200, // Adjust size as needed
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: image
+                              width: 200, // Adjust size as needed
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
                     ),
                     const SizedBox(height: 30),
                     Row(

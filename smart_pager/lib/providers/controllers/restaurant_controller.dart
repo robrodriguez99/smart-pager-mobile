@@ -110,7 +110,8 @@ class RestaurantController extends _$RestaurantController {
           slug: "Error",
           email: "Error",
           menu: "Error",
-          location: "Error");
+          location: "Error",
+          picture: "Error");
     }
   }
 

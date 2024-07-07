@@ -138,7 +138,8 @@ class ApiService {
   Future<SmartPagerCurrentQueue?> getUserQueue(String email) async {
     // print('getUserQueue: $email');
 
-    final response = await httpClient.get(Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
+    final response = await httpClient.get(
+        Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
     // print('response: ${response.body}');
     Map<String, dynamic> jsonMap =
         jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
@@ -160,12 +161,12 @@ class ApiService {
 
   /// DELETE /api/user/[email]/queue
   Future<void> cancelQueue(String email) async {
-    final response = await httpClient.delete(Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
+    final response = await httpClient.delete(
+        Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
     if (response.statusCode == 200) {
       print('Removed from queue');
     } else {
       throw Exception('Failed to remove from queue');
     }
   }
-
 }

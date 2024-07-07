@@ -12,7 +12,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
   final location;
   final menu;
   final RestaurantOperatingHours? operatingHours;
-  //TODO: add field types
+  final picture;
 
   SmartPagerRestaurant({
     required super.id,
@@ -24,6 +24,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
     required this.isPromoted,
     required this.location,
     required this.menu,
+    required this.picture,
     this.operatingHours,
   });
 
@@ -38,6 +39,7 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
       isPromoted: json['sponsored'] ?? false,
       location: json['location'] ?? "no_location",
       menu: json['menu'] ?? "no_menu",
+      picture: json['picture'] ?? "no_picture",
       operatingHours: _parseOperatingHours(json['operatingHours']),
     );
   }
@@ -54,23 +56,24 @@ class SmartPagerRestaurant extends GenericModel<SmartPagerRestaurant> {
       'isPromoted': isPromoted,
       'location': location,
       'menu': menu,
+      'picture': picture,
       'operatingHours': operatingHours,
     };
   }
 
   SmartPagerRestaurant copy() {
     return SmartPagerRestaurant(
-      id: id,
-      slug: slug,
-      name: name,
-      email: email,
-      type: type,
-      avgTimePerTable: avgTimePerTable,
-      isPromoted: isPromoted,
-      location: location,
-      menu: menu,
-      operatingHours: operatingHours,
-    );
+        id: id,
+        slug: slug,
+        name: name,
+        email: email,
+        type: type,
+        avgTimePerTable: avgTimePerTable,
+        isPromoted: isPromoted,
+        location: location,
+        menu: menu,
+        operatingHours: operatingHours,
+        picture: picture);
   }
 
   static RestaurantOperatingHours? _parseOperatingHours(dynamic json) {

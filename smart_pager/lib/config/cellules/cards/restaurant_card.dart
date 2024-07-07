@@ -60,17 +60,24 @@ class _RestaurantCardState extends State<RestaurantCard> {
                       height: 60, // Adjust the height as needed
                       child: Center(
                         child: SizedBox(
-                          width: 50, // Adjust the width as needed
-                          height: 50, // Adjust the height as needed
+                          width: 55, // Adjust the width as needed
+                          height: 55, // Adjust the height as needed
                           child: DecoratedBox(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(
                                   8), // Adjust border radius to match the inner image
-                              image: const DecorationImage(
-                                image:
-                                    AssetImage('assets/images/black_logo.png'),
-                                fit: BoxFit.cover,
-                              ),
+                              image: widget.restaurant.picture != "no_picture"
+                                  ? DecorationImage(
+                                      image: NetworkImage(
+                                        widget.restaurant.picture,
+                                      ),
+                                      fit: BoxFit.fill,
+                                    )
+                                  : const DecorationImage(
+                                      image: AssetImage(
+                                          'assets/images/black_logo.png'),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
