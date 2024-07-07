@@ -98,34 +98,45 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
                   Expanded(
                     child: Padding(
                       padding: const EdgeInsets.only(left: 4.0),
-                      child: InternationalPhoneNumberInput(
-                        onInputChanged: (PhoneNumber number) {
-                          phoneNumber = number.phoneNumber!;
-                        },
-                        selectorTextStyle: const TextStyle(
-                            color: SPColors.darkGray, fontSize: 18),
-                        initialValue: PhoneNumber(
-                          phoneNumber: phoneNumber,
-                          isoCode: 'AR',
-                        ),
-                        countries: const ['AR'],
-                        inputDecoration: const InputDecoration(
-                          labelText: 'Número de teléfono',
-                          labelStyle:
-                              TextStyle(fontSize: 18, color: SPColors.darkGray),
-                          border: OutlineInputBorder(),
-                          hintStyle: TextStyle(fontSize: 18),
-                        ),
-                        maxLength: 12,
-                        formatInput: true,
-                        keyboardType: const TextInputType.numberWithOptions(
-                            signed: true, decimal: true),
-                        validator: (value) {
-                          if (value!.isNotEmpty && value.length != 12) {
-                            return 'El número debe tener 10 digitos';
-                          }
-                          return null;
-                        },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          InternationalPhoneNumberInput(
+                            onInputChanged: (PhoneNumber number) {
+                              phoneNumber = number.phoneNumber!;
+                            },
+                            selectorTextStyle: const TextStyle(
+                                color: SPColors.darkGray, fontSize: 18),
+                            initialValue: PhoneNumber(
+                              phoneNumber: phoneNumber,
+                              isoCode: 'AR',
+                            ),
+                            countries: const ['AR'],
+                            inputDecoration: const InputDecoration(
+                              labelText: 'Número de teléfono',
+                              labelStyle: TextStyle(
+                                  fontSize: 18, color: SPColors.darkGray),
+                              border: OutlineInputBorder(),
+                              hintStyle: TextStyle(fontSize: 18),
+                            ),
+                            maxLength: 12,
+                            formatInput: true,
+                            keyboardType: const TextInputType.numberWithOptions(
+                                signed: true, decimal: true),
+                            validator: (value) {
+                              if (value!.isNotEmpty && value.length != 12) {
+                                return 'El número debe tener 10 digitos';
+                              }
+                              return null;
+                            },
+                          ),
+                          const SizedBox(height: 10),
+                          const Text(
+                            "Formato del número de teléfono: +(54) 11 2345-6789.",
+                            style: TextStyle(
+                                color: SPColors.darkGray, fontSize: 12),
+                          ),
+                        ],
                       ),
                     ),
                   ),
@@ -188,10 +199,6 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
     if (EditProfileFormKey.currentState!.validate()) {
       final uid = ref.read(loggedUserProvider)!.id;
       final namePath = nameController.text;
-
-      print("uid: $uid");
-      print("name: $namePath");
-      print("phoneNumber: $phoneNumber");
 
       ref.read(editProfileValidatorProvider.notifier).loading();
 
