@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/data/models/current_queue_model.dart';
 import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 import 'package:smart_pager/providers/api_provider.dart';
-import 'package:smart_pager/providers/repository_provider.dart';
-import 'package:smart_pager/providers/user_provider.dart';
 
 class CurrentQueueView extends ConsumerStatefulWidget {
   const CurrentQueueView({super.key});
@@ -55,18 +52,28 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                 fontWeight: FontWeight.bold,
                 overflow: TextOverflow.ellipsis,
               ),
+              const SizedBox(height: 10),
               SizedBox(
-                height: 150, // Adjust this height as needed
+                height: 200, // Adjust this height as needed
                 child: Center(
                   // Wrap the Image.asset with Center widget
-                  child: Image.asset(
-                    'assets/images/black_logo.png', // Path to your restaurant image asset
-                    width: 150, // Adjust size as needed
-                    height: 150,
-                    fit: BoxFit.cover,
-                  ),
+                  child: futureQueue.restaurant.picture != 'no_picture'
+                      ? Image.network(
+                          futureQueue.restaurant
+                              .picture, // Path to your restaurant image asset
+                          width: 200, // Adjust size as needed
+                          height: 200,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          'assets/images/black_logo.png', // Path to your restaurant image asset
+                          width: 200, // Adjust size as needed
+                          height: 200,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
+              const SizedBox(height: 15),
               const CustomText(
                 text: 'Tiempo estimado de espera:',
                 color: SPColors.activeBlack,
@@ -83,7 +90,9 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   ),
                   Flexible(
                     child: CustomText(
-                      text: ' ${futureQueue.waitingTime} minutos',
+                      text: futureQueue.waitingTime <= 1
+                          ? ' ¡Ya casi es tu turno!'
+                          : ' ${futureQueue.waitingTime} minutos',
                       color: SPColors.darkGray,
                       fontSize: 20,
                       overflow: TextOverflow.ellipsis,
@@ -92,7 +101,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   ),
                 ],
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               const Flexible(
                 child: CustomText(
                   text: 'Te avisaremos cuando tu mesa esté lista',
@@ -101,7 +110,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   overflow: TextOverflow.visible,
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Container(
                 margin: const EdgeInsets.symmetric(
                     horizontal: 20), // Add left and right margin here
@@ -132,9 +141,39 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   icon: Icons.cancel,
                   text: "Cancelar turno",
                   gradientColors: const [SPColors.red, SPColors.red],
-                  onPressed: () {
-                    ref.read(apiServiceProvider).cancelQueue(futureQueue.email);
-                    //
+                  onPressed: () async {
+                    final confirm = await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text('Confirmar ancelación'),
+                          content: const Text(
+                              '¿Estás seguro de que queres cancelar tu turno?'),
+                          actions: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop(false);
+                              },
+                              child: const Text('No'),
+                            ),
+                            TextButton(
+                              onPressed: () {
+                                ref
+                                    .read(apiServiceProvider)
+                                    .cancelQueue(futureQueue.email);
+                              },
+                              child: const Text('Sí'),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+
+                    if (confirm == true) {
+                      ref
+                          .read(apiServiceProvider)
+                          .cancelQueue(futureQueue.email);
+                    }
                   },
                 ),
               ),
