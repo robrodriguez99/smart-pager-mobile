@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_pager/config/cellules/cards/notification_card.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
-import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/Future/notifications_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 

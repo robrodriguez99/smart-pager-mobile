@@ -7,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:smart_pager/providers/restaurant_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
+import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 
 /// Flutter code sample for [DropdownMenu].
 
@@ -134,6 +135,7 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
                     dropdownValue,
                   )
                   .then((value) => {
+                      ref.read(currentQueueProvider.notifier).refresh(),
                         GoRouter.of(context).goNamed('current-queue')
                       }); // Add commensals amount here
             },

@@ -146,14 +146,15 @@ class ApiService {
 
     SmartPagerRestaurant restaurant =
         SmartPagerRestaurant.fromJson(jsonMap['restaurant']);
-    int position = jsonMap['client']['positionInQueue'];
+
     int waitingTime = jsonMap['client']['waitingTime'];
+    bool isCalled = jsonMap['client']['isCalled'];
     SmartPagerCurrentQueue currentQueue = SmartPagerCurrentQueue(
       id: email,
       email: email,
       restaurant: restaurant,
-      position: position,
       waitingTime: waitingTime,
+      isCalled: isCalled
     );
     // await CurrentQueueRepositoryImpl().updateCurrentQueue(email,currentQueue);
     return currentQueue;

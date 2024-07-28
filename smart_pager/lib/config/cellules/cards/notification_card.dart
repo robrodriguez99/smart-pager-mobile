@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/Future/notifications_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
@@ -24,11 +25,14 @@ class NotificationCard extends ConsumerStatefulWidget {
 
     @override
     Widget build(BuildContext context) {
-      final futureUser = ref.watch(loggedUserProvider);
       // ref.read(notificationsProvider.notifier).refresh(futureUser!.id);
       return GestureDetector(
         onTap: () {
           ref.read(notificationsProvider.notifier).markNotificationAsRead(id);
+          // GoRouter.of(context).pushNamed(
+          //               'current-notification',
+          //               pathParameters: {'title': title, 'description': description},
+          //             );
           // ref.read(notificationsProvider.notifier).refresh(futureUser.id);
 
           //set isRead to true
@@ -55,17 +59,21 @@ class NotificationCard extends ConsumerStatefulWidget {
                   const SizedBox(width: 10), // SizedBox is a box with a specified size.
                   CustomText(
                     text: title,
-                    fontSize: 20,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.visible,
                   ),
                 ],
+                
               ),
               
               const SizedBox(height: 5),
               CustomText(
                 text: description!,
-                fontSize: 16,
+                fontSize: 15,
                 color: Colors.grey,
+                overflow: TextOverflow.visible,
+                textAlign: TextAlign.start,
               ),
               const SizedBox(height: 5),
               CustomText(

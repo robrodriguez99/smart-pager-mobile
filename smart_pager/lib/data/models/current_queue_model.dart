@@ -4,8 +4,8 @@ import 'package:smart_pager/data/models/restaurant_model.dart';
 class SmartPagerCurrentQueue extends GenericModel<SmartPagerCurrentQueue> {
   final String email;
   SmartPagerRestaurant restaurant;
-  int position;
   int waitingTime;
+  bool isCalled;
   // int? commensalsAmount;
 
 
@@ -13,8 +13,8 @@ class SmartPagerCurrentQueue extends GenericModel<SmartPagerCurrentQueue> {
     required super.id,
     required this.email,
     required this.restaurant,
-    required this.position,
     required this.waitingTime,
+    required this.isCalled,
   });
 
   Object? get state => null;
@@ -25,8 +25,8 @@ class SmartPagerCurrentQueue extends GenericModel<SmartPagerCurrentQueue> {
       id: json['id']?? '',
       email: json['client.email']?? '',
       restaurant: SmartPagerRestaurant.fromJson(json['restaurant']),
-      position: json['positionInQueue'],
       waitingTime: json['client.waitingTime'],
+      isCalled: json['client.isCalled']?? false,
     );
   }
 
@@ -36,8 +36,8 @@ class SmartPagerCurrentQueue extends GenericModel<SmartPagerCurrentQueue> {
       'id': id,
       'email': email,
       'restaurant': restaurant.toJson(),
-      'position': position,
       'waitingTime': waitingTime,
+      'isCalled': isCalled,
     };
   }
 
@@ -46,8 +46,8 @@ class SmartPagerCurrentQueue extends GenericModel<SmartPagerCurrentQueue> {
       id: id,
       email: email,
       restaurant: restaurant,
-      position: position,
       waitingTime: waitingTime,
+      isCalled: isCalled,
     );
   }
 

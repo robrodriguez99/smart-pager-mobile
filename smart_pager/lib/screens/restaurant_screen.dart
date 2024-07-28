@@ -182,7 +182,6 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            // Add space between text and icon
                             const Icon(
                               Icons.access_alarm,
                               color: SPColors.activeBlack,
@@ -191,14 +190,14 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                             const SizedBox(width: 8),
                             const CustomText(
                               text:
-                                  'Horarios de apertura', //TODO: opening times
+                                  'Horarios de apertura',
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: SPColors.activeBlack,
                             ),
 
                             const SizedBox(
-                                width: 8), // Add space between text and icon
+                                width: 8),
                             Icon(
                               showOpeningTimes
                                   ? Icons.keyboard_arrow_up

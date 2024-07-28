@@ -26,11 +26,11 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
     ref.read(currentQueueProvider.notifier).refresh();
     final futureQueue = ref.watch(currentQueueProvider);
 
-    print('futureQueue: $futureQueue');
+    print('futureQueue: ${futureQueue}');
 
     if (futureQueue != null) {
       isInQueue = true;
-      isCalled = true; // TODO SI ESTA LLAMADO MOSTRAR PANTALLA DE LLAMADO
+      isCalled = futureQueue.isCalled;
     } else {
       isInQueue = false;
       isCalled = false;
@@ -85,9 +85,9 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Center(
                       child: Container(
-                        padding: const EdgeInsets.all(16),
-                        margin: const EdgeInsets.symmetric(vertical: 16),
-                        width: double.infinity,
+                        // padding: const EdgeInsets.all(16),
+                        // margin: const EdgeInsets.symmetric(vertical: 16),
+                        // width: double.infinity,
                         decoration: BoxDecoration(
                           color: SPColors.primary.withOpacity(0.1),
                           border: Border.all(color: SPColors.primary),
@@ -142,153 +142,157 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
           ),
         );
       } else {
-        return Container(
-          child: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                const SizedBox(height: 5),
-                const CustomText(
-                  text: 'Actualmente estás en la cola de:',
-                  color: SPColors.heading,
-                  fontSize: 20,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 20),
-                CustomText(
-                  text: futureQueue!.restaurant.name,
-                  color: SPColors.heading,
-                  fontSize: 25,
-                  fontWeight: FontWeight.bold,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                const SizedBox(height: 10),
-                SizedBox(
-                  height: 200, // Adjust this height as needed
-                  child: Center(
-                    // Wrap the Image.asset with Center widget
-                    child: futureQueue.restaurant.picture != 'no_picture'
-                        ? Image.network(
-                            futureQueue.restaurant
-                                .picture, // Path to your restaurant image asset
-                            width: 200, // Adjust size as needed
-                            height: 200,
-                            fit: BoxFit.cover,
-                          )
-                        : Image.asset(
-                            'assets/images/black_logo.png', // Path to your restaurant image asset
-                            width: 200, // Adjust size as needed
-                            height: 200,
-                            fit: BoxFit.cover,
-                          ),
+        return SingleChildScrollView(
+          child: Container(
+            height: 600,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 5),
+                  const CustomText(
+                    text: 'Actualmente estás en la cola de:',
+                    color: SPColors.heading,
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ),
-                const SizedBox(height: 15),
-                const CustomText(
-                  text: 'Tiempo estimado de espera:',
-                  color: SPColors.activeBlack,
-                  fontSize: 20,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(
-                      Icons.access_time_filled,
-                      color: SPColors.activeBlack,
-                      size: 16,
+                  const SizedBox(height: 20),
+                  CustomText(
+                    text: futureQueue!.restaurant.name,
+                    color: SPColors.heading,
+                    fontSize: 25,
+                    fontWeight: FontWeight.bold,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const SizedBox(height: 10),
+                  SizedBox(
+                    height: 200, // Adjust this height as needed
+                    child: Center(
+                      // Wrap the Image.asset with Center widget
+                      child: futureQueue.restaurant.picture != 'no_picture'
+                          ? Image.network(
+                              futureQueue.restaurant
+                                  .picture, // Path to your restaurant image asset
+                              width: 200, // Adjust size as needed
+                              height: 200,
+                              fit: BoxFit.cover,
+                            )
+                          : Image.asset(
+                              'assets/images/black_logo.png', // Path to your restaurant image asset
+                              width: 200, // Adjust size as needed
+                              height: 200,
+                              fit: BoxFit.cover,
+                            ),
                     ),
-                    Flexible(
-                      child: CustomText(
-                        text: futureQueue.waitingTime <= 1
-                            ? ' ¡Ya casi es tu turno!'
-                            : ' ${futureQueue.waitingTime} minutos',
-                        color: SPColors.darkGray,
-                        fontSize: 20,
-                        overflow: TextOverflow.ellipsis,
-                        fontWeight: FontWeight.bold,
+                  ),
+                  const SizedBox(height: 15),
+                  const CustomText(
+                    text: 'Tiempo estimado de espera:',
+                    color: SPColors.activeBlack,
+                    fontSize: 20,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      const Icon(
+                        Icons.access_time_filled,
+                        color: SPColors.activeBlack,
+                        size: 16,
                       ),
+                      Flexible(
+                        child: CustomText(
+                          text: futureQueue.waitingTime <= 1
+                              ? ' ¡Ya casi es tu turno!'
+                              : ' ${futureQueue.waitingTime} minutos',
+                          color: SPColors.darkGray,
+                          fontSize: 20,
+                          overflow: TextOverflow.ellipsis,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  const Flexible(
+                    child: CustomText(
+                      text: 'Te avisaremos cuando tu mesa esté lista',
+                      color: SPColors.darkGray,
+                      fontSize: 18,
+                      overflow: TextOverflow.visible,
                     ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                const Flexible(
-                  child: CustomText(
-                    text: 'Te avisaremos cuando tu mesa esté lista',
+                  ),
+                  const SizedBox(height: 20),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20), // Add left and right margin here
+                    child: GradientButton(
+                      icon: Icons.restaurant_menu,
+                      text: 'Ver menú',
+                      gradientColors: const [SPColors.primary, SPColors.primary],
+                      onPressed: () {
+                        GoRouter.of(context).pushNamed(
+                          'menu',
+                          pathParameters: {'menu': futureQueue.restaurant.menu},
+                        );
+                      },
+                    ),
+                  ),
+                  const Spacer(),
+                  const CustomText(
+                    text: 'Si cambias de opinión podés retirarte de la cola',
                     color: SPColors.darkGray,
-                    fontSize: 18,
+                    fontSize: 16,
                     overflow: TextOverflow.visible,
                   ),
-                ),
-                const SizedBox(height: 20),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20), // Add left and right margin here
-                  child: GradientButton(
-                    icon: Icons.restaurant_menu,
-                    text: 'Ver menú',
-                    gradientColors: const [SPColors.primary, SPColors.primary],
-                    onPressed: () {
-                      GoRouter.of(context).pushNamed(
-                        'menu',
-                        pathParameters: {'menu': futureQueue.restaurant.menu},
-                      );
-                    },
+                  const SizedBox(height: 10),
+                  Container(
+                    margin: const EdgeInsets.symmetric(
+                        horizontal: 20), // Add left and right margin here
+                    child: GradientButton(
+                      icon: Icons.cancel,
+                      text: "Cancelar turno",
+                      gradientColors: const [SPColors.red, SPColors.red],
+                      onPressed: () async {
+                        final confirm = await showDialog(
+                          context: context,
+                          builder: (context) {
+                            return AlertDialog(
+                              title: const Text('Confirmar ancelación'),
+                              content: const Text(
+                                  '¿Estás seguro de que queres cancelar tu turno?'),
+                              actions: [
+                                TextButton(
+                                  onPressed: () {
+                                    Navigator.of(context).pop(false);
+                                  },
+                                  child: const Text('No'),
+                                ),
+                                TextButton(
+                                  onPressed: () {
+                                    ref
+                                        .read(apiServiceProvider)
+                                        .cancelQueue(futureQueue.email);
+                                  },
+                                  child: const Text('Sí'),
+                                ),
+                              ],
+                            );
+                          },
+                        );
+          
+                        if (confirm == true) {
+                          ref
+                              .read(apiServiceProvider)
+                              .cancelQueue(futureQueue.email);
+                        }
+                      },
+                    ),
                   ),
-                ),
-                const Spacer(),
-                const CustomText(
-                  text: 'Si cambias de opinión podés retirarte de la cola',
-                  color: SPColors.darkGray,
-                  fontSize: 16,
-                  overflow: TextOverflow.visible,
-                ),
-                const SizedBox(height: 10),
-                Container(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 20), // Add left and right margin here
-                  child: GradientButton(
-                    icon: Icons.cancel,
-                    text: "Cancelar turno",
-                    gradientColors: const [SPColors.red, SPColors.red],
-                    onPressed: () async {
-                      final confirm = await showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text('Confirmar ancelación'),
-                            content: const Text(
-                                '¿Estás seguro de que queres cancelar tu turno?'),
-                            actions: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.of(context).pop(false);
-                                },
-                                child: const Text('No'),
-                              ),
-                              TextButton(
-                                onPressed: () {
-                                  ref
-                                      .read(apiServiceProvider)
-                                      .cancelQueue(futureQueue.email);
-                                },
-                                child: const Text('Sí'),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-
-                      if (confirm == true) {
-                        ref
-                            .read(apiServiceProvider)
-                            .cancelQueue(futureQueue.email);
-                      }
-                    },
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

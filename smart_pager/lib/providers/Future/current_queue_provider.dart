@@ -22,7 +22,7 @@ class CurrentQueue extends _$CurrentQueue {
     });
 
     _refreshSubject
-        .throttleTime(Duration(seconds: 1))
+        .throttleTime(Duration(seconds: 30))
         .listen((_) async {
           final futureUser = ref.read(loggedUserProvider);
           if (futureUser != null) {
@@ -37,14 +37,7 @@ class CurrentQueue extends _$CurrentQueue {
   Future<void> refresh() async {
     _refreshSubject.add(null); 
   }
-  //  Future<void> refresh(String email, String id) async {
-  //   print("holis");
-  //   final currentQueue = await ref.read(apiServiceProvider).getUserQueue(email);
-  //   // final currentQueue = await ref.read(currentQueueRepositoryProvider).getCurrentQueueByEmail(email);
-  //   if (currentQueue != null) {
-  //     state = currentQueue;
-  //   }
-  // }
+  
 
   void set(SmartPagerCurrentQueue currentQueue) => state = currentQueue;
 

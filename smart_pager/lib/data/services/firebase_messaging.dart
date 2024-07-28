@@ -6,7 +6,6 @@ import 'package:smart_pager/data/repositories/notification_repository_impl.dart'
 import 'package:smart_pager/data/repositories/user_repository_impl.dart';
 import 'package:smart_pager/data/services/firebase_auth.dart';
 
-import 'package:smart_pager/data/services/access_firebase_token.dart';
   
   Future<void> handleBackgroundMessage(RemoteMessage message) async {
     print('Handling a background message ${message.messageId}');
