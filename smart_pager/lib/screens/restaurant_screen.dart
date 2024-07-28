@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -8,6 +9,7 @@ import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/data/models/operating_hours_model.dart';
+import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -24,7 +26,6 @@ class RestaurantScreen extends ConsumerStatefulWidget {
 class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   bool showOpeningTimes = false; // State to toggle opening times
   bool closed = false; // State to indicate if the restaurant is closed
-
   @override
   void initState() {
     super.initState();
@@ -33,6 +34,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final futureQueue = ref.watch(currentQueueProvider);
     // Get the restaurant data from the controller and set the current restaurant
     final futureRestaurant = ref
         .watch(restaurantControllerProvider.notifier)
@@ -90,13 +92,13 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       child: restaurant.picture != 'no_picture'
                           ? Image.network(
                               restaurant
-                                  .picture, // Path to your restaurant image asset //TODO: image
+                                  .picture,
                               width: 200, // Adjust size as needed
                               height: 200,
                               fit: BoxFit.cover,
                             )
                           : Image.asset(
-                              'assets/images/black_logo.png', // Path to your restaurant image asset //TODO: image
+                              'assets/images/black_logo.png',
                               width: 200, // Adjust size as needed
                               height: 200,
                               fit: BoxFit.cover,
@@ -225,17 +227,31 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                     ],
                     const SizedBox(height: 16),
                     if (!closed) ...[
-                      GradientButton(
-                        icon: Icons.wb_twilight,
-                        text: "Anotarse en la cola",
-                        gradientColors: [
-                          SPColors.secondary,
-                          SPColors.secondary
-                        ],
-                        onPressed: () {
-                          GoRouter.of(context).push('/queue');
-                        },
-                      ),
+                      if(futureQueue == null) ...[
+                        GradientButton(
+                          icon: Icons.wb_twilight,
+                          text: "Anotarse en la cola",
+                          gradientColors: [
+                            SPColors.secondary,
+                            SPColors.secondary
+                          ],
+                          onPressed: () {
+                            GoRouter.of(context).push('/queue');
+                          },
+                        ),
+
+                      ] else ...[
+                        Container(
+                          alignment: Alignment.center,
+                          child: CustomText(
+                            text: 'ya estás anotado en una cola',
+                            fontSize: 20,
+                            color: SPColors.red,
+                            fontWeight: FontWeight.bold,
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
                     ],
                     const SizedBox(height: 16),
                     if (closed) ...[
