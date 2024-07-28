@@ -122,15 +122,24 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                                 size: 20,
                               ),
                               const SizedBox(width: 10),
-                              CustomText(
-                                text: extractAddress(
-                                    restaurantAddress), // Ubicación del restaurante
-                                fontSize: 20,
-                                color: SPColors.activeBlack,
-                                textDecoration: restaurantAddress !=
-                                        'Ubicación no disponible'
-                                    ? TextDecoration.underline
-                                    : TextDecoration.none,
+                              ConstrainedBox(
+                                constraints: BoxConstraints(
+                                    maxWidth: MediaQuery.of(context)
+                                            .size
+                                            .width -
+                                        80), // Adjust the maxWidth as needed
+                                child: CustomText(
+                                  textAlign: TextAlign.left,
+                                  text: extractAddress(
+                                      restaurantAddress), // Ubicación del restaurante
+                                  fontSize: 20,
+                                  color: SPColors.activeBlack,
+                                  textDecoration: restaurantAddress !=
+                                          'Ubicación no disponible'
+                                      ? TextDecoration.underline
+                                      : TextDecoration.none,
+                                  overflow: TextOverflow.visible,
+                                ),
                               ),
                             ],
                           ),
@@ -189,15 +198,12 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                             ),
                             const SizedBox(width: 8),
                             const CustomText(
-                              text:
-                                  'Horarios de apertura',
+                              text: 'Horarios de apertura',
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
                               color: SPColors.activeBlack,
                             ),
-
-                            const SizedBox(
-                                width: 8),
+                            const SizedBox(width: 8),
                             Icon(
                               showOpeningTimes
                                   ? Icons.keyboard_arrow_up
