@@ -4,7 +4,6 @@ import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/cellules/cards/restaurant_card.dart';
 import 'package:smart_pager/config/tokens/sp_colors.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
-import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
 
 class SearchResultsScreen extends ConsumerStatefulWidget {

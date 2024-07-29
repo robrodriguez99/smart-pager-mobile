@@ -1,9 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:smart_pager/data/models/form_states.dart';
-
-import 'package:smart_pager/data/models/user_model.dart';
-import 'package:smart_pager/providers/auth_provider.dart';
-
 import 'package:smart_pager/providers/repository_provider.dart';
 import 'package:smart_pager/providers/user_provider.dart';
 import 'package:smart_pager/screens/profile_edit_screen.dart';

@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:go_router/go_router.dart';
 import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/providers/Future/notifications_provider.dart';
-import 'package:smart_pager/providers/user_provider.dart';
 
 class NotificationCard extends ConsumerStatefulWidget {
   final String? title, description, time;

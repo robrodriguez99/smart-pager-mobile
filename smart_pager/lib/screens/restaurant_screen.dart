@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:maps_launcher/maps_launcher.dart';
@@ -11,7 +10,6 @@ import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/data/models/operating_hours_model.dart';
 import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class RestaurantScreen extends ConsumerStatefulWidget {
   final String restaurantSlug;

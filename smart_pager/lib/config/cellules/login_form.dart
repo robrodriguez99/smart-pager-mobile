@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:smart_pager/config/molecules/buttons/gradient_button.dart';
 import 'package:smart_pager/providers/controllers/login_controller.dart';
 
 final LoginFormKey = GlobalKey<FormBuilderState>();

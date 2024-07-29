@@ -1,8 +1,5 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:smart_pager/data/models/current_queue_model.dart';
-import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
-import 'package:smart_pager/providers/api_provider.dart';
 import 'package:smart_pager/providers/auth_provider.dart';
 import 'package:smart_pager/providers/repository_provider.dart';
 

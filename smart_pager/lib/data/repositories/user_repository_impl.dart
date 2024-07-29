@@ -1,4 +1,3 @@
-import 'package:smart_pager/data/models/restaurant_model.dart';
 import 'package:smart_pager/data/models/user_model.dart';
 import 'package:smart_pager/data/repositories/repository.dart';
 import 'package:smart_pager/exceptions/not_found_exception.dart';
