@@ -88,6 +88,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                         // padding: const EdgeInsets.all(16),
                         // margin: const EdgeInsets.symmetric(vertical: 16),
                         // width: double.infinity,
+                        height: 50,
                         decoration: BoxDecoration(
                           color: SPColors.primary.withOpacity(0.1),
                           border: Border.all(color: SPColors.primary),
@@ -147,7 +148,6 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
             height: 600,
             child: Padding(
               padding: const EdgeInsets.all(16),
-              
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -231,7 +231,10 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                     child: GradientButton(
                       icon: Icons.restaurant_menu,
                       text: 'Ver menú',
-                      gradientColors: const [SPColors.primary, SPColors.primary],
+                      gradientColors: const [
+                        SPColors.primary,
+                        SPColors.primary
+                      ],
                       onPressed: () {
                         GoRouter.of(context).pushNamed(
                           'menu',
@@ -282,7 +285,7 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                             );
                           },
                         );
-          
+
                         if (confirm == true) {
                           ref
                               .read(apiServiceProvider)
