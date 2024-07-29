@@ -17,12 +17,12 @@ class CurrentQueue extends _$CurrentQueue {
   SmartPagerCurrentQueue? build() => null;
 
  CurrentQueue() {
-    _refreshTimer = Timer.periodic(Duration(seconds: 30), (_) {
+    _refreshTimer = Timer.periodic(Duration(seconds: 2), (_) {
       _refreshSubject.add(null);
     });
 
     _refreshSubject
-        .throttleTime(Duration(seconds: 30))
+        .throttleTime(Duration(seconds: 2))
         .listen((_) async {
           final futureUser = ref.read(loggedUserProvider);
           if (futureUser != null) {
@@ -43,7 +43,7 @@ class CurrentQueue extends _$CurrentQueue {
 
   void cancelQueue() {
     ref.read(apiServiceProvider).cancelQueue(state!.email);
-
+    refresh();
     state = null;
   }
 
