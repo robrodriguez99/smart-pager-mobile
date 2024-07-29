@@ -29,6 +29,8 @@ class CurrentQueue extends _$CurrentQueue {
             final currentQueue = await ref.read(apiServiceProvider).getUserQueue(futureUser.email);
             if (currentQueue != null) {
               state = currentQueue;
+            } else {
+              state = null;
             }
           }
         });

@@ -70,9 +70,6 @@ class RestaurantOperatingHours extends GenericModel<RestaurantOperatingHours> {
   });
 
   static RestaurantOperatingHours fromJson(Map<String, dynamic> json) {
-    // print(json);
-
-
     return RestaurantOperatingHours(
       id: json['id'] ?? "no_id",
       days: _parseDays(json),

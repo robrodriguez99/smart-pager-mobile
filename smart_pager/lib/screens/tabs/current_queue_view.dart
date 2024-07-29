@@ -26,8 +26,6 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
     ref.read(currentQueueProvider.notifier).refresh();
     final futureQueue = ref.watch(currentQueueProvider);
 
-    print('futureQueue: ${futureQueue}');
-
     if (futureQueue != null) {
       isInQueue = true;
       isCalled = futureQueue.isCalled;
@@ -183,12 +181,6 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                             );
                           },
                         );
-
-                        if (confirm == true) {
-                          ref
-                              .read(apiServiceProvider)
-                              .cancelQueue(futureQueue.email);
-                        }
                       },
                     ),
                   

@@ -14,16 +14,6 @@ class ApiService {
   FirebaseMessagingApi firebaseMessagingApi = FirebaseMessagingApi();
   ApiService(this.httpClient);
 
-  Future<void> getHello() async {
-    final response =
-        await httpClient.get(Uri.parse("${baseUrl}/franco-rodriguez-2/queue"));
-    if (response.statusCode == 200) {
-      print(response.body);
-    } else {
-      throw Exception('Failed to load restaurants');
-    }
-  }
-
   /// POST /api/restaurants/[slug]/queue
   ///
   /// Path Parameters:
@@ -45,8 +35,8 @@ class ApiService {
       String description, String commensalsAmount) async {
     String authToken = await accessTokenGetter.getAccessToken();
     final messagingToken = await firebaseMessagingApi.getToken();
-    print('messagingToken: $messagingToken');
-    print('authToken: $authToken');
+    // print('messagingToken: $messagingToken');
+    // print('authToken: $authToken');
 
     final response = await httpClient.post(
       Uri.parse("$baseUrl/$restaurantSlug/queue"),
@@ -109,8 +99,6 @@ class ApiService {
       restaurants.add(SmartPagerRestaurant.fromJson(restaurant));
     }
 
-    print(restaurants);
-
     return restaurants;
   }
 
@@ -140,10 +128,12 @@ class ApiService {
 
     final response = await httpClient.get(
         Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
-    // print('response: ${response.body}');
     Map<String, dynamic> jsonMap =
         jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
-
+    
+    if(jsonMap['restaurant'] == null){
+      return null;
+    }
     SmartPagerRestaurant restaurant =
         SmartPagerRestaurant.fromJson(jsonMap['restaurant']);
 
@@ -167,7 +157,7 @@ class ApiService {
     if (response.statusCode == 200) {
       print('Removed from queue');
     } else {
-      throw Exception('Failed to remove from queue');
+      print('Failed to remove from queue');
     }
   }
 }
