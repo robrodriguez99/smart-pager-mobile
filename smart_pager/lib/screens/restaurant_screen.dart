@@ -89,11 +89,10 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                       // Wrap the Image.asset with Center widget
                       child: restaurant.picture != 'no_picture'
                           ? Image.network(
-                              restaurant
-                                  .picture,
+                              restaurant.picture,
                               width: 200, // Adjust size as needed
                               height: 200,
-                              fit: BoxFit.cover,
+                              fit: BoxFit.contain,
                             )
                           : Image.asset(
                               'assets/images/black_logo.png',
@@ -225,7 +224,7 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                     ],
                     const SizedBox(height: 16),
                     if (!closed) ...[
-                      if(futureQueue == null) ...[
+                      if (futureQueue == null) ...[
                         GradientButton(
                           icon: Icons.wb_twilight,
                           text: "Anotarse en la cola",
@@ -237,18 +236,34 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
                             GoRouter.of(context).push('/queue');
                           },
                         ),
-
                       ] else ...[
                         Container(
                           alignment: Alignment.center,
-                          child: CustomText(
-                            text: 'ya estás anotado en una cola',
-                            fontSize: 20,
-                            color: SPColors.red,
-                            fontWeight: FontWeight.bold,
-                            textAlign: TextAlign.center,
+                          child: Center(
+                            child: Container(
+                              // padding: const EdgeInsets.all(16),
+                              // margin: const EdgeInsets.symmetric(vertical: 16),
+                              // width: double.infinity,
+                              height: 50,
+                              decoration: BoxDecoration(
+                                color: SPColors.primary.withOpacity(0.1),
+                                border: Border.all(color: SPColors.primary),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: const Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  CustomText(
+                                    text: '¡Ya estás en una cola!',
+                                    fontSize: 20,
+                                    color: SPColors.primary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                            ),
                           ),
-                        ),
+                        )
                       ],
                     ],
                     const SizedBox(height: 16),

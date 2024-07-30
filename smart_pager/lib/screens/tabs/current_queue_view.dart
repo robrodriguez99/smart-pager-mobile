@@ -120,71 +120,77 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                   ),
                 ),
                 const SizedBox(height: 20),
-                futureQueue.restaurant.menu != 'no_menu' ?
+                futureQueue.restaurant.menu != 'no_menu'
+                    ? Container(
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 20), // Add left and right margin here
+                        child: GradientButton(
+                          icon: Icons.restaurant_menu,
+                          text: 'Ver menú',
+                          gradientColors: const [
+                            SPColors.primary,
+                            SPColors.primary
+                          ],
+                          onPressed: () {
+                            GoRouter.of(context).pushNamed(
+                              'menu',
+                              pathParameters: {
+                                'menu': futureQueue.restaurant.menu
+                              },
+                            );
+                          },
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+                const SizedBox(height: 20),
                 Container(
                   margin: const EdgeInsets.symmetric(
                       horizontal: 20), // Add left and right margin here
                   child: GradientButton(
-                    icon: Icons.restaurant_menu,
-                    text: 'Ver menú',
-                    gradientColors: const [SPColors.primary, SPColors.primary],
-                    onPressed: () {
-                      GoRouter.of(context).pushNamed(
-                        'menu',
-                        pathParameters: {'menu': futureQueue.restaurant.menu},
+                    icon: Icons.cancel,
+                    text: "Cancelar turno",
+                    gradientColors: const [SPColors.red, SPColors.red],
+                    onPressed: () async {
+                      final confirm = await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text('Confirmar ancelación'),
+                            content: const Text(
+                                '¿Estás seguro de que queres cancelar tu turno?'),
+                            actions: [
+                              TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).pop(false);
+                                },
+                                child: const Text('No'),
+                              ),
+                              TextButton(
+                                onPressed: () async {
+                                  await ref
+                                      .read(apiServiceProvider)
+                                      .cancelQueue(futureQueue.email)
+                                      .then((value) => {
+                                            Navigator.of(context).pop(false),
+                                            ref
+                                                .read(currentQueueProvider
+                                                    .notifier)
+                                                .clear(),
+                                            ref
+                                                .read(currentQueueProvider
+                                                    .notifier)
+                                                .refresh(),
+                                          });
+                                },
+                                child: const Text('Sí'),
+                              ),
+                            ],
+                          );
+                        },
                       );
                     },
                   ),
-                )
-                :const SizedBox.shrink(),
-                 Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20), // Add left and right margin here
-                    child: GradientButton(
-                      icon: Icons.cancel,
-                      text: "Cancelar turno",
-                      gradientColors: const [SPColors.red, SPColors.red],
-                      onPressed: () async {
-                        final confirm = await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text('Confirmar ancelación'),
-                              content: const Text(
-                                  '¿Estás seguro de que queres cancelar tu turno?'),
-                              actions: [
-                                TextButton(
-                                  onPressed: () {
-                                    Navigator.of(context).pop(false);
-                                  },
-                                  child: const Text('No'),
-                                ),
-                                TextButton(
-                                  onPressed: () async {
-                                    await ref
-                                        .read(apiServiceProvider)
-                                        .cancelQueue(futureQueue.email)
-                                        .then((value) => {
-                                          Navigator.of(context).pop(false),
-                                          ref.read(currentQueueProvider.notifier).clear(),
-                                          ref.read(currentQueueProvider.notifier).refresh(),
-                                        }
-
-
-                                        );
-
-                                  },
-                                  child: const Text('Sí'),
-                                ),
-                              ],
-                            );
-                          },
-                        );
-                      },
-                    ),
-                  
-                  ),
-                
+                ),
               ],
             ),
           ),
@@ -272,23 +278,28 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                     ),
                   ),
                   const SizedBox(height: 20),
-                  futureQueue.restaurant.menu != 'no_menu' ?
-                  Container(
-                    margin: const EdgeInsets.symmetric(
-                        horizontal: 20), // Add left and right margin here
-                    child: GradientButton(
-                      icon: Icons.restaurant_menu,
-                      text: 'Ver menú',
-                      gradientColors: const [SPColors.primary, SPColors.primary],
-                      onPressed: () {
-                        GoRouter.of(context).pushNamed(
-                          'menu',
-                          pathParameters: {'menu': futureQueue.restaurant.menu},
-                        );
-                      },
-                    ),
-                  )
-                :const SizedBox.shrink(),
+                  futureQueue.restaurant.menu != 'no_menu'
+                      ? Container(
+                          margin: const EdgeInsets.symmetric(
+                              horizontal: 20), // Add left and right margin here
+                          child: GradientButton(
+                            icon: Icons.restaurant_menu,
+                            text: 'Ver menú',
+                            gradientColors: const [
+                              SPColors.primary,
+                              SPColors.primary
+                            ],
+                            onPressed: () {
+                              GoRouter.of(context).pushNamed(
+                                'menu',
+                                pathParameters: {
+                                  'menu': futureQueue.restaurant.menu
+                                },
+                              );
+                            },
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   const Spacer(),
                   const CustomText(
                     text: 'Si cambias de opinión podés retirarte de la cola',
@@ -325,14 +336,16 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                                         .read(apiServiceProvider)
                                         .cancelQueue(futureQueue.email)
                                         .then((value) => {
-                                          Navigator.of(context).pop(false),
-                                          ref.read(currentQueueProvider.notifier).clear(),
-                                          ref.read(currentQueueProvider.notifier).refresh(),
-                                        }
-
-
-                                        );
-
+                                              Navigator.of(context).pop(false),
+                                              ref
+                                                  .read(currentQueueProvider
+                                                      .notifier)
+                                                  .clear(),
+                                              ref
+                                                  .read(currentQueueProvider
+                                                      .notifier)
+                                                  .refresh(),
+                                            });
                                   },
                                   child: const Text('Sí'),
                                 ),
@@ -348,7 +361,6 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                         }
                       },
                     ),
-                  
                   ),
                 ],
               ),
