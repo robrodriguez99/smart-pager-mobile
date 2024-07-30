@@ -194,32 +194,26 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   text: 'Buscar',
                   gradientColors: const [SPColors.primary, SPColors.primary],
                   onPressed: () async {
-                    // Ensure the current position is fetched before continuing
-                    final position = await _getCurrentPosition(context);
+                    Position? position;
 
-                    if (position != null) {
-                      final params = {
-                        'category': _selectedCategory,
-                        'distance': _selectedDistance,
-                        'searchText': _searchController.text,
-                        'latitude': position.latitude.toString(),
-                        'longitude': position.longitude.toString(),
-                      };
-
-                      final uri = Uri(
-                        path: '/search/results',
-                        queryParameters: params,
-                      );
-
-                      GoRouter.of(context).push(uri.toString());
-                    } else {
-                      // Handle the case where the position couldn't be fetched
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                            content: Text(
-                                'No se pudo obtener la ubicación actual.')),
-                      );
+                    if (_selectedDistance != 'Todas') {
+                      position = await _getCurrentPosition(context);
                     }
+
+                    final params = {
+                      'category': _selectedCategory,
+                      'distance': _selectedDistance,
+                      'searchText': _searchController.text,
+                      'latitude': position?.latitude.toString(),
+                      'longitude': position?.longitude.toString(),
+                    };
+
+                    final uri = Uri(
+                      path: '/search/results',
+                      queryParameters: params,
+                    );
+
+                    GoRouter.of(context).push(uri.toString());
                   },
                 )
               ],
