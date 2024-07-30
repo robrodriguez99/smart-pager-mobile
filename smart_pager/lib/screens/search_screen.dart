@@ -54,15 +54,19 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
     return true;
   }
 
-  Future<void> _getCurrentPosition(BuildContext context) async {
+  Future<Position?> _getCurrentPosition(BuildContext context) async {
     final hasPermission = await _handleLocationPermission(context);
-    if (!hasPermission) return;
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) {
+    if (!hasPermission) return null;
+
+    try {
+      final position = await Geolocator.getCurrentPosition(
+          desiredAccuracy: LocationAccuracy.high);
       setState(() => _currentPosition = position);
-    }).catchError((e) {
-      debugPrint(e);
-    });
+      return position;
+    } catch (e) {
+      debugPrint(e.toString());
+      return null;
+    }
   }
 
   @override
@@ -168,7 +172,6 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                 DropdownButtonFormField<String>(
                   value: _selectedDistance,
                   onChanged: (newValue) async {
-                    await _getCurrentPosition(context);
                     setState(() {
                       _selectedDistance = newValue!;
                     });
@@ -190,23 +193,35 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
                   icon: Icons.search,
                   text: 'Buscar',
                   gradientColors: const [SPColors.primary, SPColors.primary],
-                  onPressed: () {
-                    final params = {
-                      'category': _selectedCategory,
-                      'distance': _selectedDistance,
-                      'searchText': _searchController.text,
-                      'latitude': _currentPosition?.latitude.toString(),
-                      'longitude': _currentPosition?.longitude.toString(),
-                    };
+                  onPressed: () async {
+                    // Ensure the current position is fetched before continuing
+                    final position = await _getCurrentPosition(context);
 
-                    final uri = Uri(
-                      path: '/search/results',
-                      queryParameters: params,
-                    );
+                    if (position != null) {
+                      final params = {
+                        'category': _selectedCategory,
+                        'distance': _selectedDistance,
+                        'searchText': _searchController.text,
+                        'latitude': position.latitude.toString(),
+                        'longitude': position.longitude.toString(),
+                      };
 
-                    GoRouter.of(context).push(uri.toString());
+                      final uri = Uri(
+                        path: '/search/results',
+                        queryParameters: params,
+                      );
+
+                      GoRouter.of(context).push(uri.toString());
+                    } else {
+                      // Handle the case where the position couldn't be fetched
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                                'No se pudo obtener la ubicación actual.')),
+                      );
+                    }
                   },
-                ),
+                )
               ],
             ),
           ),
