@@ -17,14 +17,21 @@ class CurrentQueue extends _$CurrentQueue {
   SmartPagerCurrentQueue? build() => null;
 
  CurrentQueue() {
-    _refreshTimer = Timer.periodic(Duration(seconds: 2), (_) {
+    _refreshTimer = Timer.periodic(Duration(minutes: 5), (_) { //TODO: CHECK THIS L8ER
       _refreshSubject.add(null);
     });
 
     _refreshSubject
-        .throttleTime(Duration(seconds: 2))
+        .throttleTime(Duration(minutes: 5))
         .listen((_) async {
-          final futureUser = ref.read(loggedUserProvider);
+          print('refreshing queue');
+         await fetchQueue();
+        });
+  }
+
+  Future<void> fetchQueue() async {
+    print("entre a fetchQueue");
+     final futureUser = ref.read(loggedUserProvider);
           if (futureUser != null) {
             final currentQueue = await ref.read(apiServiceProvider).getUserQueue(futureUser.email);
             if (currentQueue != null) {
@@ -33,7 +40,6 @@ class CurrentQueue extends _$CurrentQueue {
               state = null;
             }
           }
-        });
   }
 
   Future<void> refresh() async {

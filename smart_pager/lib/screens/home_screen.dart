@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:smart_pager/config/cellules/bottom_nav.dart';
+import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 import 'package:smart_pager/screens/tabs/home_view.dart';
 import 'package:smart_pager/screens/tabs/notifications_view.dart';
 import 'package:smart_pager/screens/tabs/profile_view.dart';
 import 'package:smart_pager/screens/tabs/current_queue_view.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _selectedIndex = 0;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeView(),
@@ -21,9 +23,18 @@ class _HomeScreenState extends State<HomeScreen> {
     const ProfileView(),
   ];
 
+  int _homeIndex = 0;
+  int _queueIndex = 1;
+  int _notificationsIndex = 2;
+  int _profileIndex = 3;
+
+
   void _onItemTapped(int index) {
     setState(() {
       _selectedIndex = index;
+      if (index == _queueIndex) {
+        ref.read(currentQueueProvider.notifier).fetchQueue();
+      }
     });
   }
 
