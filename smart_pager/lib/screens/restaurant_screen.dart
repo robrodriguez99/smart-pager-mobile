@@ -10,6 +10,7 @@ import 'package:smart_pager/config/tokens/sp_custom_text.dart';
 import 'package:smart_pager/data/models/operating_hours_model.dart';
 import 'package:smart_pager/providers/Future/current_queue_provider.dart';
 import 'package:smart_pager/providers/controllers/restaurant_controller.dart';
+import 'package:smart_pager/data/services/timer_service.dart';
 
 class RestaurantScreen extends ConsumerStatefulWidget {
   final String restaurantSlug;
@@ -37,6 +38,8 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
     final futureRestaurant = ref
         .watch(restaurantControllerProvider.notifier)
         .getRestaurant(widget.restaurantSlug);
+    
+    
 
     return FutureBuilder(
         future: futureRestaurant,
@@ -320,45 +323,15 @@ class _RestaurantScreenState extends ConsumerState<RestaurantScreen> {
   }
 
   void _checkIfRestaurantIsClosed() {
-    // Get the current time in GMT-3
-    DateTime now = DateTime.now().toUtc().subtract(const Duration(hours: 3));
 
     final futureRestaurant = ref
         .read(restaurantControllerProvider.notifier)
         .getRestaurant(widget.restaurantSlug);
 
     futureRestaurant.then((restaurant) {
-      if (restaurant.operatingHours == null) {
-        setState(() {
-          closed = false;
-        });
-        return;
-      }
-
-      // Get the current day of the week
-      String currentDay = _getDayOfWeek(now.weekday);
-
-      // Get the operating hours for the current day
-      final dayData = restaurant.operatingHours!.days[currentDay];
-
-      print(dayData?.isOpen);
-      if (dayData == null) {
-        setState(() {
-          closed = false;
-        });
-        return;
-      }
-      if (!dayData.isOpen) {
-        setState(() {
-          closed = true;
-        });
-        return;
-      } else {
-        setState(() {
-          closed = false;
-        });
-        return;
-      }
+      setState(() {
+        closed = TimerService().checkIfRestaurantIsClosed(restaurant);
+      });
     });
   }
 

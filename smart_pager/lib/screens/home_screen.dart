@@ -30,12 +30,17 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
 
 
   void _onItemTapped(int index) async{
-    setState(() {
-      _selectedIndex = index;
-    });
       if (index == _queueIndex) {
         print('fetching queue');
-        await ref.read(currentQueueProvider.notifier).fetchQueue();
+        await ref.read(currentQueueProvider.notifier).fetchQueue().then((value) => 
+          setState(() {
+            _selectedIndex = index;
+          })
+        );
+      } else {
+        setState(() {
+          _selectedIndex = index;
+        });
       }
   }
 

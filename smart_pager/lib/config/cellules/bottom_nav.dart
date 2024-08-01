@@ -127,7 +127,7 @@ class BottomNav extends ConsumerWidget {
                   child: Container(
                     width: 10,
                     height: 10,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: Colors.red, // Color for the notification indicator
                     ),

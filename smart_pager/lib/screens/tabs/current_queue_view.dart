@@ -320,9 +320,9 @@ class _CurrentQueueViewState extends ConsumerState<CurrentQueueView> {
                           context: context,
                           builder: (context) {
                             return AlertDialog(
-                              title: const Text('Confirmar ancelación'),
+                              title: const Text('Confirmar cancelación'),
                               content: const Text(
-                                  '¿Estás seguro de que queres cancelar tu turno?'),
+                                  '¿Estás seguro de que querés cancelar tu turno?'),
                               actions: [
                                 TextButton(
                                   onPressed: () {

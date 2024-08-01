@@ -62,6 +62,14 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     );
   }
 
+  void clearParams() {
+    _category = '';
+    _searchText = '';
+    _distance = '';
+    _latitude = '';
+    _longitude = '';
+  }
+
   void _onScroll() {
     if (_scrollController.position.pixels ==
             _scrollController.position.maxScrollExtent &&
@@ -88,12 +96,26 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
     }
   }
 
+  void cleanSearch() {
+    clearParams();
+    _restaurantController.loadRestaurants(
+      page: 0,
+      category: _category,
+      searchText: _searchText,
+      distance: _distance,
+      latitude: _latitude,
+      longitude: _longitude,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvoked: (value) {
+        cleanSearch();
         GoRouter.of(context).go('/search');
       },
+      canPop: false,
       child: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -134,6 +156,7 @@ class _SearchResultsScreenState extends ConsumerState<SearchResultsScreen> {
                           EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     ),
                     onTap: () {
+                      cleanSearch();
                       GoRouter.of(context).go('/search');
                     },
                   ),

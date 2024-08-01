@@ -79,6 +79,7 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
       onPopInvoked: (value) {
         GoRouter.of(context).go('/home');
       },
+      canPop: false,
       child: FutureBuilder(
         future: categories,
         builder: (context, snapshot) {
