@@ -75,152 +75,157 @@ class _SearchScreenState extends ConsumerState<SearchScreen> {
         .watch(restaurantControllerProvider.notifier)
         .getRestaurantCategories();
 
-    return FutureBuilder(
-      future: categories,
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return const Center(
-              child: Text('Error al cargar los datos de categorias'));
-        } else if (!snapshot.hasData) {
-          return const Center(child: Text('No se encontraron categorias'));
-        }
-
-        final categoriesData = snapshot.data!;
-        final categoriesList = ['Todas', ...categoriesData];
-
-        return Scaffold(
-          appBar: AppBar(
-            leading: IconButton(
-              onPressed: () => GoRouter.of(context).go('/home'),
-              icon: const Icon(
-                Icons.arrow_back,
-                color: SPColors.activeBlack,
-                size: 30,
+    return PopScope(
+      onPopInvoked: (value) {
+        GoRouter.of(context).go('/home');
+      },
+      child: FutureBuilder(
+        future: categories,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return const Center(
+                child: Text('Error al cargar los datos de categorias'));
+          } else if (!snapshot.hasData) {
+            return const Center(child: Text('No se encontraron categorias'));
+          }
+      
+          final categoriesData = snapshot.data!;
+          final categoriesList = ['Todas', ...categoriesData];
+      
+          return Scaffold(
+            appBar: AppBar(
+              leading: IconButton(
+                onPressed: () => GoRouter.of(context).go('/home'),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: SPColors.activeBlack,
+                  size: 30,
+                ),
+              ),
+              title: const CustomText(
+                text: 'Restaurantes',
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
               ),
             ),
-            title: const CustomText(
-              text: 'Restaurantes',
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                TextFormField(
-                  controller: _searchController,
-                  decoration: const InputDecoration(
-                    labelText: 'Restaurante',
-                    prefixIcon: Icon(Icons.search),
+            body: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  TextFormField(
+                    controller: _searchController,
+                    decoration: const InputDecoration(
+                      labelText: 'Restaurante',
+                      prefixIcon: Icon(Icons.search),
+                    ),
                   ),
-                ),
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: _selectedCategory,
-                  onChanged: (newValue) {
-                    setState(() {
-                      _selectedCategory = newValue!;
-                    });
-                  },
-                  items: categoriesList
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Column(
-                        children: [
-                          Row(
-                            children: [
-                              const Icon(Icons.restaurant),
-                              const SizedBox(width: 10),
-                              Text(
-                                value,
-                                style: const TextStyle(
-                                  fontSize: 16,
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _selectedCategory,
+                    onChanged: (newValue) {
+                      setState(() {
+                        _selectedCategory = newValue!;
+                      });
+                    },
+                    items: categoriesList
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                const Icon(Icons.restaurant),
+                                const SizedBox(width: 10),
+                                Text(
+                                  value,
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          const Divider(
-                            height: 20,
-                            color: SPColors.lightGray,
-                            thickness: 1,
-                          ),
-                        ],
-                      ),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    labelText: 'Categoría',
-                    prefixIcon: Icon(Icons.restaurant),
-                  ),
-                  selectedItemBuilder: (BuildContext context) {
-                    return categoriesList.map<Widget>((String item) {
-                      return SizedBox(
-                        height: 40,
-                        child: Center(
-                          child: Text(item),
+                              ],
+                            ),
+                            const Divider(
+                              height: 20,
+                              color: SPColors.lightGray,
+                              thickness: 1,
+                            ),
+                          ],
                         ),
                       );
-                    }).toList();
-                  },
-                ),
-                const SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  value: _selectedDistance,
-                  onChanged: (newValue) async {
-                    setState(() {
-                      _selectedDistance = newValue!;
-                    });
-                  },
-                  items: <String>['Todas', '1 km', '2 km', '3 km', '5 km']
-                      .map<DropdownMenuItem<String>>((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  decoration: const InputDecoration(
-                    labelText: 'Distancia',
-                    prefixIcon: Icon(Icons.location_on),
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: 'Categoría',
+                      prefixIcon: Icon(Icons.restaurant),
+                    ),
+                    selectedItemBuilder: (BuildContext context) {
+                      return categoriesList.map<Widget>((String item) {
+                        return SizedBox(
+                          height: 40,
+                          child: Center(
+                            child: Text(item),
+                          ),
+                        );
+                      }).toList();
+                    },
                   ),
-                ),
-                const SizedBox(height: 20),
-                GradientButton(
-                  icon: Icons.search,
-                  text: 'Buscar',
-                  gradientColors: const [SPColors.primary, SPColors.primary],
-                  onPressed: () async {
-                    Position? position;
-
-                    if (_selectedDistance != 'Todas') {
-                      position = await _getCurrentPosition(context);
-                    }
-
-                    final params = {
-                      'category': _selectedCategory,
-                      'distance': _selectedDistance,
-                      'searchText': _searchController.text,
-                      'latitude': position?.latitude.toString(),
-                      'longitude': position?.longitude.toString(),
-                    };
-
-                    final uri = Uri(
-                      path: '/search/results',
-                      queryParameters: params,
-                    );
-
-                    GoRouter.of(context).push(uri.toString());
-                  },
-                )
-              ],
+                  const SizedBox(height: 20),
+                  DropdownButtonFormField<String>(
+                    value: _selectedDistance,
+                    onChanged: (newValue) async {
+                      setState(() {
+                        _selectedDistance = newValue!;
+                      });
+                    },
+                    items: <String>['Todas', '1 km', '2 km', '3 km', '5 km']
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                    decoration: const InputDecoration(
+                      labelText: 'Distancia',
+                      prefixIcon: Icon(Icons.location_on),
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+                  GradientButton(
+                    icon: Icons.search,
+                    text: 'Buscar',
+                    gradientColors: const [SPColors.primary, SPColors.primary],
+                    onPressed: () async {
+                      Position? position;
+      
+                      if (_selectedDistance != 'Todas') {
+                        position = await _getCurrentPosition(context);
+                      }
+      
+                      final params = {
+                        'category': _selectedCategory,
+                        'distance': _selectedDistance,
+                        'searchText': _searchController.text,
+                        'latitude': position?.latitude.toString(),
+                        'longitude': position?.longitude.toString(),
+                      };
+      
+                      final uri = Uri(
+                        path: '/search/results',
+                        queryParameters: params,
+                      );
+      
+                      GoRouter.of(context).push(uri.toString());
+                    },
+                  )
+                ],
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

@@ -29,13 +29,14 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
   int _profileIndex = 3;
 
 
-  void _onItemTapped(int index) {
+  void _onItemTapped(int index) async{
     setState(() {
       _selectedIndex = index;
-      if (index == _queueIndex) {
-        ref.read(currentQueueProvider.notifier).fetchQueue();
-      }
     });
+      if (index == _queueIndex) {
+        print('fetching queue');
+        await ref.read(currentQueueProvider.notifier).fetchQueue();
+      }
   }
 
   @override
