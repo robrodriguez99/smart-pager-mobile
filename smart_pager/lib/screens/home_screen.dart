@@ -8,14 +8,16 @@ import 'package:smart_pager/screens/tabs/profile_view.dart';
 import 'package:smart_pager/screens/tabs/current_queue_view.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
-  const HomeScreen({super.key});
+  final int initialIndex;
+
+  const HomeScreen({super.key, this.initialIndex = 0});
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
   final List<Widget> _widgetOptions = <Widget>[
     const HomeView(),
     const CurrentQueueView(),
@@ -23,25 +25,28 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
     const ProfileView(),
   ];
 
-  int _homeIndex = 0;
   int _queueIndex = 1;
-  int _notificationsIndex = 2;
-  int _profileIndex = 3;
 
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.initialIndex;
+  }
 
-  void _onItemTapped(int index) async{
-      if (index == _queueIndex) {
-        print('fetching queue');
-        await ref.read(currentQueueProvider.notifier).fetchQueue().then((value) => 
-          setState(() {
-            _selectedIndex = index;
-          })
-        );
-      } else {
-        setState(() {
-          _selectedIndex = index;
-        });
-      }
+  void _onItemTapped(int index) async {
+    if (index == _queueIndex) {
+      print('fetching queue');
+      await ref
+          .read(currentQueueProvider.notifier)
+          .fetchQueue()
+          .then((value) => setState(() {
+                _selectedIndex = index;
+              }));
+    } else {
+      setState(() {
+        _selectedIndex = index;
+      });
+    }
   }
 
   @override

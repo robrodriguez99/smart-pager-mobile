@@ -135,8 +135,9 @@ class _QueueScreenState extends ConsumerState<QueueScreen> {
                     dropdownValue,
                   )
                   .then((value) => {
-                      ref.read(currentQueueProvider.notifier).fetchQueue(),
-                        GoRouter.of(context).goNamed('current-queue')
+                        ref.read(currentQueueProvider.notifier).fetchQueue(),
+                        GoRouter.of(context)
+                            .goNamed('home', extra: {'index': 1})
                       }); // Add commensals amount here
             },
           ),

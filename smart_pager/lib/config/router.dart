@@ -32,10 +32,14 @@ mixin RouterMixin on State<MyApp> {
             return const LoginScreen();
           }),
       GoRoute(
-        path: '/home',
         name: 'home',
-        builder: (BuildContext context, GoRouterState state) {
-          return const HomeScreen();
+        path: '/home',
+        builder: (context, state) {
+          final index =
+              state.extra != null && state.extra is Map<String, dynamic>
+                  ? (state.extra as Map<String, dynamic>)['index'] ?? 0
+                  : 0;
+          return HomeScreen(initialIndex: index);
         },
       ),
       GoRoute(
