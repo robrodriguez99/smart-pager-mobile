@@ -202,6 +202,7 @@ class _ProfileEditViewState extends ConsumerState<ProfileEditScreen> {
 
       ref.read(editProfileValidatorProvider.notifier).loading();
 
+      if (phoneNumber == "+54") phoneNumber = "";
       ref
           .read(editProfileControllerProvider.notifier)
           .editProfile(uid, namePath, phoneNumber);
