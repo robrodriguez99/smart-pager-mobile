@@ -35,8 +35,20 @@ class ApiService {
       String description, String commensalsAmount) async {
     String authToken = await accessTokenGetter.getAccessToken();
     final messagingToken = await firebaseMessagingApi.getToken();
-    // print('messagingToken: $messagingToken');
-    // print('authToken: $authToken');
+
+    // Create a map for the client data
+    final clientData = {
+      "email": user.email,
+      "name": user.name,
+      "commensalsAmount": commensalsAmount,
+      "description": description,
+      "authToken": authToken,
+      "messagingToken": messagingToken,
+    };
+
+    if (user.phoneNumber != null && user.phoneNumber?.isNotEmpty == true) {
+      clientData["phoneNumber"] = user.phoneNumber!;
+    }
 
     final response = await httpClient.post(
       Uri.parse("$baseUrl/$restaurantSlug/queue"),
@@ -44,20 +56,12 @@ class ApiService {
         'Content-Type': 'application/json; charset=UTF-8',
       },
       body: jsonEncode(<String, dynamic>{
-        "client": {
-          "email": user.email,
-          "name": user.name,
-          "commensalsAmount": commensalsAmount,
-          "phoneNumber": user.phoneNumber,
-          "description": description,
-          "authToken": authToken,
-          "messagingToken": messagingToken,
-        }
+        "client": clientData,
       }),
     );
 
     if (response.statusCode == 200) {
-      // print(response.body);
+      // Handle success
     } else {
       throw Exception('Failed to add to queue');
     }
@@ -130,8 +134,8 @@ class ApiService {
         Uri.parse("https://smart-pager-web.vercel.app/api/user/$email/queue"));
     Map<String, dynamic> jsonMap =
         jsonDecode(const Utf8Decoder().convert(response.bodyBytes));
-    
-    if(jsonMap['restaurant'] == null){
+
+    if (jsonMap['restaurant'] == null) {
       return null;
     }
     SmartPagerRestaurant restaurant =
@@ -140,12 +144,11 @@ class ApiService {
     int waitingTime = jsonMap['client']['waitingTime'];
     bool isCalled = jsonMap['client']['isCalled'];
     SmartPagerCurrentQueue currentQueue = SmartPagerCurrentQueue(
-      id: email,
-      email: email,
-      restaurant: restaurant,
-      waitingTime: waitingTime,
-      isCalled: isCalled
-    );
+        id: email,
+        email: email,
+        restaurant: restaurant,
+        waitingTime: waitingTime,
+        isCalled: isCalled);
     // await CurrentQueueRepositoryImpl().updateCurrentQueue(email,currentQueue);
     return currentQueue;
   }
