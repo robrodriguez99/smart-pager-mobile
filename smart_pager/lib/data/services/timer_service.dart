@@ -3,8 +3,8 @@ import 'package:smart_pager/data/models/restaurant_model.dart';
 class TimerService {
   bool checkIfRestaurantIsClosed(SmartPagerRestaurant restaurant) {
     // Get the current time in GMT-3
-    DateTime now = DateTime.now().toLocal();
-    ;
+      DateTime now = DateTime.now().toUtc().subtract(const Duration(hours: 3));
+
     if (restaurant.operatingHours == null) {
       return false;
     }
@@ -27,12 +27,14 @@ class TimerService {
       DateTime openingTime = _getDateTimeFromTimeString(
         interval.openingTime,
         now,
-      );
+      ).toUtc().subtract(const Duration(hours: 3));
       DateTime closingTime = _getDateTimeFromTimeString(
         interval.closingTime,
         now,
-      );
+      ).toUtc().subtract(const Duration(hours: 3));
 
+      // print('Opening time: $openingTime - Closing time: $closingTime - Now: $now');
+      // print('Is after opening time: ${now.isAfter(openingTime)} - Is before closing time: ${now.isBefore(closingTime)}');
       if (now.isAfter(openingTime) && now.isBefore(closingTime)) {
         return false;
       }
